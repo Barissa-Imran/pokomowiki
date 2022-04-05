@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <!-- 
+        Don't bother reading this code, you won't get anything usefull. |`_`| ---- |`_`|
+        
+        if you're pokomo "Odhu?"
+        
+     -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <link rel="canonical" href="http://pokomodictionary.com> <link
+    rel="shortlink" href="http://pokomodictionary.com
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+    />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta
+      property="og:site_name"
+      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+    />
+    <!-- <meta property="og:image" href="link" /> -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/Logo@2x.png' %}"
+      type="image/x-icon"
+    />
+    {% block title %}{% endblock title %}
+  </head>
+  <body>
+      <!-- navbar area -->
+    <nav class="nav px-2" role="navigation" style="background-color: #eae5ff">
+      <div class="container mx-auto py-2 nav-wrapper">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+            <img src="{% static 'img/Logo.png' %}" alt="logo" />
+          </a>
+          <!-- mini navbar -->
+          <ul class="d-flex">
+            <li class="">
+              <a href="#browse"> Browse <i class="fas fa-caret-down"></i> </a>
+            </li>
+            <li class="">
+              <a href="#Wiki"> Wiki </a>
+            </li>
+            <li class="">
+              <a href="{% url 'about' %}"> About </a>
+            </li>
+          </ul>
+        </div>
+        <!-- Search-bar area -->
+        <div class="d-flex justify-between s-link">
+          <form action="/search.html">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-search d-none"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+              />
+            </svg>
+            <input
+              class="Search py-2 px-4 pl-10"
+              type="search"
+              aria-label="Type any word..."
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              name="term"
+              id="term"
+              placeholder="Type any word here..."
+              spellcheck="false"
+              tabindex="0"
+              type="text"
+            />
+          </form>
+          <a href="#addWord" target="_blank" rel="noopener noreferrer">
+            <img src="{% static 'img/plus-circle-fill.svg' %}" alt="Add" />
+          </a>
+          <a href="#random" target="_blank" rel="noopener noreferrer">
+            <img src="{% static 'img/random.svg' %}" alt="Add" />
+          </a>
+          <a href="#user" target="_blank" rel="noopener noreferrer">
+            <img src="{% static 'img/user.svg' %}" alt="Add" />
+          </a>
+        </div>
+      </div>
+    </nav>
+    <!-- page content area -->
+    <main class="content container py-4 mx-auto">
+      {% block content %}{% endblock content %}
+    </main>
+    {% block script %}{% endblock script %}
+        <script
+      type="text/javascript"
+      src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"
+    ></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

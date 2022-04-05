@@ -1,0 +1,275 @@
+{% extends 'dictionary/base.html' %} {% load static %}
+
+{% block title %}
+    <title>Pokomo Dictionary: Word</title>
+{% endblock title %}
+{% block content %}
+      <div
+        class="flex items-center justify-center mb-4 overflow-hidden"
+        style="height: 50px"
+      >
+        <!-- ad slot 728px 90px -->
+      </div>
+      <div class="d-flex flex-row mx-0 row gap-4">
+        <section class="col-lg-7 overflow-hidden">
+          <div class="definition mb-4 overflow-hidden rounded-3">
+            <div class="p-5">
+              <div class="mb-3 d-flex justify-content-between">
+                <h1 class="flex-1">
+                  <a href="{% url 'define' term=term.word %}" class="word"> {{ term.word |title }}</a>
+                </h1>
+                <div>
+                  <div class="d-flex align-center">
+                    <a
+                      href="#twittershare"
+                      class="d-flex ml-4"
+                      data-action="share"
+                      data-network="twitter"
+                      target="_blank"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="twitter"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="#facebookshare"
+                      class="d-flex ml-4"
+                      data-action="share"
+                      data-network="twitter"
+                      target="_blank"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="facebook"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
+                        />
+                      </svg>
+                    </a>
+                    <a
+                      href="#whatsappshare"
+                      class="d-flex ml-4"
+                      data-action="share"
+                      data-network="whatsapp"
+                      target="_blank"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="whatsapp"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="source mb-4">
+                <p class="subTribe">
+                  Sub-Tribe:
+                  <a href="#subtribe">{{ term.language }}</a>
+                </p>
+                <p class="clan">
+                  Clan:
+                  <a href="#clan">Ndera</a>
+                </p>
+              </div>
+              <div class="meaning mb-5">
+                <p class="mean">
+                  {{ term.defination }}
+                </p>
+                <p class="example">
+                  <em>"{{term.example}}"</em>
+                </p>
+              </div>
+              <!-- Other definations section -->
+              {% if term.other_definations %}
+                <div class="other mb-5 rounded">
+                <div class="shape mb-2 p-">
+                  <h5>Definations of <span>{{ term.word }}</span><h5>
+                </div>
+                <!-- Other definations -->
+                <div class="other-def">
+                  <ol>
+                    <li>{{ term.other_definations }}</li>
+                  </ol>
+                </div>
+              </div>
+
+                {% else %}
+                {% endif %}
+              
+              <div class="contributor">
+                <p class="author">
+                  by
+                  <a href="#author">{{ term.user }}</a>
+                  March 25, 2022
+                </p>
+              </div>
+              <div class="translation">
+                <div class="dropdown">
+                  <button
+                    class="btn dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    SEE OTHER TRANSLATIONS
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <p class="dropdown-item">Swahili</p>
+                    <p class="dropdown-item">Lower Pokomo (malanchini)</p>
+                    <p class="dropdown-item">English</p>
+                  </div>
+                </div>
+              </div>
+              <div class="endButtons d-flex justify-content-between">
+                <div class="vote d-flex">
+                  <button
+                    class="btn d-flex gap-2 thumbsUp"
+                    aria-label="Up vote"
+                  >
+                    <i class="fas fa-thumbs-up"> 120</i>
+                  </button>
+                  <button
+                    class="btn d-flex gap-2 thumbsDown"
+                    aria-label="Down vote"
+                  >
+                    <i class="fas fa-thumbs-down"> 10</i>
+                  </button>
+                </div>
+                <div class="flag">
+                  <button class="btn d-flex gap-2 btn-flag" aria-label="flag">
+                    <i class="fas fa-flag"> FLAG</i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <aside class="col-lg-4 rounded px-3 pt-5 pb-3">
+          <div class="top d-flex justify-content-between mb-2">
+            <div class="call">
+              <p>POKOMO</p>
+              <p>DICTIONARY</p>
+              <p>IS WRITTEN</p>
+              <p>BY YOU</p>
+            </div>
+            <img
+              class="wordArt image-fluid"
+              src="{% static 'img/Word Art.png'%}"
+              alt="word-art"
+            />
+          </div>
+          <div class="define text-center mb-3">
+            <button class="btn btn-rounded text-white">
+              <i class="fas fa-plus"></i>
+              Define a word
+            </button>
+          </div>
+          <div class="media">
+            <div class="upperLayer d-flex justify-content-between mb-2">
+              <div class="tweet">
+                <a
+                  href="#twittershare"
+                  class="d-flex btn gap-2"
+                  data-network="twitter"
+                  target="_blank"
+                  role="button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class=""
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+                    />
+                  </svg>
+                  TWITTER
+                </a>
+              </div>
+              <div class="fb">
+                <a
+                  href="#facebookshare"
+                  class="d-flex btn gap-2"
+                  data-network="facebook"
+                  target="_blank"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class=""
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
+                    />
+                  </svg>
+                  FACEBOOK
+                </a>
+              </div>
+            </div>
+            <div class="bottomLayer d-flex justify-content-center">
+              <div class="help">
+                <a href="#help" class="d-flex btn gap-2" target="_blank">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="29.262"
+                    viewBox="0 0 29.51 29.262"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M22.664,8C14.4,8,8,14.038,8,22.193a13.872,13.872,0,0,0,4.606,10.5c.493.443.391.7.475,3.436a1.175,1.175,0,0,0,1.645,1.037c3.122-1.375,3.162-1.483,3.691-1.339,9.044,2.489,19.093-3.456,19.093-13.788C37.51,13.881,30.926,8,22.664,8ZM31.6,18.658c-4.581,7.242.416-.654,0,0Z"
+                      transform="translate(-8 -8)"
+                    />
+                  </svg>
+                  HELP
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <footer class="d-flex flex-column text-end mx-5 fixed-botto">
+        <p>&copy; 2022 Pokomo Dictionary and Wiki</p>
+        <p>
+          <a href="#ads">ads.</a>
+          <a href="{% url 'tos' %}"> terms of service.</a>
+          <a href="#privacy"> privacy.</a>
+          <a href="#dmca"> dmca</a>
+        </p>
+      </footer>
+{% endblock content %}
+  </body>
+</html>

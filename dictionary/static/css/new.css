@@ -1,0 +1,10 @@
+* {
+    font-family: "Poppins", sans-serif;
+}
+body {
+    background-color: #eae5ff;
+}
+main {
+    max-width: 970px;
+    overflow-x: hidden;
+}

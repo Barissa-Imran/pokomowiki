@@ -187,15 +187,16 @@ main {
   width: 40%;
   border-radius: 85px;
 }
-.content aside .define button {
+.content aside .define a {
   background-color: #e4832f;
   border-radius: 25px;
   width: 100%;
   font-weight: 600;
 }
-.content aside .define button:hover {
+.content aside .define a:hover {
   color: #7143c2 !important;
 }
+
 .media .tweet,
 .media .fb,
 .media .help {

@@ -2,10 +2,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <!-- 
+  <!-- 
         Don't bother reading this code, you won't get anything usefull. |`_`| ---- |`_`|
         
-        if you're Pokomo "Odhu?"/"maagu"
+        if you're Pokomo "Odhu?"/"maagu?"
         
      -->
   <head>
@@ -41,7 +41,6 @@
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
     />
-    <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
     <link rel="stylesheet" href="{% static 'css/new.css' %}" />
     <link
       rel="shortcut icon"
@@ -51,9 +50,115 @@
     <title>Pokomo Dictionary: New Word</title>
   </head>
   <body>
-      <main class="container">
-<p>All the definitions on <strong>Pokomo dictionary</strong> were written by people just like you. Now's your chance to add your own!</p>
-<p>Please review Pokomo dictionary's <a href="#" target="_blank">content guidelines</a> before writing your definition. Here's the short version: <strong>Share definitions that other people will find meaningful and never post hate speech or people’s personal information.</strong></p>
-      </main>
-</body>
+    <main class="container">
+      <div class="my-4">
+        <span class=" d-flex justify-content-end">
+            <a href="{% url 'index' %}">
+          <i
+            class="close fa-regular fa-circle-xmark fa-2xl justify-content-end"
+          ></i>
+            </a>
+        </span>
+
+        <h2 class="text-center mb-5 pt-3">NEW WORD</h2>
+      </div>
+      <section>
+        <p>
+          All the definitions on <strong>Pokomo dictionary</strong> were written
+          by people just like you. Now's your chance to add your own!
+        </p>
+        <p>
+          Please review Pokomo dictionary's
+          <a href="#" target="_blank">content guidelines</a> before writing your
+          definition. Here's the short version:
+          <strong
+            >Share definitions that other people will find meaningful and never
+            post hate speech or people’s personal information.</strong
+          >
+        </p>
+        <form action="" method="post" class="d-flex flex-column gap-4 mb-4">
+          {% csrf_token %}
+          <input
+            class="p-4"
+            type="text"
+            name="word"
+            maxlength="100"
+            id="word"
+            required
+            placeholder="Word"
+            aria-label="Enter word"
+            autocapitalize="words"
+            autocomplete="off"
+            autofocus="off"
+            autocorrect="off"
+            spellcheck="false"
+            tabindex="0"
+          />
+          <p>
+            <strong>Write for a large audience.</strong> Lots of people will
+            read this, so give some background information.<br />
+            <strong>Don't name your friends.</strong> We'll
+            <a href="#">reject</a> inside jokes and definitions naming
+            non-celebrities
+          </p>
+          <textarea
+            class="p-4"
+            name="definition"
+            id="definition"
+            cols="50"
+            rows="5"
+            required
+            placeholder="Type your definition here..."
+            autocapitalize="words"
+            autocomplete="off"
+            autofocus="off"
+            autocorrect="off"
+            spellcheck="false"
+          ></textarea>
+          <textarea
+            class="p-4"
+            name="example"
+            id="example"
+            cols="50"
+            rows="5"
+            required
+            placeholder="Type an example of how it's used in a sentence"
+            autocapitalize="words"
+            autocomplete="off"
+            autofocus="off"
+            autocorrect="off"
+            spellcheck="false"
+          ></textarea>
+          <textarea
+            class="p-4"
+            name="other_definitions"
+            id="other_definitions"
+            cols="50"
+            rows="5"
+            placeholder="Type other definitions"
+            autocapitalize="words"
+            autocomplete="off"
+            autofocus="off"
+            autocorrect="off"
+            spellcheck="false"
+          ></textarea>
+          <!-- <label for="language">Langauge:</label> -->
+          <select class="p-1" name="language" required id="language">
+            <option value="Upper Pokomo" selected>Upper Pokomo</option>
+            <option value="Malanchini">Malanchini</option>
+          </select>
+          <p class="text-center">
+            Definitions are subject to our
+            <a href="{% url 'tos' %}">term of service</a> and
+            <a href="#">privacy policy.</a>
+          </p>
+          <button class="btn text-center">Submit!</button>
+        </form>
+      </section>
+    </main>
+    <script
+      src="https://kit.fontawesome.com/684f3642c3.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

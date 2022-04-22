@@ -20,9 +20,9 @@ class Term(models.Model):
     """Store added words in the dictionary"""
     language = models.CharField(choices=languages, max_length=50)
     word = models.CharField(null=False, max_length=150)
-    defination = models.TextField(null=False)
+    definition = models.TextField(null=False)
     example = models.TextField()
-    other_definations = models.TextField(null=True, blank=True)
+    other_definitions = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     date = models.DateField(auto_now=True)
     upvote = models.IntegerField(default=0, null=True, blank=True)

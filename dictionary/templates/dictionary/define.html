@@ -16,7 +16,7 @@
             <div class="p-5">
               <div class="mb-3 d-flex justify-content-between">
                 <h1 class="flex-1">
-                  <a href="{% url 'define' term=term.word %}" class="word"> {{ term.word |title }}</a>
+                  <a href="{% url 'define' term=term.id %}" class="word"> {{ term.word |title }}</a>
                 </h1>
                 <div>
                   <div class="d-flex align-center">
@@ -121,8 +121,8 @@
               <div class="contributor">
                 <p class="author">
                   by
-                  <a href="#author">{{ term.user }}</a>
-                  March 25, 2022
+                  <a href="#author">{{ term.author }}</a>
+                  {{ term.date }}
                 </p>
               </div>
               <div class="translation">
@@ -153,13 +153,13 @@
                     class="btn d-flex gap-2 thumbsUp"
                     aria-label="Up vote"
                   >
-                    <i class="fas fa-thumbs-up"> 120</i>
+                    <i class="fas fa-thumbs-up">{{term.upvote}}</i>
                   </button>
                   <button
                     class="btn d-flex gap-2 thumbsDown"
                     aria-label="Down vote"
                   >
-                    <i class="fas fa-thumbs-down"> 10</i>
+                    <i class="fas fa-thumbs-down"> {{term.downvote}}</i>
                   </button>
                 </div>
                 <div class="flag">

@@ -2,7 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView
 
 from dictionary.models import Term
+from dictionary.forms import TermForm
 from random import choice
+from django.contrib import messages
+from django.shortcuts import reverse
 
 
 class IndexView(TemplateView):
@@ -32,8 +35,10 @@ def define(request, term):
         pks = Term.objects.values_list('pk', flat=True)
         random_pk = choice(pks)
         word = Term.objects.get(pk=random_pk)
+    # elif term == "term":
+    #     word = Term.objects.get(word=term)
     else:
-        word = Term.objects.get(word=term)
+        word = Term.objects.get(pk=term)
 
     context = {
         'term': word,
@@ -44,20 +49,34 @@ def define(request, term):
 class TermCreateView(CreateView):
     """This class allows a user to define a new word"""
     model = Term
-    fields = [
-        "language",
-        "word",
-        "defination",
-        "example",
-        "other_definations"
-    ]
+    form_class = TermForm
+
+    def get_success_url(self):
+        term = self.object.id
+        return reverse("define", args=(term,))
 
     def form_valid(self, form):
         try:
-            author = self.request.user
+            form.instance.author = self.request.user
         except:
             pass
         return super().form_valid(form)
+
+    # def post(self, request, *args, **kwargs):
+    #     form = TermForm(request.POST)
+    #     if form.is_valid():
+    #         try:
+    #             word = form.cleaned_data.get('word')
+    #             definition = form.cleaned_data.get('definition')
+    #             example = form.cleaned_data.get('example')
+    #             other_definition = form.cleaned_data.get('other_definition')
+    #             language = form.cleaned_data.get('language')
+
+    #             TermForm.save()
+    #         except:
+    #             messages.error(request, "error saving word")
+
+    #     return render(request, "dictionary/define.html")
 
 
 class TermUpdateView(UpdateView):
@@ -66,9 +85,9 @@ class TermUpdateView(UpdateView):
     fields = [
         "language",
         "word",
-        "defination",
+        "definition",
         "example",
-        "other_definations"
+        "other_definitions"
     ]
 
     def form_valid(self, form):
@@ -77,6 +96,7 @@ class TermUpdateView(UpdateView):
         except:
             pass
         return super().form_valid(form)
+
 
 class TermDeleteView(DeleteView):
     model = Term

@@ -1,10 +1,72 @@
+/* 
+
+color codes---
+main background: #fff
+Purple BG: #EAE5FF
+Purple Font: #7143C2
+Blue: #14AFDF
+Black: 000
+Orange: #E4832F
+
+*/
+
 * {
     font-family: "Poppins", sans-serif;
 }
 body {
-    background-color: #eae5ff;
+        background-color: #7143C2;
 }
 main {
     max-width: 970px;
     overflow-x: hidden;
+}
+main h2 {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: underline;
+}
+main .close {
+    color: #eae5ff;
+    cursor: pointer;
+}
+
+form input, form textarea {
+    outline: none;
+    border: none;
+}
+form input:focus,
+form textarea:focus {
+    border: 1px solid #7143C2;
+}
+form select {
+    border: 1px solid rgb(184, 184, 184);
+}
+form select:focus {
+    border: 1px solid #7143C2;
+}
+
+form #word {
+    color: #7143C2;
+    font-size: larger;
+    font-weight: 700;
+}
+section {
+    padding: 40px;
+    background-color: #eae5ff;
+}
+section a {
+    text-decoration: none;
+}
+section a:hover {
+    color: #7143C2;
+}
+form button {
+    background-color: #E4832F !important;
+    font-weight: 700 !important;
+    font-size: large !important;
+    border: 1px solid #000 !important;
+}
+form button:hover {
+    color: #7143C2 !important;
+    border: 1px solid #7143C2 !important;
 }

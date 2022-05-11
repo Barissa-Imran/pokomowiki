@@ -47,7 +47,7 @@
       href="{% static 'img/Logo@2x.png' %}"
       type="image/x-icon"
     />
-    <title>Pokomo Dictionary: New Word</title>
+    <title>New Word | Pokomo Dictionary</title>
   </head>
   <body>
     <main class="container">
@@ -62,14 +62,14 @@
 
         <h2 class="text-center mb-5 pt-3">NEW WORD</h2>
       </div>
-      <section>
+      <section class="mb-4">
         <p>
           All the definitions on <strong>Pokomo dictionary</strong> were written
           by people just like you. Now's your chance to add your own!
         </p>
         <p>
           Please review Pokomo dictionary's
-          <a href="#" target="_blank">content guidelines</a> before writing your
+          <a href="{% url 'content_guidelines' %}">content guidelines</a> before writing your
           definition. Here's the short version:
           <strong
             >Share definitions that other people will find meaningful and never
@@ -98,8 +98,8 @@
             <strong>Write for a large audience.</strong> Lots of people will
             read this, so give some background information.<br />
             <strong>Don't name your friends.</strong> We'll
-            <a href="#">reject</a> inside jokes and definitions naming
-            non-celebrities
+            <a href="{% url 'editor' %}">reject</a> inside jokes and definitions naming
+            non-celebrities.<br> <span class="text-muted small">Words ones approved cannot be edited.</span>
           </p>
           <textarea
             class="p-4"
@@ -147,10 +147,18 @@
             <option value="Upper Pokomo" selected>Upper Pokomo</option>
             <option value="Malanchini">Malanchini</option>
           </select>
+          <select class="p-1" name="clan" required id="clan">
+            <option value="None" selected>None</option>
+            <option value="Ndera">Ndera</option>
+            <option value="Zubaki">Zubaki</option>
+            <option value="Kinakomba">Kinakomba</option>
+            <option value="Gwano">Gwano</option>
+            <option value="Malanchini">Malanchini</option>
+          </select>
           <p class="text-center">
             Definitions are subject to our
             <a href="{% url 'tos' %}">term of service</a> and
-            <a href="#">privacy policy.</a>
+            <a href="{% url 'privacy' %}">privacy policy.</a>
           </p>
           <button class="btn text-center">Submit!</button>
         </form>

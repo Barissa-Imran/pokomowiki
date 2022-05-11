@@ -1,11 +1,12 @@
+from tempfile import template
 from django.shortcuts import render
-from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView
-
+from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView, DetailView
 from dictionary.models import Term
 from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
 from django.shortcuts import reverse
+from random import choice
 
 
 class IndexView(TemplateView):
@@ -21,6 +22,21 @@ class IndexView(TemplateView):
 
         return context
 
+class RandomView(TemplateView):
+    template_name = 'dictionary/random.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RandomView, self).get_context_data(**kwargs)
+
+        pks = Term.objects.values_list('pk', flat=True)
+        random_pk = choice(pks)
+        random_term = Term.objects.get(pk=random_pk)
+        
+        context.update({
+            'term': random_term,
+        })
+
+        return context
 
 class AboutView(TemplateView):
     template_name = 'dictionary/about.html'
@@ -28,6 +44,18 @@ class AboutView(TemplateView):
 
 class TosView(TemplateView):
     template_name = 'dictionary/tos.html'
+
+class PrivacyView(TemplateView):
+    template_name = 'dictionary/privacy.html'
+
+class DmcaView(TemplateView):
+    template_name = 'dictionary/dmca.html'
+
+class ContentGuidelinesView(TemplateView):
+    template_name = 'dictionary/content_guidelines.html'
+
+class EditorView(TemplateView):
+    template_name = 'dictionary/editor.html'
 
 
 def define(request, term):
@@ -51,9 +79,9 @@ class TermCreateView(CreateView):
     model = Term
     form_class = TermForm
 
-    def get_success_url(self):
-        term = self.object.id
-        return reverse("define", args=(term,))
+    # def get_success_url(self):
+    #     term = self.object.id
+    #     return reverse("define", args=(term,))
 
     def form_valid(self, form):
         try:
@@ -62,37 +90,19 @@ class TermCreateView(CreateView):
             pass
         return super().form_valid(form)
 
-    # def post(self, request, *args, **kwargs):
-    #     form = TermForm(request.POST)
-    #     if form.is_valid():
-    #         try:
-    #             word = form.cleaned_data.get('word')
-    #             definition = form.cleaned_data.get('definition')
-    #             example = form.cleaned_data.get('example')
-    #             other_definition = form.cleaned_data.get('other_definition')
-    #             language = form.cleaned_data.get('language')
-
-    #             TermForm.save()
-    #         except:
-    #             messages.error(request, "error saving word")
-
-    #     return render(request, "dictionary/define.html")
+class TermDetailView(DetailView):
+    model = Term
 
 
 class TermUpdateView(UpdateView):
     """ view to update word definitions"""
     model = Term
-    fields = [
-        "language",
-        "word",
-        "definition",
-        "example",
-        "other_definitions"
-    ]
+    # template_name = 'dictionary/term_form.html'
+    form_class = TermForm
 
     def form_valid(self, form):
         try:
-            author = self.request.user
+            form.instance.author = self.request.user
         except:
             pass
         return super().form_valid(form)
@@ -100,3 +110,5 @@ class TermUpdateView(UpdateView):
 
 class TermDeleteView(DeleteView):
     model = Term
+    success_url = "dictionary/index.html"
+    

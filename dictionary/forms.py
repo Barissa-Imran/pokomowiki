@@ -7,4 +7,4 @@ class TermForm(forms.ModelForm):
     class Meta:
         model = Term
         fields = ['word', 'definition', 'example',
-                  'other_definitions', 'language']
+                  'other_definitions', 'language', 'clan']

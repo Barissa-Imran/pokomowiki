@@ -104,10 +104,10 @@
           <a href="{% url 'add' %}">
             <img src="{% static 'img/plus-circle-fill.svg' %}" alt="Add" />
           </a>
-          <a href="{% url 'define' term='random' %}">
+          <a href="{% url 'random' %}">
             <img src="{% static 'img/random.svg' %}" alt="random" />
           </a>
-          <a href="#user">
+          <a href="{% url 'account_login' %}">
             <img src="{% static 'img/user.svg' %}" alt="profile" />
           </a>
         </div>

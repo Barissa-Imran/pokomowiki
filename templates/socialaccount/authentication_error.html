@@ -1,11 +1,36 @@
 {% extends "socialaccount/base.html" %}
-
+{% load static %}
 {% load i18n %}
 
-{% block head_title %}{% trans "Social Network Login Failure" %}| Pokomo Dictionary{% endblock %}
+{% block head_title %}{% trans "Social Network Login Failure" %} | Pokomo Dictionary{% endblock %}
+  {% block extra_head %}
+  <style>
+    body {
+      background: #EAE5FF !important;
+    }
+    main {
+      max-width: 800px;
+    }
+    .logo {
+      width: 90px;
+    }
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #7143C2;
+    }
 
+  </style>
+  {% endblock%}
 {% block content %}
-<h1>{% trans "Social Network Login Failure" %}</h1>
+<main class="p-4">
+      <a class="navbar-brand d-flex justify-content-center" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+      <img class="logo img-fluid" src="{% static 'img/Logo.png' %}" alt="pokomodictionary.com" />
+  </a>
+<h2>{% trans "Social Network Login Failure" %}</h2>
 
 <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+<a class="btn btn-primary" href="{% url 'account_login' %}">Login</a>
+<main>
 {% endblock %}

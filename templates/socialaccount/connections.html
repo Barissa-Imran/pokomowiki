@@ -1,11 +1,35 @@
 {% extends "socialaccount/base.html" %}
+{% load static %}
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Account Connections" %}| Pokomo Dictionary{% endblock %}
+{% block head_title %}{% trans "Account Connections" %} | Pokomo Dictionary{% endblock %}
+  {% block extra_head %}
+  <style>
+    body {
+      background: #EAE5FF !important;
+    }
+    main {
+      max-width: 800px;
+    }
+    .logo {
+      width: 90px;
+    }
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #7143C2;
+    }
 
+  </style>
+  {% endblock%}
 {% block content %}
-<h1>{% trans "Account Connections" %}</h1>
+<main class="p-4">
+      <a class="navbar-brand d-flex justify-content-center" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+      <img class="logo img-fluid" src="{% static 'img/Logo.png' %}" alt="pokomodictionary.com" />
+  </a>
+<h2>{% trans "Account Connections" %}</h2>
 
 {% if form.accounts %}
 <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
@@ -45,10 +69,10 @@
 
 <h2>{% trans 'Add a 3rd Party Account' %}</h2>
 
-<ul class="socialaccount_providers">
+<p class="socialaccount_providers">
 {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
-</ul>
+</p>
 
 {% include "socialaccount/snippets/login_extra.html" %}
-
+</main>
 {% endblock %}

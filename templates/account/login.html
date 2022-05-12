@@ -1,46 +1,58 @@
 {% extends "account/base.html" %}
 
+{% load static %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 {% load account socialaccount %}
-
+{% block cssFile %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <script src="https://kit.fontawesome.com/684f3642c3.js" crossorigin="anonymous"></script>
+{% endblock cssFile %}
 {% block head_title %} Login | Pokomo Dictionary & Wiki {% endblock %}
 
 {% block content %}
-<main class="small">
-<h1>{% trans "login" %}</h1>
+<main id="" class="small container">
+  <div class="item-container">
+    <h1 class="log-in">{% trans "login" %}</h1>
+  </div>
+  <div class="item-container">
+    {% get_providers as socialaccount_providers %}
 
-{% get_providers as socialaccount_providers %}
+    {% if socialaccount_providers %}
+    <div class="socialaccount_ballot">
+    {% comment %} <i class="fa-brands fa-google"></i> {% endcomment %}
+      <p class="socialaccount_providers">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      </p>
 
-{% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+    </div>
 
-<div class="socialaccount_ballot">
+    {% include "socialaccount/snippets/login_extra.html" %}
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
+    {% else %}
+    <p>{% blocktrans %}If you have not created an account yet, then please
+    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+    {% endif %}
+    <p class="login-or">{% trans 'or' %}</p>
 </div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  {{ form|crispy }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+  <div class="d-flex justify-content-center my-3">
+    <button class="primaryAction btn-primary" type="submit">{% trans "Login" %}</button>
+  </div>
+    <p class="text-center"><a href="{{ signup_url }}">Create Account</a></p>
 </form>
+</div>
+<div class="d-flex justify-content-between align-content-center">
+  <a class="navbar-brand text-center" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+      <img class="logo img-fluid" src="{% static 'img/Logo.png' %}" alt="pokomodictionary.com" />
+  </a>
+  <a href="{% url 'tos' %}" class="small text-muted"> Terms of service</a>
+</div>
 <main>
 {% endblock %}

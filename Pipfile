@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+django-crispy-forms = "*"
 
 [dev-packages]
 autopep8 = "*"

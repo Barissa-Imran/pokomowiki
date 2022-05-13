@@ -241,6 +241,92 @@ footer p a:hover {
     }
 }
 
+/*-------------- login popup------------------ */
+#blur.active, #blur2.active {
+  filter: blur(20px);
+  pointer-events: none;
+  user-select: none;
+}
+
+#popup {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-height: 800px;
+  padding: 20px;
+  background-color: #eae5ff;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+    .socialaccount_ballot {
+      /* display: none; */
+    }
+@media only screen and (max-width: 1024px) {
+  #popup {
+    width: 70%;
+    height: fit-content;
+  }
+  /* .google{
+    width: 30px;
+    height: 30px;
+  } */
+  .socialaccount_ballot {
+    width: 30%;
+    height: 30% !important;
+    font-size: smaller;
+    /* display: none; */
+  }
+}
+
+#popup.active {
+  top: 50%;
+  visibility: visible;
+  opacity: 1;
+  /* width: 30%; */
+  transition: 0.5s;
+}
+#close {
+  border: none;
+  border-radius: 0px;
+  /* float: right; */
+}
+
+form #id_login,
+form #id_password {
+  border: none;
+  border-radius: 15px;
+}
+
+fieldset #id_login:focus,
+fieldset #id_password:focus {
+  outline: none !important;
+  border: 1px solid rgb(0, 255, 179) !important;
+}
+.item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* width: fit-content; */
+}
+
+.log-in::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 3px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  background: #7143C2;
+  margin-inline: auto;
+}
+
+
+
 /* Tablet view */
 @media only screen and (max-width: 768px) {
   .nav-wrapper {

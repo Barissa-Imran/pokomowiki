@@ -7,6 +7,7 @@ from random import choice
 from django.contrib import messages
 from django.shortcuts import reverse
 from random import choice
+from allauth.account.forms import LoginForm
 
 
 class IndexView(TemplateView):
@@ -15,9 +16,11 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         terms = Term.objects.all()[:10]
+        form = LoginForm()
 
         context.update({
             'terms': terms,
+            'form': form
         })
 
         return context

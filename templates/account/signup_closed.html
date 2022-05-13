@@ -1,11 +1,35 @@
 {% extends "account/base.html" %}
-
+{% load static %}
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+  {% block extra_head %}
+  <style>
+    body {
+      background: #EAE5FF !important;
+    }
+    main {
+      max-width: 800px;
+    }
+    .logo {
+      width: 90px;
+    }
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #7143C2;
+    }
 
+  </style>
+  {% endblock%}
 {% block content %}
+<main class="p-4">
+  <a class="navbar-brand d-flex justify-content-center" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+      <img class="logo img-fluid" src="{% static 'img/Logo.png' %}" alt="pokomodictionary.com" />
+  </a>
 <h1>{% trans "Sign Up Closed" %}</h1>
 
 <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+</main>
 {% endblock %}

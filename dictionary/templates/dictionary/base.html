@@ -49,6 +49,13 @@
       type="image/x-icon"
     />
     {% block title %}{% endblock title %}
+    <style>
+      .alert-error {
+        color: #842029;
+        background-color: #f8d7da;
+        border-color: #f5c2c7;
+      }
+    </style>
   </head>
   <body>
       <!-- navbar area -->
@@ -113,6 +120,9 @@
         </div>
       </div>
     </nav>
+    {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{message.tags}} m-2">{{ message }}</div>
+    {% endfor %} {% endif %}
     <!-- page content area -->
     <main class="content container py-4 mx-auto">
       {% block content %}{% endblock content %}

@@ -22,22 +22,22 @@
       type="image/x-icon"
     />
     <title>{% block head_title %}{% endblock %}</title>
+    <style>
+      .alert-error {
+        color: #842029;
+        background-color: #f8d7da;
+        border-color: #f5c2c7;
+      }
+    </style>
     {% block extra_head %}
     {% endblock %}
   </head>
   <body style="font-family: "Montserrat", sans-serif;">
     {% block body %}
 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+{% if messages %} {% for message in messages %}
+      <div class="alert alert-{{message.tags}} m-2">{{ message }}</div>
+      {% endfor %} {% endif %}
 
     {% comment %} <div>
       <strong>Menu:</strong>

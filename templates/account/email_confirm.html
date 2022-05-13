@@ -1,12 +1,35 @@
 {% extends "account/base.html" %}
-
+{% load static %}
 {% load i18n %}
 {% load account %}
 
-{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+{% block head_title %}{% trans "Confirm E-mail Address" %} | Pokomo Dictionary & Wiki{% endblock %}
 
+  {% block extra_head %}
+  <style>
+    body {
+      background: #EAE5FF !important;
+    }
+    main {
+      max-width: 800px;
+    }
+    .logo {
+      width: 90px;
+    }
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #7143C2;
+    }
 
+  </style>
+  {% endblock%}
 {% block content %}
+<main class="p-4">
+  <a class="navbar-brand d-flex justify-content-center" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+      <img class="logo img-fluid" src="{% static 'img/Logo.png' %}" alt="pokomodictionary.com" />
+  </a>
 <h1>{% trans "Confirm E-mail Address" %}</h1>
 
 {% if confirmation %}
@@ -17,7 +40,7 @@
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
+    <button class="btn btn-primary" type="submit">{% trans 'Confirm' %}</button>
 </form>
 
 {% else %}

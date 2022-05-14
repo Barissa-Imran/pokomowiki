@@ -1,4 +1,3 @@
-from tempfile import template
 from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView, DetailView
 from dictionary.models import Term
@@ -15,7 +14,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        terms = Term.objects.all()[:10]
+        terms = Term.objects.filter(approved=True)[:10]
         form = LoginForm()
 
         context.update({
@@ -24,6 +23,30 @@ class IndexView(TemplateView):
         })
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        # is ajax method deprecated in this version of django hence wrote my own
+        def is_ajax(request):
+            print(request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest')
+            return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+        if is_ajax(request=request):
+            if request.POST.get('button') == "upVote":
+                term_id = request.POST.get('term_id')
+                term = Term.objects.get(id=int(term_id))
+                term.upvote += 1
+                term.save()
+            elif request.POST.get('button') == "downVote":
+                term_id = request.POST.get('term_id')
+                term = Term.objects.get(id=int(term_id))
+                term.downvote -= 1
+                term.save()
+        else:
+            pass
+        
+        context = self.get_context_data()
+        return render(request, "dictionary/index.html", context)
+
 
 class RandomView(TemplateView):
     template_name = 'dictionary/random.html'

@@ -107,7 +107,7 @@
                  {% if term.other_definations %}
                 <div class="other mb-5 rounded">
                   <div class="shape mb-2 p-">
-                    <h5>Definations of <span>{{ term.word|title }}</span><h5>
+                    <h5">Definations of <span>{{ term.word|title }}</span><h5>
                   </div>
                   <!-- Other definations -->
                   <div class="other-def">
@@ -150,24 +150,35 @@
                 </div>
               </div>
               <div class="endButtons d-flex justify-content-between">
-                <div class="vote d-flex">
+                <form class="vote d-flex" method="POST">
+                  {% csrf_token %}
                   <button
+                    id="upVote"
                     class="btn d-flex gap-2 thumbsUp"
                     aria-label="Up vote"
-                    onclick="login();"
+                    data-termid="{{ term.id }}"
+                    {% comment %} type="submit" {% endcomment %}
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
                     <i class="fas fa-thumbs-up"> {{ term.upvote }}</i>
                   </button>
                   <button
+                    id="downVote"
                     class="btn d-flex gap-2 thumbsDown"
                     aria-label="Down vote"
-                    onclick="login();"
+                    data-termid="{{ term.id }}"
+                    type="submit"
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
                     <i class="fas fa-thumbs-down"> {{ term.downvote }}</i>
                   </button>
-                </div>
+                </form>
                 <div class="flag">
-                  <button class="btn d-flex gap-2 btn-flag" aria-label="flag" onclick="login();">
+                  <button 
+                    class="btn d-flex gap-2 btn-flag" 
+                    aria-label="flag" 
+                    data-termid="{{ term.id }}"
+                    onclick="{% if user.is_authenticated %}Flag();{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

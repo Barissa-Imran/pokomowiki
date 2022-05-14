@@ -262,18 +262,12 @@ footer p a:hover {
   opacity: 0;
   transition: 0.5s;
 }
-    .socialaccount_ballot {
-      /* display: none; */
-    }
+
 @media only screen and (max-width: 1024px) {
   #popup {
     width: 70%;
     height: fit-content;
   }
-  /* .google{
-    width: 30px;
-    height: 30px;
-  } */
   .socialaccount_ballot {
     width: 30%;
     height: 30% !important;
@@ -324,7 +318,9 @@ fieldset #id_password:focus {
   background: #7143C2;
   margin-inline: auto;
 }
-
+#login-btn {
+  display: flex;
+}
 
 
 /* Tablet view */

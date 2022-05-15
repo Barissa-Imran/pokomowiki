@@ -49,8 +49,12 @@ $(document).ready(function () {
           // change vote count from server
           success: function (response) {
             var data = JSON.parse(response["data"]);
-            var upvote = data["term"];
-            $(".fa-thumbs-up").text(upvote);
+            var upvote = data["num_upvotes"];
+            var downvote = data["num_downvotes"];
+
+            $(".fa-thumbs-up").text(" "+ upvote);
+            $(".fa-thumbs-down").text(" "+ downvote);
+
           },
         });
       } else if (this.id === "downVote") {
@@ -68,8 +72,11 @@ $(document).ready(function () {
           // change vote count from server
           success: function (response) {
             var data = JSON.parse(response["data"]);
-            var downvote = data["term"];
-            $(".fa-thumbs-down").text(downvote);
+            var upvote = data["num_upvotes"];
+            var downvote = data["num_downvotes"];
+
+            $(".fa-thumbs-up").text(" " + upvote);
+            $(".fa-thumbs-down").text(" " + downvote);
           },
         });
       }

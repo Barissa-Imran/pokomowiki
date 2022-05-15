@@ -160,7 +160,7 @@
                     {% comment %} type="submit" {% endcomment %}
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.vote }}</i>
+                    <i class="fas fa-thumbs-up"> {{ term.upvotes_count }}</i>
                   </button>
                   <button
                     id="downVote"
@@ -170,7 +170,7 @@
                     type="submit"
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{ term.downvote }}</i>
+                    <i class="fas fa-thumbs-down"> {{ term.downvotes_count }}</i>
                   </button>
                 </form>
                 <div class="flag">

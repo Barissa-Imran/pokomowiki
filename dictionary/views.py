@@ -4,13 +4,13 @@ from dictionary.models import Term, Flag
 from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
-from django.shortcuts import reverse
+from django.shortcuts import get_object_or_404
 from random import choice
 from allauth.account.forms import LoginForm
 import json
 from django.http import JsonResponse
-from django.core import serializers
-from django.middleware.csrf import get_token
+from django.db.models import Q, Count
+
 
 
 class IndexView(TemplateView):
@@ -18,64 +18,67 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        terms = Term.objects.filter(approved=True)[:10]
         form = LoginForm()
 
-        # test
-        term = Term.objects.get(id=1)
-        term_vote = term.vote_set.all()
-        # check to see if voter already voted, if not:
-        # 1. create vote up or down respectively
-        # if yes:
-        # check which vote made:
-        # delete that vote and add to the other up/down
-        print(term_vote)
+        terms = Term.objects.all().annotate(
+            upvotes_count=Count('upvote', distinct=True, filter=Q(approved=True)), 
+            downvotes_count=Count('downvote', distinct=True, filter=Q(approved=True))
+        )[:10]
 
         context.update({
             'terms': terms,
-            'form': form
+            'form': form,
         })
 
         return context
 
     def post(self, request, *args, **kwargs):
-        term = None
         # is ajax method deprecated in this version of django hence wrote my own
-
         def is_ajax(request):
             return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
         if is_ajax(request=request):
-            if request.POST.get('button') == "upVote":
-                term_id = request.POST.get('term_id')
-                term = Term.objects.get(id=term_id)
-                term_vote = term.vote_set.all()
-                print(term_vote)
+            term_id = request.POST.get('term_id')
+            term = get_object_or_404(Term, pk=int(term_id))
+            vote_type = request.POST.get('button')
 
-                # term.upvote += 1
+            userUpVotes = term.upvote.filter(id = request.user.id).count()
+            userDownVotes = term.downvote.filter(id = request.user.id).count()
 
-                # term.save()
-                term = term.upvote
-            elif request.POST.get('button') == "downVote":
-                term_id = request.POST.get('term_id')
-                term = Term.objects.get(id=int(term_id))
-                term.downvote += 1
-                term.save()
-                term = term.downvote
-            else:
-                pass
+            if vote_type == "upVote":
+                if userUpVotes == 0 and userDownVotes == 0:
+                    term.upvote.add(request.user)
+                elif userUpVotes == 1:
+                    term.upvote.remove(request.user)
+                elif userDownVotes == 1 and userUpVotes == 0:
+                    term.downvote.remove(request.user)
+                    term.upvote.add(request.user)
+
+            elif vote_type == "downVote":
+                if userDownVotes == 0 and userUpVotes == 0:
+                    term.downvote.add(request.user)
+                elif userDownVotes == 1:
+                    term.downvote.remove(request.user)
+                elif userUpVotes == 1 and userDownVotes == 0:
+                    term.upvote.remove(request.user)
+                    term.downvote.add(request.user)
+            
         else:
             pass
 
-        context = self.get_context_data()
+        # count number of votes to be shown to user after successfull post
+        num_upvotes = Term.objects.all().annotate(
+            upvotes_count=Count('upvote')
+        )
+        num_downvotes = Term.objects.all().annotate(
+            downvotes_count=Count('downvote')
+        )
 
-        # data = serializers.serialize('json', [ term,])
+        # convert data to json to be sent to jquery(client)
         data = json.dumps({
-            'csrfToken': get_token(request),
-            'term': term
+            'num_upvotes': num_upvotes[0].upvotes_count,
+            'num_downvotes': num_downvotes[0].downvotes_count
         })
-
-        print(data)
 
         return JsonResponse({"data": data}, status=200)
 

@@ -4,3 +4,4 @@ from .models import Term, Flag
 admin.site.register(Term)
 admin.site.register(Flag)
 
+

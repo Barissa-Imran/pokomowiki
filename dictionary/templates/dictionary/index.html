@@ -5,7 +5,7 @@
 {% endblock title %}
 {% block content %}
       <div
-        class="flex items-center justify-center mb-4 overflow-hidden"
+        class="flex items-center justify-center mb-4 overflow-hidden d-none"
         style="height: 50px"
       >
         <!-- ad slot 728px 90px -->
@@ -88,11 +88,11 @@
               <div class="source mb-4">
                 <p class="subTribe">
                   Sub-Tribe:
-                  <a href="#subtribe">{{term.language}}</a>
+                  <a href="#subtribeWiki">{{term.language}}</a>
                 </p>
                 <p class="clan">
                   Clan:
-                  <a href="#clan">Ndera</a>
+                  <a href="#clanWiki">{{ term.clan }}</a>
                 </p>
               </div>
               <div class="meaning mb-5">
@@ -127,7 +127,7 @@
                   {{ term.date }}
                 </p>
               </div>
-              <div class="translation">
+              <div class="translation invisible">
                 <div class="dropdown">
                   <button
                     class="btn dropdown-toggle"
@@ -160,7 +160,7 @@
                     {% comment %} type="submit" {% endcomment %}
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.upvote }}</i>
+                    <i class="fas fa-thumbs-up"> {{ term.vote }}</i>
                   </button>
                   <button
                     id="downVote"

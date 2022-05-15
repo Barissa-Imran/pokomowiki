@@ -35,9 +35,9 @@ class Term(models.Model):
     other_definitions = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     date = models.DateField(auto_now=True)
-    upvote = models.IntegerField(default=0, null=True, blank=True)
-    downvote = models.IntegerField(default=0, null=True, blank=True)
     approved = models.BooleanField(default=False)
+    upvote = models.ManyToManyField(User, blank=True, related_name='termUpVotes')
+    downvote = models.ManyToManyField(User, blank=True, related_name='termDownVotes')
 
     def __str__(self):
         return self.word
@@ -48,6 +48,17 @@ class Term(models.Model):
         })
 
 
+class Vote(models.Model):
+    """store votes for words from different users"""
+    word = models.ForeignKey(Term, on_delete=models.CASCADE)
+
+    voter = models.ForeignKey(
+        User, related_name="voter", on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.voter.username
+
+
 class Flag(models.Model):
     """handle flags made to words by users"""
     word = models.ForeignKey(Term, on_delete=models.CASCADE)
@@ -55,7 +66,7 @@ class Flag(models.Model):
     other_reason = models.CharField(max_length=250, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     flagged_by = models.ForeignKey(
-        User, related_name="created_by", on_delete=models.CASCADE)
+        User, related_name="flagger", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.word

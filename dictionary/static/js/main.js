@@ -17,23 +17,26 @@ function login() {
   popup.classList.toggle("active");
 }
 
-// Vote functionality
-function vote() {
-  // check to see which button is clicked
-  var csrf = $("input[name=csrfmiddlewaretoken]").val();
-  let isSubmit = false;
-  var term_id = $("#upVote").attr("data-termid");
-  console.log(term_id);
 
-  $("#upVote, #downVote").click(function () {
-    if (this.id === "upVote") {
-      var term_id = $("#upVote").attr("data-termid");
-      $("vote").submit(function (e) {
+
+$(document).ready(function () {
+  // applicant dropdown button
+  $(".dropdown-toggle").dropdown();
+  $(".Search").focus();
+
+  // Vote functionality
+  function vote() {
+    // check to see which button is clicked
+    var csrf = $("input[name=csrfmiddlewaretoken]").val();
+    // let isSubmit = false;
+
+    $("#upVote, #downVote").on('click',function (e) {
+      e.preventDefault();
+
+      if (this.id === "upVote") {
+        var term_id = $("#upVote").attr("data-termid");
+        // submit form
         e.preventDefault();
-        if (isSubmit) {
-          return;
-        }
-        isSubmit = true;
 
         $.ajax({
           url: "",
@@ -43,26 +46,40 @@ function vote() {
             term_id: term_id,
             button: "upVote",
           },
+          // change vote count from server
+          success: function (response) {
+            var data = JSON.parse(response["data"]);
+            var upvote = data["term"];
+            $(".fa-thumbs-up").text(upvote);
+          },
         });
-      });
-    } else if (this.id === "downVote") {
-      console.log("downVote");
-    }
-  });
+      } else if (this.id === "downVote") {
+        var term_id = $("#downVote").attr("data-termid");
+        e.preventDefault();
 
-  // submit form
-  // change vote count from server
-}
-vote();
-function flag() {
-  // show flag pop up
-  // submit form
-  // show message success
-}
-flag();
-
-$(document).ready(function () {
-  // applicant dropdown button
-  $(".dropdown-toggle").dropdown();
-  $(".Search").focus();
+        $.ajax({
+          url: "",
+          type: "post",
+          data: {
+            csrfmiddlewaretoken: csrf,
+            term_id: term_id,
+            button: "downVote",
+          },
+          // change vote count from server
+          success: function (response) {
+            var data = JSON.parse(response["data"]);
+            var downvote = data["term"];
+            $(".fa-thumbs-down").text(downvote);
+          },
+        });
+      }
+    });
+  }
+  vote();
+  function flag() {
+    // show flag pop up
+    // submit form
+    // show message success
+  }
+  flag();
 });

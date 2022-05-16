@@ -15,6 +15,11 @@
 
           {% for term in terms %} 
           <div class="definition mb-4 overflow-hidden rounded-3">
+            <!-- success message -->
+            <div id="flagMessage" class="alert alert-success d-none {{ term.id }} mb-1 d-flex justify-content-between">
+              <div class="messageDisplay {{ term.id }} small">message </div>
+              <button class="btn rounded" onclick="closeFlagMessage();">x</button>
+            </div>
             <div class="p-5">
               <div class="mb-3 d-flex justify-content-between">
                 <h1 class="flex-1">
@@ -175,10 +180,11 @@
                 </form>
                 <div class="flag">
                   <button 
+                    id="btn-flag"
                     class="btn d-flex gap-2 btn-flag" 
                     aria-label="flag" 
                     data-termid="{{ term.id }}"
-                    onclick="{% if user.is_authenticated %}Flag();{% else %}login();{% endif %}">
+                    onclick="{% if user.is_authenticated %}flag();{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

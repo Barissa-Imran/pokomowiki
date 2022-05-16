@@ -19,9 +19,9 @@ clans = [
 ]
 
 reasons = [
-    ("wrong definition", "wrong definition"),
-    ("hate speech", "hate speech"),
-    ("other", "other")
+    ("Wrong definition", "Wrong definition"),
+    ("Hate speech", "Hate speech"),
+    ("Other", "Other")
 ]
 
 
@@ -69,4 +69,4 @@ class Flag(models.Model):
         User, related_name="flagger", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.word
+        return self.word.word

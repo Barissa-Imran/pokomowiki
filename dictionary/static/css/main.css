@@ -236,9 +236,6 @@ footer p a:hover {
     aside {
         display: none;
     }
-    footer {
-        /* position: fixed; */
-    }
 }
 
 /*-------------- login popup------------------ */
@@ -348,4 +345,66 @@ fieldset #id_password:focus {
     .nav-wrapper .navbar-brand img {
         width: 90px;
     }
+}
+
+/* ------- flag popup ----------- */
+#blur.active, #blur2.active {
+  filter: blur(20px);
+  pointer-events: none;
+  user-select: none;
+}
+#flagPopup {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-height: 800px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+  opacity: 0;
+  backdrop-filter: blur(20px);
+  transition: 0.5s;
+}
+@media only screen and (max-width: 1024px) {
+  #flagPopup {
+    width: 70%;
+    height: fit-content;
+  }
+}
+#flagPopup.active {
+  top: 50%;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+#secFlagPopup {
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.5)
+}
+
+.flagIcon img {
+  width: 100px;
+}
+select#flagReason {
+  outline: none;
+  border: 1px solid #7143c2;
+  border-radius: 15px;
+}
+textarea#other_reason {
+  outline: none;
+  border:1px solid #7143c2;
+  border-radius: 15px;
+  color: #7143c2;
+}
+textarea#other_reason:focus {
+  border: 1px solid #e4832f;
+}
+#btnReport {
+  background-color: #7143c2;
+  color:#eae5ff;
+}
+#btnReport:hover {
+  color: #e4832f;
 }

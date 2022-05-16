@@ -186,6 +186,43 @@
     </section>
     <!-- login popup end-->
 
+    <!-- Flag popup -->
+    <section id="flagPopup" class="small">
+      <div id="secFlagPopup">
+        <div class="d-flex justify-content-end">
+          <button id="flagClose" class="btn rounded" onclick="flag();"><i class="fa fa-times-circle" style="color:#7143C2; "></i></button>
+        </div>
+        <div class="flagIcon d-flex justify-content-center mb-2">
+          <img src="{% static 'img/flag-icon.svg' %}" alt="Flag" srcset="">
+        </div>
+        {% csrf_token %}
+        <div class="d-flex flex-column gap-2 justify-content-center">
+          <label for="flagReason">Why are you reporting this word & definition?</label>
+          <select class="p-2" name="flagReason" required id="flagReason">
+              <option value="Wrong definition" selected>Wrong definition</option>
+              <option value="Hate speech">Hate speech</option>
+              <option value="Other">Other</option>
+          </select>
+          <textarea
+              class="p-4 d-none"
+              name="other_reason"
+              id="other_reason"
+              cols="50"
+              rows="5"
+              placeholder="Type other reason"
+              autocapitalize="words"
+              autocomplete="off"
+              autofocus="off"
+              autocorrect="off"
+              spellcheck="false"
+              maxlength="150"
+            ></textarea>
+        </div>
+        <button id="btnReport" class="btn btn-sm rounded mt-2">Report <i class="fa fa-exclamation-circle"></i></button>
+        <p class="text-center small text-muted mt-2">Your report is anonymous, except if your're reporting an intellectual property infringement.</p>
+      </div>
+    </section>
+    <!-- Flah popup end -->
     
     {% block script %}{% endblock script %}
         <script
@@ -197,5 +234,9 @@
       src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"
     ></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+        <!-- <script
+      src="https://kit.fontawesome.com/684f3642c3.js"
+      crossorigin="anonymous"
+    ></script> -->
   </body>
 </html>

@@ -4,6 +4,11 @@ function closeMessage() {
 
   message.classList.add("d-none");
 }
+function closeFlagMessage() {
+  var flagMessage = document.getElementById("flagMessage");
+
+  flagMessage.classList.toggle("d-none");
+}
 
 // show login popup
 function login() {
@@ -16,8 +21,17 @@ function login() {
   var popup = document.getElementById("popup");
   popup.classList.toggle("active");
 }
+// show flag popup
+function flag() {
+  var blur = document.getElementById("blur");
+  var blur2 = document.getElementById("blur2");
 
+  blur.classList.toggle("active");
+  blur2.classList.toggle("active");
 
+  var flagPopup = document.getElementById("flagPopup");
+  flagPopup.classList.toggle("active");
+}
 
 $(document).ready(function () {
   // applicant dropdown button
@@ -30,7 +44,7 @@ $(document).ready(function () {
     var csrf = $("input[name=csrfmiddlewaretoken]").val();
     // let isSubmit = false;
 
-    $("#upVote, #downVote").on('click',function (e) {
+    $("#upVote, #downVote").on("click", function (e) {
       e.preventDefault();
 
       if (this.id === "upVote") {
@@ -45,6 +59,7 @@ $(document).ready(function () {
             csrfmiddlewaretoken: csrf,
             term_id: term_id,
             button: "upVote",
+            form: "vote"
           },
           // change vote count from server
           success: function (response) {
@@ -52,9 +67,8 @@ $(document).ready(function () {
             var upvote = data["num_upvotes"];
             var downvote = data["num_downvotes"];
 
-            $(".fa-thumbs-up").text(" "+ upvote);
-            $(".fa-thumbs-down").text(" "+ downvote);
-
+            $(".fa-thumbs-up").text(" " + upvote);
+            $(".fa-thumbs-down").text(" " + downvote);
           },
         });
       } else if (this.id === "downVote") {
@@ -68,6 +82,7 @@ $(document).ready(function () {
             csrfmiddlewaretoken: csrf,
             term_id: term_id,
             button: "downVote",
+            form: "vote"
           },
           // change vote count from server
           success: function (response) {
@@ -83,10 +98,50 @@ $(document).ready(function () {
     });
   }
   vote();
-  function flag() {
-    // show flag pop up
-    // submit form
-    // show message success
+
+  function report() {
+    var csrf = $("#flagPopup input[name=csrfmiddlewaretoken]").val();
+
+    // show other reason text area if other is selected
+    $("#flagReason").on("click", function () {
+      var reason = $("#flagReason").val();
+      var element = $("#other_reason");
+
+      if (reason === "Other") {
+        element.removeClass("d-none");
+      } else {
+        element.addClass("d-none");
+      }
+    });
+
+    $("#btnReport").on("click", (e) => {
+      e.preventDefault();
+      var reason = $("#flagReason").val();
+      var other_reason = $("#other_reason").val();
+      var term_id = $("#btn-flag").attr("data-termid")
+
+      $.ajax({
+        url: "",
+        type: "post",
+        data: {
+          csrfmiddlewaretoken: csrf,
+          term_id: term_id,
+          reason: reason,
+          other_reason: other_reason,
+          form: "flag"
+        },
+        success: function (response) {
+          var data = JSON.parse(response["data"]);
+          var message = data["message"];
+
+          $("#flagMessage." + term_id).removeClass("d-none");
+          $(".messageDisplay." + term_id).text(message);
+        }
+      });
+
+      // close flag popup
+      flag();
+    });
   }
-  flag();
+  report();
 });

@@ -5,12 +5,12 @@ from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from random import choice
 from allauth.account.forms import LoginForm
 import json
 from django.http import JsonResponse
 from django.db.models import Q, Count
-
 
 
 class IndexView(TemplateView):
@@ -23,8 +23,10 @@ class IndexView(TemplateView):
 
         # count votes and add them to terms context--
         terms = Term.objects.all().annotate(
-            upvotes_count=Count('upvote', distinct=True, filter=Q(approved=True)), 
-            downvotes_count=Count('downvote', distinct=True, filter=Q(approved=True))
+            upvotes_count=Count('upvote', distinct=True,
+                                filter=Q(approved=True)),
+            downvotes_count=Count(
+                'downvote', distinct=True, filter=Q(approved=True))
         )[:10]
 
         context.update({
@@ -47,8 +49,10 @@ class IndexView(TemplateView):
                     term = get_object_or_404(Term, pk=int(term_id))
                     vote_type = request.POST.get('button')
 
-                    userUpVotes = term.upvote.filter(id = request.user.id).count()
-                    userDownVotes = term.downvote.filter(id = request.user.id).count()
+                    userUpVotes = term.upvote.filter(
+                        id=request.user.id).count()
+                    userDownVotes = term.downvote.filter(
+                        id=request.user.id).count()
 
                     if vote_type == "upVote":
                         if userUpVotes == 0 and userDownVotes == 0:
@@ -80,14 +84,16 @@ class IndexView(TemplateView):
                         # check if user has flags
                         flag = term.flag_set.filter(flagged_by=user)
                         if flag:
-                            flag.update(reason=reason, other_reason=other_reason)
+                            flag.update(reason=reason,
+                                        other_reason=other_reason)
                         else:
-                            flag = Flag(word=term, reason=reason, other_reason=other_reason, flagged_by=user)
+                            flag = Flag(word=term, reason=reason,
+                                        other_reason=other_reason, flagged_by=user)
                             flag.save()
                     else:
-                        flag = Flag(word=term, reason=reason, other_reason=other_reason, flagged_by=user)
+                        flag = Flag(word=term, reason=reason,
+                                    other_reason=other_reason, flagged_by=user)
                         flag.save()
-
             else:
                 pass
 
@@ -110,6 +116,34 @@ class IndexView(TemplateView):
         else:
             pass
 
+    def get(self, request, *args, **kwargs):
+        # is_ajax() method deprecated in this version of django hence wrote my own
+        def is_ajax(request):
+            return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        
+        request.session.set_test_cookie()
+
+        # Check that the test cookie worked
+        if request.session.test_cookie_worked():
+            # delete the test cookie
+            request.session.delete_test_cookie()
+            request.session['has_voted'] = False
+       
+            if is_ajax(request=request):
+                
+                term_id = request.GET.get('term_id')
+                button = request.GET.get('button')
+
+                request.session['term_id'] = term_id
+                request.session['button'] = button
+                request.session['has_voted'] = True
+                
+            else:
+                pass
+        else:
+            return HttpResponse("Our site uses cookies. Please enable cookies and try again.")
+        
+        return super().get(request, *args, **kwargs)
 class RandomView(TemplateView):
     template_name = 'dictionary/random.html'
 
@@ -126,7 +160,7 @@ class RandomView(TemplateView):
         })
 
         return context
-    
+
     def post(RandomView, request, *args, **kwargs):
         # reference the post method from random view
         return IndexView.post(RandomView, request, *args, **kwargs)

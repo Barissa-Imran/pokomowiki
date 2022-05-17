@@ -40,60 +40,82 @@ $(document).ready(function () {
 
   // Vote functionality
   function vote() {
-    // check to see which button is clicked
     var csrf = $("input[name=csrfmiddlewaretoken]").val();
-    // let isSubmit = false;
 
+    function voteForm(csrf, term_id, button) {
+      $.ajax({
+        url: "",
+        type: "post",
+        data: {
+          csrfmiddlewaretoken: csrf,
+          term_id: term_id,
+          button: button,
+          form: "vote",
+        },
+        // change vote count from server
+        success: function (response) {
+          var data = JSON.parse(response["data"]);
+          var upvote = data["num_upvotes"];
+          var downvote = data["num_downvotes"];
+
+          $(".fa-thumbs-up").text(" " + upvote);
+          $(".fa-thumbs-down").text(" " + downvote);
+        },
+      });
+    };
+
+    // check to see which button is clicked
     $("#upVote, #downVote").on("click", function (e) {
       e.preventDefault();
 
-      if (this.id === "upVote") {
-        var term_id = $("#upVote").attr("data-termid");
-        // submit form
-        e.preventDefault();
+      // check if user is logged in so as to set session variable on click
+      var logged = $(".vote button").attr("onclick");
 
-        $.ajax({
-          url: "",
-          type: "post",
-          data: {
-            csrfmiddlewaretoken: csrf,
-            term_id: term_id,
-            button: "upVote",
-            form: "vote"
-          },
-          // change vote count from server
-          success: function (response) {
-            var data = JSON.parse(response["data"]);
-            var upvote = data["num_upvotes"];
-            var downvote = data["num_downvotes"];
+      if (logged === "vote();") {
+        // Send data according to clicked button
+        if (this.id === "upVote") {
+          var term_id = $("#upVote").attr("data-termid");
+          var button = "upVote";
+          // submit form
+          voteForm(csrf, term_id, button);
 
-            $(".fa-thumbs-up").text(" " + upvote);
-            $(".fa-thumbs-down").text(" " + downvote);
-          },
-        });
-      } else if (this.id === "downVote") {
-        var term_id = $("#downVote").attr("data-termid");
-        e.preventDefault();
+          // downvote functionality
+        } else if (this.id === "downVote") {
+          var term_id = $("#downVote").attr("data-termid");
+          var button = "downVote";
+          // submit form
+          voteForm(csrf, term_id, button);
+        }
+      } else if (logged === "login();") {
+        // send form to set session variable for clicked button to change after log in
+        
+        if (this.id === "upVote") {
+          var term_id = $("#upVote").attr("data-termid");
 
-        $.ajax({
-          url: "",
-          type: "post",
-          data: {
-            csrfmiddlewaretoken: csrf,
-            term_id: term_id,
-            button: "downVote",
-            form: "vote"
-          },
-          // change vote count from server
-          success: function (response) {
-            var data = JSON.parse(response["data"]);
-            var upvote = data["num_upvotes"];
-            var downvote = data["num_downvotes"];
+          // submit form
+          $.ajax({
+            url: "",
+            type: "get",
+            data: {
+              term_id: term_id,
+              button: "upVote",
+            },
+          });
 
-            $(".fa-thumbs-up").text(" " + upvote);
-            $(".fa-thumbs-down").text(" " + downvote);
-          },
-        });
+          // downvote functionality
+        } else if (this.id === "downVote") {
+          var term_id = $("#downVote").attr("data-termid");
+
+          // submit form
+          $.ajax({
+            url: "",
+            type: "get",
+            data: {
+              term_id: term_id,
+              button: "downVote",
+            },
+          });
+        }
       }
     });
   }
@@ -118,7 +140,7 @@ $(document).ready(function () {
       e.preventDefault();
       var reason = $("#flagReason").val();
       var other_reason = $("#other_reason").val();
-      var term_id = $("#btn-flag").attr("data-termid")
+      var term_id = $("#btn-flag").attr("data-termid");
 
       $.ajax({
         url: "",
@@ -128,7 +150,7 @@ $(document).ready(function () {
           term_id: term_id,
           reason: reason,
           other_reason: other_reason,
-          form: "flag"
+          form: "flag",
         },
         success: function (response) {
           var data = JSON.parse(response["data"]);
@@ -136,7 +158,7 @@ $(document).ready(function () {
 
           $("#flagMessage." + term_id).removeClass("d-none");
           $(".messageDisplay." + term_id).text(message);
-        }
+        },
       });
 
       // close flag popup

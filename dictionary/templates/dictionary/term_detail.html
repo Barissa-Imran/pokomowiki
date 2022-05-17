@@ -5,18 +5,24 @@
 {% endblock title %}
 {% block content %}
       <div
-        class="flex items-center justify-center mb-4 overflow-hidden"
+        class="flex items-center justify-center d-none mb-4 overflow-hidden"
         style="height: 50px"
       >
         <!-- ad slot 728px 90px -->
       </div>
       <div class="d-flex flex-row mx-0 row gap-4">
         <section class="col-lg-7 overflow-hidden">
+
           <div class="definition mb-4 overflow-hidden rounded-3">
+            <!-- success message -->
+            <div id="flagMessage" class="alert alert-success d-none {{ object.id }} mb-1 d-flex justify-content-between">
+              <div class="messageDisplay {{ object.id }} small">message </div>
+              <button class="btn rounded" onclick="closeFlagMessage();">x</button>
+            </div>
             <div class="p-5">
               <div class="mb-3 d-flex justify-content-between">
                 <h1 class="flex-1">
-                  <a href="{{ object.get_absolute_url }}" class="word"> {{ object.word |title }}</a>
+                  <a href="{{ object.get_absolute_url }}" class="word"> {{ object.word|title }}</a>
                 </h1>
                 <div>
                   <div class="d-flex align-center">
@@ -86,38 +92,38 @@
               <div class="source mb-4">
                 <p class="subTribe">
                   Sub-Tribe:
-                  <a href="#subtribe">{{ object.language }}</a>
+                  <a href="#subtribeWiki">{{ object.language}}</a>
                 </p>
                 <p class="clan">
                   Clan:
-                  <a href="#clan">Ndera</a>
+                  <a href="#clanWiki">{{ object.clan }}</a>
                 </p>
               </div>
               <div class="meaning mb-5">
                 <p class="mean">
-                  {{ object.defination }}
+                  {{ object.defination}}
                 </p>
                 <p class="example">
-                  <em>"{{object.example}}"</em>
+                  <em>"{{ object.example}}"</em>
                 </p>
               </div>
               <!-- Other definations section -->
-              {% if object.other_definations %}
+                 {% if term.other_definations %}
                 <div class="other mb-5 rounded">
-                <div class="shape mb-2 p-">
-                  <h5>Definations of <span>{{ object.word|title }}</span><h5>
+                  <div class="shape mb-2 p-">
+                    <h5">Definations of <span>{{ object.word|title }}</span><h5>
+                  </div>
+                  <!-- Other definations -->
+                  <div class="other-def">
+                    <ol>
+                      <li>{{ object.other_definations }}</li>
+                    </ol>
+                  </div>
                 </div>
-                <!-- Other definations -->
-                <div class="other-def">
-                  <ol>
-                    <li>{{ object.other_definations }}</li>
-                  </ol>
-                </div>
-              </div>
 
                 {% else %}
                 {% endif %}
-              
+
               <div class="contributor">
                 <p class="author">
                   by
@@ -125,7 +131,7 @@
                   {{ object.date }}
                 </p>
               </div>
-              <div class="translation">
+              <div class="translation invisible">
                 <div class="dropdown">
                   <button
                     class="btn dropdown-toggle"
@@ -148,28 +154,43 @@
                 </div>
               </div>
               <div class="endButtons d-flex justify-content-between">
-                <div class="vote d-flex">
+                <form class="vote d-flex" method="POST">
+                  {% csrf_token %}
                   <button
+                    id="upVote"
                     class="btn d-flex gap-2 thumbsUp"
                     aria-label="Up vote"
+                    data-termid="{{ object.id }}"
+                    {% comment %} type="submit" {% endcomment %}
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up">{{object.upvote}}</i>
+                    <i class="fas fa-thumbs-up"> {{ object.upvote.count }}</i>
                   </button>
                   <button
+                    id="downVote"
                     class="btn d-flex gap-2 thumbsDown"
                     aria-label="Down vote"
+                    data-termid="{{ object.id }}"
+                    type="submit"
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{object.downvote}}</i>
+                    <i class="fas fa-thumbs-down"> {{ object.downvote.count }}</i>
                   </button>
-                </div>
+                </form>
                 <div class="flag">
-                  <button class="btn d-flex gap-2 btn-flag" aria-label="flag">
+                  <button 
+                    id="btn-flag"
+                    class="btn d-flex gap-2 btn-flag" 
+                    aria-label="flag" 
+                    data-termid="{{ object.id }}"
+                    onclick="{% if user.is_authenticated %}flag();{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>
               </div>
             </div>
           </div>
+
         </section>
         <aside class="col-lg-4 rounded px-3 pt-5 pb-3">
           <div class="top d-flex justify-content-between mb-2">
@@ -181,15 +202,15 @@
             </div>
             <img
               class="wordArt image-fluid"
-              src="{% static 'img/Word Art.png'%}"
+              src="{% static 'img/Word Art.png' %}"
               alt="word-art"
             />
           </div>
           <div class="define text-center mb-3">
-            <button class="btn btn-rounded text-white">
+            <a href="{% url 'add' %}" class="btn btn-rounded text-white">
               <i class="fas fa-plus"></i>
               Define a word
-            </button>
+            </a>
           </div>
           <div class="media">
             <div class="upperLayer d-flex justify-content-between mb-2">
@@ -266,8 +287,8 @@
         <p>
           <a href="#ads">ads.</a>
           <a href="{% url 'tos' %}"> terms of service.</a>
-          <a href="#privacy"> privacy.</a>
-          <a href="#dmca"> dmca</a>
+          <a href="{% url 'privacy' %}"> privacy.</a>
+          <a href="{% url 'dmca' %}"> dmca</a>
         </p>
       </footer>
 {% endblock content %}

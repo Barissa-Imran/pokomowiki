@@ -5,7 +5,7 @@
 {% endblock title %}
 {% block content %}
       <div
-        class="flex items-center justify-center mb-4 overflow-hidden"
+        class="flex items-center justify-center d-none mb-4 overflow-hidden"
         style="height: 50px"
       >
         <!-- ad slot 728px 90px -->
@@ -14,6 +14,11 @@
         <section class="col-lg-7 overflow-hidden">
 
           <div class="definition mb-4 overflow-hidden rounded-3">
+            <!-- success message -->
+            <div id="flagMessage" class="alert alert-success d-none {{ term.id }} mb-1 d-flex justify-content-between">
+              <div class="messageDisplay {{ term.id }} small">message </div>
+              <button class="btn rounded" onclick="closeFlagMessage();">x</button>
+            </div>
             <div class="p-5">
               <div class="mb-3 d-flex justify-content-between">
                 <h1 class="flex-1">
@@ -87,11 +92,11 @@
               <div class="source mb-4">
                 <p class="subTribe">
                   Sub-Tribe:
-                  <a href="#subtribe">{{term.language}}</a>
+                  <a href="#subtribeWiki">{{term.language}}</a>
                 </p>
                 <p class="clan">
                   Clan:
-                  <a href="#clan">Ndera</a>
+                  <a href="#clanWiki">{{ term.clan }}</a>
                 </p>
               </div>
               <div class="meaning mb-5">
@@ -106,7 +111,7 @@
                  {% if term.other_definations %}
                 <div class="other mb-5 rounded">
                   <div class="shape mb-2 p-">
-                    <h5>Definations of <span>{{ term.word|title }}</span><h5>
+                    <h5">Definations of <span>{{ term.word|title }}</span><h5>
                   </div>
                   <!-- Other definations -->
                   <div class="other-def">
@@ -126,7 +131,7 @@
                   {{ term.date }}
                 </p>
               </div>
-              <div class="translation">
+              <div class="translation invisible">
                 <div class="dropdown">
                   <button
                     class="btn dropdown-toggle"
@@ -149,22 +154,36 @@
                 </div>
               </div>
               <div class="endButtons d-flex justify-content-between">
-                <div class="vote d-flex">
+                <form class="vote d-flex" method="POST">
+                  {% csrf_token %}
                   <button
+                    id="upVote"
                     class="btn d-flex gap-2 thumbsUp"
                     aria-label="Up vote"
+                    data-termid="{{ term.id }}"
+                    {% comment %} type="submit" {% endcomment %}
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.upvote }}</i>
+                    <i class="fas fa-thumbs-up"> {{ term.upvote.count }}</i>
                   </button>
                   <button
+                    id="downVote"
                     class="btn d-flex gap-2 thumbsDown"
                     aria-label="Down vote"
+                    data-termid="{{ term.id }}"
+                    type="submit"
+                    onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{ term.downvote }}</i>
+                    <i class="fas fa-thumbs-down"> {{ term.downvote.count }}</i>
                   </button>
-                </div>
+                </form>
                 <div class="flag">
-                  <button class="btn d-flex gap-2 btn-flag" aria-label="flag">
+                  <button 
+                    id="btn-flag"
+                    class="btn d-flex gap-2 btn-flag" 
+                    aria-label="flag" 
+                    data-termid="{{ term.id }}"
+                    onclick="{% if user.is_authenticated %}flag();{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

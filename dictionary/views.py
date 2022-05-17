@@ -14,33 +14,14 @@ from django.db.models import Q, Count
 
 
 class IndexView(TemplateView):
+    """Handle functionality for the homepage"""
     template_name = 'dictionary/index.html'
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         form = LoginForm()
 
-        # term = get_object_or_404(Term, pk=int(1))
-        # flag = term.flag_set.all()
-
-        # # check if flags exist
-        #     # check if user has flags
-        #         # if yes then update with data
-        #         # if no then create new flag
-        # # if don't exist then create flag
-        #     # create from received data and save
-        
-        # if flag:
-        #     new = term.flag_set.filter(flagged_by=self.request.user)
-        #     print(new[0].date)
-        #     new.update(reason="Hate speech", other_reason="")
-        #     print(new[0].reason)
-        #     print(new[0].date)
-
-        # else:
-        #     pass
-            
-
+        # count votes and add them to terms context--
         terms = Term.objects.all().annotate(
             upvotes_count=Count('upvote', distinct=True, filter=Q(approved=True)), 
             downvotes_count=Count('downvote', distinct=True, filter=Q(approved=True))
@@ -55,8 +36,8 @@ class IndexView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         # check if user is authenticated
-        if request.user != None:
-            # is ajax method deprecated in this version of django hence wrote my own
+        if request.user.is_authenticated:
+            # is_ajax() method deprecated in this version of django hence wrote my own
             def is_ajax(request):
                 return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
@@ -95,17 +76,11 @@ class IndexView(TemplateView):
                     flags = term.flag_set.all()
 
                     # check if flags exist
-                        # check if user has flags
-                            # if yes then update with data
-                            # if no then create new flag
-                    # if don't exist then create flag
-                        # create from received data and save
-
                     if flags:
+                        # check if user has flags
                         flag = term.flag_set.filter(flagged_by=user)
                         if flag:
                             flag.update(reason=reason, other_reason=other_reason)
-                            print(reason)
                         else:
                             flag = Flag(word=term, reason=reason, other_reason=other_reason, flagged_by=user)
                             flag.save()
@@ -144,12 +119,17 @@ class RandomView(TemplateView):
         pks = Term.objects.values_list('pk', flat=True)
         random_pk = choice(pks)
         random_term = Term.objects.get(pk=random_pk)
+        term = random_term
 
         context.update({
-            'term': random_term,
+            'term': term,
         })
 
         return context
+    
+    def post(RandomView, request, *args, **kwargs):
+        # reference the post method from random view
+        return IndexView.post(RandomView, request, *args, **kwargs)
 
 
 class AboutView(TemplateView):
@@ -211,6 +191,10 @@ class TermCreateView(CreateView):
 
 class TermDetailView(DetailView):
     model = Term
+
+    def post(TermDetailView, request, *args, **kwargs):
+        # reference the post method from random view
+        return IndexView.post(TermDetailView, request, *args, **kwargs)
 
 
 class TermUpdateView(UpdateView):

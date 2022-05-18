@@ -36,6 +36,7 @@ function flag() {
 $(document).ready(function () {
   // applicant dropdown button
   $(".dropdown-toggle").dropdown();
+  $().dropdown("hide");
   $(".Search").focus();
 
   // Vote functionality

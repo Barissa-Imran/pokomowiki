@@ -121,12 +121,14 @@ class IndexView(TemplateView):
         def is_ajax(request):
             return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
         
+        # check if cookies are working on browser
         request.session.set_test_cookie()
 
         # Check that the test cookie worked
         if request.session.test_cookie_worked():
             # delete the test cookie
             request.session.delete_test_cookie()
+
             request.session['has_voted'] = False
        
             if is_ajax(request=request):
@@ -190,21 +192,26 @@ class EditorView(TemplateView):
     template_name = 'dictionary/editor.html'
 
 
-def define(request, term):
-    if term == "random":
-        pks = Term.objects.values_list('pk', flat=True)
-        random_pk = choice(pks)
-        word = Term.objects.get(pk=random_pk)
-    # elif term == "term":
-    #     word = Term.objects.get(word=term)
-    else:
-        word = Term.objects.get(pk=term)
+class BrowseView(TemplateView):
+    """Show Terms starting with a particular character"""
+    template_name = 'dictionary/browse.html'
 
-    context = {
-        'term': word,
-    }
-    return render(request, "dictionary/define.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        char = self.kwargs['char']
+        terms = Term.objects.filter(word__startswith=char).annotate(
+            upvotes_count=Count('upvote', distinct=True),
+            downvotes_count=Count(
+                'downvote', distinct=True, filter=Q(approved=True))
+        )
 
+        context["terms"] = terms 
+        context['char'] = char
+        return context
+    
+    def post(BrowseView, request, *args, **kwargs):
+        # reference the post method from random view
+        return IndexView.post(BrowseView, request, *args, **kwargs)
 
 class TermCreateView(CreateView):
     """This class allows a user to define a new word"""

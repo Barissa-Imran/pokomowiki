@@ -13,12 +13,15 @@ Orange: #E4832F
 * {
   font-family: "Poppins", sans-serif;
 }
+body {
+  overscroll-behavior-y: contain;
+}
 main {
   max-width: 970px;
   overflow-x: hidden;
 }
-.nav-wrapper {
-    overflow: hidden;
+#message {
+  max-width: 970px;
 }
 .nav-wrapper ul li {
   color: #e4832f;
@@ -64,7 +67,20 @@ main {
 .navbar-brand img {
   width: 80%;
 }
-
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 3px 3px !important;
+  text-align: center;
+  background-color: #f3f3f3;
+  color: #000 !important;
+  font-weight: 600 !important;
+}
+.btn-circle:hover{
+  color: #fff !important;
+  background-color: #7143c2;
+} 
 
 .content .row .definition {
   background-color: #eae5ff;

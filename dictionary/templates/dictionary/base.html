@@ -151,21 +151,21 @@
           <a href="{% url 'random' %}">
             <img src="{% static 'img/random.svg' %}" alt="random" />
           </a>
-          <a href="{% url 'account_login' %}">
+          <a href="{% url 'profile' %}">
             <img src="{% static 'img/user.svg' %}" alt="profile" />
           </a>
         </div>
       </div>
     </nav>
-    {% if messages %} {% for message in messages %}
-    <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
-      <div class="">{{ message }}</div>
-      <button class="btn rounded" onclick="closeMessage();">x</button>
-    </div>
-
-    {% endfor %} {% endif %}
     <!-- page content area -->
     <main id="blur" class="content container py-4 mx-auto">
+        {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
+          <div class="">{{ message }}</div>
+          <button class="btn rounded" onclick="closeMessage();">x</button>
+        </div>
+        {% endfor %} {% endif %}
+        
       {% block content %}{% endblock content %}
     </main>
 

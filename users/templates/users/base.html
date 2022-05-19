@@ -1,0 +1,68 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load account %}
+{% load account socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <!-- 
+        
+        if you're pokomo "nikutsaka"
+        Yes I'm bilingual
+        
+     -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <link rel="canonical" href="http://pokomodictionary.com> <link
+    rel="shortlink" href="http://pokomodictionary.com
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+    />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta
+      property="og:site_name"
+      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+    />
+    <!-- <meta property="og:image" href="link" /> -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'img/Logo@2x.png' %}"
+      type="image/x-icon"
+    />
+    {% block title %}{% endblock title %}
+    <style>
+      .alert-error {
+        color: #842029;
+        background-color: #f8d7da;
+        border-color: #f5c2c7;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+
+    </main>
+</body>
+</html>

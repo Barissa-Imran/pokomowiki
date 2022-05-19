@@ -164,7 +164,7 @@ class RandomView(TemplateView):
         return context
 
     def post(RandomView, request, *args, **kwargs):
-        # reference the post method from random view
+        # reference the post method from index view
         return IndexView.post(RandomView, request, *args, **kwargs)
 
 
@@ -210,7 +210,7 @@ class BrowseView(TemplateView):
         return context
     
     def post(BrowseView, request, *args, **kwargs):
-        # reference the post method from random view
+        # reference the post method from Index view
         return IndexView.post(BrowseView, request, *args, **kwargs)
 
 class TermCreateView(CreateView):
@@ -234,7 +234,7 @@ class TermDetailView(DetailView):
     model = Term
 
     def post(TermDetailView, request, *args, **kwargs):
-        # reference the post method from random view
+        # reference the post method from Index view
         return IndexView.post(TermDetailView, request, *args, **kwargs)
 
 

@@ -12,9 +12,9 @@ urlpatterns = [
     path('content-guidelines', views.ContentGuidelinesView.as_view(), name='content_guidelines'),
     path('editor', views.EditorView.as_view(), name='editor'),
 
-    re_path('term/(?P<pk>[^/]+)\\Z', views.TermDetailView.as_view(), name='term_detail'),
+    re_path('term/(?P<pk>[^/]+)\Z', views.TermDetailView.as_view(), name='term_detail'),
     path('add', views.TermCreateView.as_view(), name='add'),
-    re_path('term/(?P<pk>[^/]+)/update',
+    re_path(r'(?P<pk>[^/]+)/update',
          views.TermUpdateView.as_view(), name='term_update'),
     re_path('term/(?P<pk>[^/]+)/delete',
          views.TermDeleteView.as_view(), name='term_delete')

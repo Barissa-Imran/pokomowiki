@@ -1,0 +1,25 @@
+/* 
+
+color codes---
+main background: #fff
+Purple BG: #EAE5FF
+Purple Font: #7143C2
+Blue: #14AFDF
+Black: 000
+Orange: #E4832F
+
+*/
+body {
+    height: 100vh;
+}
+.side-bar {
+    width: 200px;
+    height: 100vh;
+    background: #eae5fff1 !important;
+}
+#wrapper {
+    margin-left: 200px;
+}
+.navbar-brand img {
+    width: 60%;
+}

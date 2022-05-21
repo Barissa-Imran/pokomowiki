@@ -46,6 +46,7 @@
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
     <link
       rel="shortcut icon"
       href="{% static 'img/Logo@2x.png' %}"
@@ -61,8 +62,37 @@
     </style>
   </head>
   <body>
-    <main>
+    <main class="">
+        {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
+          <div class="">{{ message }}</div>
+          <button class="btn rounded" onclick="closeMessage();">x</button>
+        </div>
+        {% endfor %} {% endif %}
+        <aside class="side-bar">
+          <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+            <img src="{% static 'img/Logo.png' %}" alt="logo" />
+          </a>
+        </aside>
+        <section id="wrapper"> Hi</section>
 
+
+
+        {% block content %}{% endblock content %}
     </main>
+    <script
+      type="text/javascript"
+      src="{% static 'vendor/jquery/jquery-3.6.0.min.js' %}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"
+    ></script>
+    <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+        <!-- <script
+      src="https://kit.fontawesome.com/684f3642c3.js"
+      crossorigin="anonymous"
+    ></script> -->
+    {% block extraScript %}{% endblock extraScript %}
 </body>
 </html>

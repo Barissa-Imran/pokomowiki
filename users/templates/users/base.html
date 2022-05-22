@@ -45,7 +45,7 @@
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
     />
-    <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
     <link
       rel="shortcut icon"
@@ -73,8 +73,15 @@
           <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
             <img src="{% static 'img/Logo.png' %}" alt="logo" />
           </a>
+          <div class="navbar flex-column flex-start p-0">
+              <a class="navbar-item btn" role="button" href="#House"><i class="bi bi-house"></i></a>
+              <a class="navbar-item btn" role="button" href="#Review"><i class="bi bi-clipboard-check"></i></a>
+              <a class="navbar-item btn" role="button" href="#Account"><i class="bi bi-gear"></i></a>
+          </div>
         </aside>
-        <section id="wrapper"> Hi</section>
+        <section id="wrapper">
+          <nav class="content-nav"></nav>
+        </section>
 
 
 
@@ -89,10 +96,6 @@
       src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"
     ></script>
     <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
-        <!-- <script
-      src="https://kit.fontawesome.com/684f3642c3.js"
-      crossorigin="anonymous"
-    ></script> -->
     {% block extraScript %}{% endblock extraScript %}
 </body>
 </html>

@@ -1,0 +1,66 @@
+/* 
+
+color codes---
+main background: #fff
+Purple BG: #EAE5FF
+Purple Font: #7143C2
+Blue: #14AFDF
+Black: 000
+Orange: #E4832F
+
+*/
+:root {
+    --purple-font: #7143C2;
+    --purple-bg: #EAE5FF;
+    --blue: #14AFDF;
+    --orange: #E4832F;
+    --slate: #C0C2C9;
+    --sidebar-width: 150px;
+}
+body {
+    height: 100vh;
+    background: var(--purple-bg);
+}
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* background: #eae5fff1 !important; */
+}
+#wrapper {
+    margin-left: var(--sidebar-width);
+    /* background-color: antiquewhite !important; */
+}
+.navbar-brand img {
+    width: 60%;
+}
+.navbar {
+    display: flex;
+    /* flex-direction: column; */
+    row-gap: 30px;
+    font-size: x-large;
+}
+.navbar-item {
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* border: 1px solid var(--purple-font);
+    border-radius: 50%; */
+}
+.navbar-item:hover {
+    /* border: 1px solid var(--purple-font); */
+    border-radius: 50%;
+    background-color: var(--purple-font);
+    color: #fff;
+}
+.navbar-item a {
+    text-decoration: none;
+    color: grey;
+}
+
+

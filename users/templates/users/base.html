@@ -62,30 +62,49 @@
     </style>
   </head>
   <body>
-    <main class="">
-        {% if messages %} {% for message in messages %}
-        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
-          <div class="">{{ message }}</div>
-          <button class="btn rounded" onclick="closeMessage();">x</button>
-        </div>
-        {% endfor %} {% endif %}
-        <aside class="side-bar">
-          <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+    <main class="mt-2">
+        <aside class="side-bar d-none d-lg-block">
+          <a class="navbar-brand mx-5" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
             <img src="{% static 'img/Logo.png' %}" alt="logo" />
           </a>
-          <div class="navbar flex-column flex-start p-0">
-              <a class="navbar-item btn" role="button" href="#House"><i class="bi bi-house"></i></a>
-              <a class="navbar-item btn" role="button" href="#Review"><i class="bi bi-clipboard-check"></i></a>
-              <a class="navbar-item btn" role="button" href="#Account"><i class="bi bi-gear"></i></a>
+          <div class="navbar">
+              <a class="navbar-item btn" role="button" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
+              <a class="navbar-item btn" role="button" href="#Review" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
+              <a class="navbar-item btn" role="button" href="#Account" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
           </div>
         </aside>
         <section id="wrapper">
-          <nav class="content-nav"></nav>
+          <nav class="content-nav d-flex justify-content-sm-between justify-content-lg-end">
+            <a class="navbar-brand d-lg-none" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+            <img src="{% static 'img/Logo.png' %}" alt="logo" />
+          </a>
+            <div class="dropdown user">
+              <button class="btn dropdown-toggle p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{% static 'img/user.png' %}" alt="user icon" style="width: 20%;"> {% user_display user %}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item text-danger" href="{% url 'account_logout' %}">Logout <i class="bi bi-box-arrow-right"></i></a>
+              </div>
+            </div>
+          </nav>
+          <div class="navbar d-lg-none">
+              <a class="navbar-item btn" role="button" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
+              <a class="navbar-item btn" role="button" href="#Review" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
+              <a class="navbar-item btn" role="button" href="#Account" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
+          </div>
+        {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
+          <div class="">{{ message }}</div>
+          <button id="closeMessage" class="btn rounded">x</button>
+        </div>
+        {% endfor %} {% endif %}
+                  
+        {% block content %}{% endblock content %}
+
         </section>
 
 
 
-        {% block content %}{% endblock content %}
     </main>
     <script
       type="text/javascript"

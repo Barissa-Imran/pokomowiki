@@ -9,8 +9,9 @@ class Profile(models.Model):
     avatar = models.ImageField(
         default='default.png', upload_to='profile_images')
     bio = models.TextField()
+    reputation = models.IntegerField(blank=True)
 
     def __str__(self):
         return self.user.username
 
-        # remember to instaall pillow
+

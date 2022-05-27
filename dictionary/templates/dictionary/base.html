@@ -145,13 +145,13 @@
               type="text"
             />
           </form>
-          <a href="{% url 'add' %}">
+          <a href="{% url 'add' %}" data-toggle="tooltip" data-delay="0" data-placement="bottom" title="Add Word">
             <img src="{% static 'img/plus-circle-fill.svg' %}" alt="Add" />
           </a>
-          <a href="{% url 'random' %}">
+          <a href="{% url 'random' %}" data-toggle="tooltip" data-delay="0" data-placement="right" title="Random Word">
             <img src="{% static 'img/random.svg' %}" alt="random" />
           </a>
-          <a href="{% url 'profile' %}">
+          <a href="{% if user.is_authenticated %}{% url 'profile' pk=user.id username=user.username %}{% else %}{% url 'account_login'  %}{% endif %}" data-toggle="tooltip" data-delay="0" data-placement="right" title="Account">
             <img src="{% static 'img/user.svg' %}" alt="profile" />
           </a>
         </div>

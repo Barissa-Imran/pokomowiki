@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load account %}
 {% load account socialaccount %}
+{% user_display user as user_display %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,9 +69,9 @@
             <img src="{% static 'img/Logo.png' %}" alt="logo" />
           </a>
           <div class="navbar">
-              <a class="navbar-item btn" role="button" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
-              <a class="navbar-item btn" role="button" href="#Review" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
-              <a class="navbar-item btn" role="button" href="#Account" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'profile' pk=user.id username=user.username %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'review' %}" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'settings' %}" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
           </div>
         </aside>
         <section id="wrapper">
@@ -88,9 +89,9 @@
             </div>
           </nav>
           <div class="navbar d-lg-none">
-              <a class="navbar-item btn" role="button" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
-              <a class="navbar-item btn" role="button" href="#Review" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
-              <a class="navbar-item btn" role="button" href="#Account" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'profile' pk=user.id username=user.username %}" data-toggle="tooltip" data-placement="bottom" title="Profile Home"><i class="bi bi-house"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'review' %}" data-toggle="tooltip" data-placement="right" title="Word Review"><i class="bi bi-clipboard-check"></i></a>
+              <a class="navbar-item btn" role="button" href="{% url 'settings' %}" data-toggle="tooltip" data-placement="right" title="Account Settings"><i class="bi bi-gear"></i></a>
           </div>
         {% if messages %} {% for message in messages %}
         <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">

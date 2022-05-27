@@ -22,16 +22,16 @@ class IndexView(TemplateView):
         form = LoginForm()
 
         # count votes and add them to terms context--
-        terms = Term.objects.all().annotate(
-            upvotes_count=Count('upvote', distinct=True,
-                                filter=Q(approved=True)),
+        terms = Term.objects.filter(approved=True).annotate(
+            upvotes_count=Count('upvote', distinct=True),
             downvotes_count=Count(
-                'downvote', distinct=True, filter=Q(approved=True))
+                'downvote', distinct=True)
         )[:10]
 
         context.update({
             'terms': terms,
             'form': form,
+            'user': self.request.user
         })
 
         return context
@@ -104,11 +104,12 @@ class IndexView(TemplateView):
             num_downvotes = Term.objects.all().annotate(
                 downvotes_count=Count('downvote')
             )
+            index = int(term_id) - 1 #fix this for when not all words are approved according to id (might loop differently)
 
             # convert data to json to be sent to jquery(client)
             data = json.dumps({
-                'num_upvotes': num_upvotes[0].upvotes_count,
-                'num_downvotes': num_downvotes[0].downvotes_count,
+                'num_upvotes': num_upvotes[index].upvotes_count,
+                'num_downvotes': num_downvotes[index].downvotes_count,
                 'message': "Report submitted successfully"
             })
 

@@ -109,15 +109,15 @@
                 </p>
               </div>
               <!-- Other definations section -->
-                 {% if term.other_definations %}
+                 {% if term.other_definitions %}
                 <div class="other mb-5 rounded">
                   <div class="shape mb-2 p-">
-                    <h5">Definations of <span>{{ term.word|title }}</span><h5>
+                    <h5>Definations of <span>{{ term.word|title }}</span><h5>
                   </div>
                   <!-- Other definations -->
                   <div class="other-def">
                     <ol>
-                      <li>{{ term.other_definations }}</li>
+                      <li>{{ term.other_definitions }}</li>
                     </ol>
                   </div>
                 </div>
@@ -128,7 +128,7 @@
               <div class="contributor">
                 <p class="author">
                   by
-                  <a href="#author">{{ term.author }}</a>
+                  <a href="{% url 'profile' pk=term.author.id username=term.author %}">{{ term.author }}</a>
                   {{ term.date }}
                 </p>
               </div>
@@ -158,23 +158,23 @@
                 <form class="vote d-flex" method="POST">
                   {% csrf_token %}
                   <button
-                    id="upVote"
-                    class="btn d-flex gap-2 thumbsUp"
-                    aria-label="Up vote"
+                    id="upVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsUp upVote"
+                    aria-label="upVote"
                     data-termid="{{ term.id }}"
                     {% comment %} type="submit" {% endcomment %}
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.upvotes_count }}</i>
+                    <i class="fas fa-thumbs-up {{ term.id }}"> {{ term.upvotes_count }}</i>
                   </button>
                   <button
-                    id="downVote"
-                    class="btn d-flex gap-2 thumbsDown"
-                    aria-label="Down vote"
+                    id="downVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsDown downVote"
+                    aria-label="downVote"
                     data-termid="{{ term.id }}"
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{ term.downvotes_count }}</i>
+                    <i class="fas fa-thumbs-down {{ term.id }}"> {{ term.downvotes_count }}</i>
                   </button>
                 </form>
                 <div class="flag">
@@ -183,7 +183,7 @@
                     class="btn d-flex gap-2 btn-flag" 
                     aria-label="flag" 
                     data-termid="{{ term.id }}"
-                    onclick="{% if user.is_authenticated %}flag();{% else %}login();{% endif %}">
+                    onclick="{% if user.is_authenticated %}flag({{term.id}});{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

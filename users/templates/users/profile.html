@@ -1,21 +1,23 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% load account %}
-
+{% user_display user as user_display %}
 {% block title %}
-<title> User Profile | Pokomo Dictionary & Wiki</title>
+<title> {{profile.user}} - Profile | Pokomo Dictionary & Wiki</title>
 {% endblock title %}
 {% block content %}
 <section class="mt-5">
     <div class="d-flex mb-4 gap-2">
     <h3 class="">Profile</h3>
-    <button class="btn-sm badge bg-success btn">Switch account</button>
+    {% if user.id != profile.user.id %}
+    <a class="btn-sm btn-success btn" href="{% url 'profile' pk=user.id username=user.username  %}" role="button">Switch account</a>
+    {% else %}{% endif %}
     </div>
     <div class="row gap-2">
         <div class="col-md-4 d-flex flex-column align-items-center user-box">
             <img src="{% static 'img/profile.svg' %}" alt="profile" style="width:50%;">
-            <p class="text-center mt-4">Welcome back,<br>
-            <span class="username">{% user_display user %}.</span></p>
+            <p class="text-center mt-4">{% if profile.user|stringformat:"s" == user_display %}Welcome back,{% else %}You are currently viewing:{% endif %} <br>
+            <span class="username">{{ profile.user }}.</span></p>
             <a class="btn btn-settings mt-3" href="#" role="button">Settings</a>
         </div>
         <div class="col-md-7">
@@ -23,10 +25,10 @@
             <div class="row gap-2">
                 <div class="summary-box co col-sm-5">
                     <p class="summary-h2">REPUTATION</p>
-                    <p class="badge bg-success">35</p>
+                    <p class="badge bg-success" data-toggle="tooltip" data-placement="right" title="Earned from your participation on our site">{{ profile.reputation }}</p>
                     <div class="d-flex gap-2 justify-content-between">
                         <p class="votes-cast">11<br><span class="small"> Votes cast</p>
-                        <p class="votes-cast">0<br><span class="small"> Helpful flags</p>
+                        <p class="votes-cast">{{ flags.count }}<br><span class="small"> Helpful flags</p>
                     </div>
                 </div>
                 <div class="summary-box co col-sm-6">

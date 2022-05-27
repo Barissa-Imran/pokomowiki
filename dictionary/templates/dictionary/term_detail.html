@@ -108,15 +108,15 @@
                 </p>
               </div>
               <!-- Other definations section -->
-                 {% if term.other_definations %}
+                 {% if term.other_definitions %}
                 <div class="other mb-5 rounded">
                   <div class="shape mb-2 p-">
-                    <h5">Definations of <span>{{ object.word|title }}</span><h5>
+                    <h5>Definations of <span>{{ object.word|title }}</span><h5>
                   </div>
                   <!-- Other definations -->
                   <div class="other-def">
                     <ol>
-                      <li>{{ object.other_definations }}</li>
+                      <li>{{ object.other_definitions }}</li>
                     </ol>
                   </div>
                 </div>
@@ -127,7 +127,7 @@
               <div class="contributor">
                 <p class="author">
                   by
-                  <a href="#author">{{ object.author }}</a>
+                  <a href="{% url 'profile' pk=term.author.id username=term.author %}">{{ object.author }}</a>
                   {{ object.date }}
                 </p>
               </div>

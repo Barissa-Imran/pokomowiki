@@ -67,6 +67,10 @@ main {
 .navbar-brand img {
   width: 80%;
 }
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -133,12 +137,18 @@ main {
 .content .other .shape {
   border-bottom: 40px solid #14AFDF;
   border-right: 25px solid transparent;
-  transform: rotateX(180deg);
+  -webkit-transform: rotateX(180deg);
+  -moz-transform: rotateX(180deg);
+  -ms-transform: rotateX(180deg);
+  -o-transform: rotateX(180deg);
   height: 0;
   width: fit-content;
 }
 .content .other .shape h5 {
-  transform: rotateX(180deg);
+  -webkit-transform: rotateX(-180deg);
+    -moz-transform: rotateX(-180deg);
+    -ms-transform: rotateX(-180deg);
+    -o-transform: rotateX(-180deg);
   color: #fff;
 }
 .content .other .shape h5 span {

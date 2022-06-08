@@ -67,7 +67,7 @@ main {
 .navbar-brand img {
   width: 80%;
 }
-.dropdown:hover .dropdown-menu {
+.ddBrowse:hover .dropdown-menu {
   display: block;
   margin-top: 0;
 }
@@ -85,7 +85,15 @@ main {
   color: #fff !important;
   background-color: #7143c2;
 } 
-
+/* ---------------Base2 html */
+.ddMore:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+.ddMore .dropdown-menu {
+  font-size: smaller !important;
+}
+/* --------------------------- */
 .content .row .definition {
   background-color: #eae5ff;
 }

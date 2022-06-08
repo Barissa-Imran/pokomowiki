@@ -111,4 +111,14 @@ body {
     font-weight: 500;
 }
 
-
+/* Review page styles-------------------- */
+.vote-count {
+    border-radius: 5px;
+    border: 1px solid #2C2C2A;
+    width: 30px;
+    height: 30px;
+    padding: 5px !important;
+}
+.review-word {
+    text-decoration: none;
+}

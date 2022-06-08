@@ -157,24 +157,24 @@
                 <form class="vote d-flex" method="POST">
                   {% csrf_token %}
                   <button
-                    id="upVote"
-                    class="btn d-flex gap-2 thumbsUp"
-                    aria-label="Up vote"
+                    id="upVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsUp upVote"
+                    aria-label="upVote"
                     data-termid="{{ term.id }}"
                     {% comment %} type="submit" {% endcomment %}
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.upvote.count }}</i>
+                    <i class="fas fa-thumbs-up {{ term.id }}"> {{ term.upvote.count }}</i>
                   </button>
                   <button
-                    id="downVote"
-                    class="btn d-flex gap-2 thumbsDown"
-                    aria-label="Down vote"
+                    id="downVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsDown downVote"
+                    aria-label="downVote"
                     data-termid="{{ term.id }}"
                     type="submit"
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{ term.downvote.count }}</i>
+                    <i class="fas fa-thumbs-down {{ term.id }}"> {{ term.downvote.count }}</i>
                   </button>
                 </form>
                 <div class="flag">
@@ -183,7 +183,7 @@
                     class="btn d-flex gap-2 btn-flag" 
                     aria-label="flag" 
                     data-termid="{{ term.id }}"
-                    onclick="{% if user.is_authenticated %}flag();{% else %}login();{% endif %}">
+                    onclick="{% if user.is_authenticated %}flag({{ term.id }});{% else %}login();{% endif %}">
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

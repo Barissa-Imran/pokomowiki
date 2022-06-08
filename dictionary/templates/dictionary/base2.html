@@ -72,46 +72,27 @@
           <!-- mini navbar -->
           <ul class="d-flex">
             <li class="">
-              <div class="dropdown ddBrowse">
-                <a class="dropdown-toggle" type="button" id="dropdownMenuBrowse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Browse
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuBrowse">
-                  <div class="d-flex flex-wrap gap-1 align-items-center justify-content-around">
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='A' %}">A</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='B' %}">B</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='C' %}">C</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='D' %}">D</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='E' %}">E</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='F' %}">F</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='G' %}">G</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='H' %}">H</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='I' %}">I</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='J' %}">J</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='K' %}">K</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='L' %}">L</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='M' %}">M</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='N' %}">N</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='O' %}">O</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='P' %}">P</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='Q' %}">Q</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='R' %}">R</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='S' %}">S</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='T' %}">T</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='U' %}">U</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='V' %}">V</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='W' %}">W</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='X' %}">X</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='Y' %}">Y</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='Z' %}">Z</a>
-                  <a class="dropdown-item btn btn-circle" href="{% url 'browse' char='*' %}">*</a>
-                  <div>
-            </li>
-            <li class="">
               <a href="#Wiki"> Wiki </a>
             </li>
             <li class="">
+              <a href="{% url 'tos' %}"> Terms </a>
+            </li>
+            <li class="">
+              <a href="{% url 'privacy' %}"> Privacy </a>
+            </li>
+            <li class="">
               <a href="{% url 'about' %}"> About </a>
+            </li>
+            <li>
+                <div class="dropdown ddMore">
+                <a class="dropdown-toggle" type="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  More
+                </a>
+                <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuMore">
+                    <a href="{% url 'content_guidelines' %}">Content Guidelines</a>
+                    <a href="{% url 'editor' %}">Rejection</a>
+                    <div><a href="{% url 'dmca' %}"> dmca </a></div>
+                </div>
             </li>
           </ul>
         </div>

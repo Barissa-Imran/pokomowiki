@@ -159,23 +159,23 @@
                 <form class="vote d-flex" method="POST">
                   {% csrf_token %}
                   <button
-                    id="upVote"
-                    class="btn d-flex gap-2 thumbsUp"
-                    aria-label="Up vote"
+                    id="upVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsUp upVote"
+                    aria-label="upVote"
                     data-termid="{{ term.id }}"
                     {% comment %} type="submit" {% endcomment %}
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-up"> {{ term.upvotes_count }}</i>
+                    <i class="fas fa-thumbs-up {{ term.id }}"> {{ term.upvotes_count }}</i>
                   </button>
                   <button
-                    id="downVote"
-                    class="btn d-flex gap-2 thumbsDown"
-                    aria-label="Down vote"
+                    id="downVote{{ term.id }}"
+                    class="btn d-flex gap-2 thumbsDown downVote"
+                    aria-label="downVote"
                     data-termid="{{ term.id }}"
                     onclick="{% if user.is_authenticated %}vote();{% else %}login();{% endif %}"
                   >
-                    <i class="fas fa-thumbs-down"> {{ term.downvotes_count }}</i>
+                    <i class="fas fa-thumbs-down {{ term.id }}"> {{ term.downvotes_count }}</i>
                   </button>
                 </form>
                 <div class="flag">

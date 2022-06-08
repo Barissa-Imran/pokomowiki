@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView, DetailView
 from dictionary.models import Term, Flag
+from users.models import Profile
 from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from random import choice
 from allauth.account.forms import LoginForm
 import json
@@ -39,11 +40,18 @@ class IndexView(TemplateView):
     def post(self, request, *args, **kwargs):
         # check if user is authenticated
         if request.user.is_authenticated:
+            term_id = request.POST.get('term_id')
             # is_ajax() method deprecated in this version of django hence wrote my own
             def is_ajax(request):
                 return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
             if is_ajax(request=request):
+                term_id = request.POST.get('term_id')
+                term = get_object_or_404(Term, pk=int(term_id))
+                auth_profile = Profile.objects.get(user=term.author)
+
+                # get profile
+                profile = Profile.objects.get(user=request.user)
                 if request.POST.get('form') == "vote":
                     term_id = request.POST.get('term_id')
                     term = get_object_or_404(Term, pk=int(term_id))
@@ -54,11 +62,18 @@ class IndexView(TemplateView):
                     userDownVotes = term.downvote.filter(
                         id=request.user.id).count()
 
+
                     if vote_type == "upVote":
                         if userUpVotes == 0 and userDownVotes == 0:
                             term.upvote.add(request.user)
+                            profile.reputation += 2
+                            auth_profile.reputation += 2
+                            profile.save()
                         elif userUpVotes == 1:
                             term.upvote.remove(request.user)
+                            profile.reputation -= 2
+                            auth_profile.reputation -= 2
+                            profile.save()
                         elif userDownVotes == 1 and userUpVotes == 0:
                             term.downvote.remove(request.user)
                             term.upvote.add(request.user)
@@ -66,8 +81,14 @@ class IndexView(TemplateView):
                     elif vote_type == "downVote":
                         if userDownVotes == 0 and userUpVotes == 0:
                             term.downvote.add(request.user)
+                            profile.reputation += 2
+                            auth_profile.reputation += 2
+                            profile.save()
                         elif userDownVotes == 1:
                             term.downvote.remove(request.user)
+                            profile.reputation -= 2
+                            auth_profile.reputation -= 2
+                            profile.save()
                         elif userUpVotes == 1 and userDownVotes == 0:
                             term.upvote.remove(request.user)
                             term.downvote.add(request.user)
@@ -90,10 +111,16 @@ class IndexView(TemplateView):
                             flag = Flag(word=term, reason=reason,
                                         other_reason=other_reason, flagged_by=user)
                             flag.save()
+                            profile.reputation += 5
+                            auth_profile.reputation -= 1
+                            profile.save()
                     else:
                         flag = Flag(word=term, reason=reason,
                                     other_reason=other_reason, flagged_by=user)
                         flag.save()
+                        profile.reputation += 5
+                        auth_profile.reputation -= 1
+                        profile.save()
             else:
                 pass
 
@@ -104,12 +131,26 @@ class IndexView(TemplateView):
             num_downvotes = Term.objects.all().annotate(
                 downvotes_count=Count('downvote')
             )
-            index = int(term_id) - 1 #fix this for when not all words are approved according to id (might loop differently)
 
+            # get index of term in results for json
+            def search(term_id):
+                try:
+                    term = get_object_or_404(Term, pk=int(term_id))
+                    up = list(num_upvotes).index(term)
+                    down = list(num_downvotes).index(term)
+                    index = {
+                        'upvote': up,
+                        'downvote': down
+                    }
+                    return index
+                except ValueError:
+                    return 'not found'
+            
+            index= search(term_id)
             # convert data to json to be sent to jquery(client)
             data = json.dumps({
-                'num_upvotes': num_upvotes[index].upvotes_count,
-                'num_downvotes': num_downvotes[index].downvotes_count,
+                'num_upvotes': num_upvotes[index['upvote']].upvotes_count,
+                'num_downvotes': num_downvotes[index['downvote']].downvotes_count,
                 'message': "Report submitted successfully"
             })
 
@@ -121,7 +162,7 @@ class IndexView(TemplateView):
         # is_ajax() method deprecated in this version of django hence wrote my own
         def is_ajax(request):
             return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
-        
+
         # check if cookies are working on browser
         request.session.set_test_cookie()
 
@@ -131,22 +172,26 @@ class IndexView(TemplateView):
             request.session.delete_test_cookie()
 
             request.session['has_voted'] = False
-       
+
             if is_ajax(request=request):
-                
+
                 term_id = request.GET.get('term_id')
                 button = request.GET.get('button')
 
                 request.session['term_id'] = term_id
                 request.session['button'] = button
                 request.session['has_voted'] = True
-                
+
+                print(request.session['has_voted'])
+
             else:
                 pass
         else:
             return HttpResponse("Our site uses cookies. Please enable cookies and try again.")
-        
+
         return super().get(request, *args, **kwargs)
+
+
 class RandomView(TemplateView):
     template_name = 'dictionary/random.html'
 
@@ -206,26 +251,27 @@ class BrowseView(TemplateView):
                 'downvote', distinct=True, filter=Q(approved=True))
         )
 
-        context["terms"] = terms 
+        context["terms"] = terms
         context['char'] = char
         return context
-    
+
     def post(BrowseView, request, *args, **kwargs):
         # reference the post method from Index view
         return IndexView.post(BrowseView, request, *args, **kwargs)
+
 
 class TermCreateView(CreateView):
     """This class allows a user to define a new word"""
     model = Term
     form_class = TermForm
 
-    # def get_success_url(self):
-    #     term = self.object.id
-    #     return reverse("define", args=(term,))
-
     def form_valid(self, form):
         try:
             form.instance.author = self.request.user
+
+            # profile = Profile.objects.get(user=self.request.user)
+            # profile.reputation += 15
+            # after approval
         except:
             pass
         return super().form_valid(form)
@@ -242,7 +288,6 @@ class TermDetailView(DetailView):
 class TermUpdateView(UpdateView):
     """ view to update word definitions"""
     model = Term
-    # template_name = 'dictionary/term_form.html'
     form_class = TermForm
 
     def form_valid(self, form):
@@ -255,4 +300,4 @@ class TermUpdateView(UpdateView):
 
 class TermDeleteView(DeleteView):
     model = Term
-    success_url = "dictionary/index.html"
+    success_url = HttpResponseRedirect("dictionary/index.html")

@@ -1,0 +1,135 @@
+{% extends 'users/base.html' %}
+{% block title %} <title>Word review | Pokomo dictionary & Wiki</title> {% endblock title %}
+{% block content %}
+<section class="mt-5">
+    <div class="row gap-2">
+        <div class="col-md-4 mb-4">
+            <div class="d-flex gap-2">
+                <h5>Words</h5>
+                <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}">Review Words</a>
+            </div>
+            {% if terms %}
+            {% for term in terms %}
+            <div class="d-flex gap-4 bg-white small p-2 border-bottom">
+                {% if term.upvotes_count %}
+                    {% if term.upvotes_count > term.downvotes_count %}
+                        <p class="vote-count bg-success text-center text-white align-self-center" style="border: none;">{{ term.upvotes_count }}</p>
+                    {% else %}
+                        <p class="vote-count align-self-center text-center">-{{ term.downvotes_count }}</p>
+                    {% endif %}
+                {% else %}
+                    {% if term.downvotes_count %}
+                        <p class="vote-count align-self-center text-center">-{{ term.downvotes_count }}</p>
+                    {% else %}
+                        <p class="vote-count align-self-center text-center">{{ term.downvotes_count|default:"0" }}</p>
+                    {% endif %}
+                {% endif %}
+                <a class="review-word align-self-center" href="{{ term.get_absolute_url }}">{{ term.word|title }}</a>
+                <p class="text-muted mx-auto align-self-end">{{ term.date }}</p>
+            </div>
+            {% endfor %}
+            
+            {% else %}
+            <div class="bg-white small p-4 text-center">
+                <p>You have no words to display</p>
+                    <a class="" href="{% url 'add' %}">Add a word now</a>
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-between">
+            <h5>Flags</h5>
+            <ul class="nav nav-tabs small" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button
+                    class="nav-link active border"
+                    id="flag-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#flag"
+                    type="button"
+                    role="tab"
+                    aria-controls="flag"
+                    aria-selected="true"
+                    >
+                    flag
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                    class="nav-link border"
+                    id="myFlags-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#myFlags"
+                    type="button"
+                    role="tab"
+                    aria-controls="myFlags"
+                    aria-selected="false"
+                    >
+                    My flags
+                    </button>
+                </li>
+            </ul>
+        </div>
+            <div class="bg-white small p-4">
+                <div class="tab-content" id="myTabContent">
+                     <div
+                        class="tab-pane fade show active"
+                        id="flag"
+                        role="tabpanel"
+                        aria-labelledby="flag-tab"
+                    >
+                    {% if flags %}
+                    {% for flag in flags %}
+                    <div class="d-flex justify-content-between border-bottom">
+                    <p class="badge bg-primary">{{ flag.word| truncatechars:10  }}</p>
+                    <p>{{ flag.reason }}</p>
+                    <p class="text-muted">{{ flag.date| date:"M d, Y" }}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    
+                        <p class="text-center">You have no flags yet</p>
+                        <i class="bi bi-check-circle text-success lead text-center"></i>
+                        <p class="text-center">Read our <a class="" href="{% url 'content_guidelines' %}">Content guidelines</a></p>
+                    
+                    {% endif %}
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="myFlags"
+                        role="tabpanel"
+                        aria-labelledby="myFlags-tab"
+                    >
+                    {% if my_flags %}
+                    {% for flag in my_flags %}
+                    <div class="d-flex justify-content-between border-bottom">
+                    <p class="badge bg-primary">{{ flag.word| truncatechars:10  }}</p>
+                    <p>{{ flag.reason }}</p>
+                    <p class="text-muted">{{ flag.date| date:"M d, Y" }}</p>
+                    </div>
+                    {% endfor %}
+
+
+                    {% else %}
+                    
+                        <p class="text-center">You have no flags yet</p>
+                        <i class="bi bi-check-circle text-center text-success lead"></i>
+                        <p class="text-center">Read our <a class="" href="{% url 'content_guidelines' %}">Content guidelines</a></p>
+                    
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h5>Reputation</h5>
+            <div class="bg-white small p-4">
+                <p class="small text-muted"> Reputation is earned everytime you interact with the site</p>
+                <a class="small" href="{% url 'about' %}">Learn more</a>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

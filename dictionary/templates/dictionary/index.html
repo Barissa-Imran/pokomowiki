@@ -179,11 +179,11 @@
                 </form>
                 <div class="flag">
                   <button 
-                    id="btn-flag"
+                    id="btn-flag{{ term.id }}"
                     class="btn d-flex gap-2 btn-flag" 
                     aria-label="flag" 
                     data-termid="{{ term.id }}"
-                    onclick="{% if user.is_authenticated %}flag({{term.id}});{% else %}login();{% endif %}">
+                    >
                     <i class="fas fa-flag"> FLAG</i>
                   </button>
                 </div>

@@ -35,9 +35,9 @@
     />
     <!-- <meta property="og:image" href="link" /> -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,300&display=swap"
-      rel="stylesheet"
-    />
+      href="<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
@@ -99,9 +99,14 @@
             title="Account Settings"
             ><i class="bi bi-gear"></i
           ></a>
+
+          {% if usergroup == 'Editor' %}
+            <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}">Review Words</a>
+          {% endif %}
+
         </div>
       </aside>
-      <section id="wrapper">
+      <section id="wrapper" class="">
         <nav
           class="content-nav d-flex justify-content-sm-between justify-content-lg-end"
         >
@@ -166,6 +171,13 @@
             ><i class="bi bi-gear"></i
           ></a>
         </div>
+        {% if usergroup == 'Editor' %}
+        
+        <div class="d-flex justify-content-center d-lg-none mt-2">
+          <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}">Review Words</a>
+        </div>
+
+        {% endif %}
         {% if messages %} {% for message in messages %}
         <div
           id="message"
@@ -174,7 +186,8 @@
           <div class="">{{ message }}</div>
           <button id="closeMessage" class="btn rounded">x</button>
         </div>
-        {% endfor %} {% endif %} {% block content %}{% endblock content %}
+        {% endfor %} {% endif %}
+         {% block content %}{% endblock content %}
       </section>
     </main>
     <script

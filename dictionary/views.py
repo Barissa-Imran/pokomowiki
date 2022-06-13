@@ -27,7 +27,7 @@ class IndexView(TemplateView):
             upvotes_count=Count('upvote', distinct=True),
             downvotes_count=Count(
                 'downvote', distinct=True)
-        )[:10]
+        ).order_by('-date')[:10]
 
         context.update({
             'terms': terms,

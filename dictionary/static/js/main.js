@@ -122,9 +122,10 @@ $(document).ready(function () {
 
   vote();
 
-  $(".flag button").on("click", () => {
+  $("button[aria-label='flag']").on("click", function (e) {
     let logged = $(".vote button").attr("onclick");
     let term_id = $(this).attr("data-termid");
+
     if (logged === "vote();") {
 
       var blur = document.getElementById("blur");

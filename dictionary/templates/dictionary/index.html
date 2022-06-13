@@ -104,7 +104,7 @@
                 <p class="mean">
                   {{ term.definition }}
                 </p>
-                <p class="example">
+                <p class="example fw-light">
                   <em>"{{term.example}}"</em>
                 </p>
               </div>
@@ -117,7 +117,7 @@
                   <!-- Other definations -->
                   <div class="other-def">
                     <ol>
-                      <li>{{ term.other_definitions }}</li>
+                      <p class="fw-light">{{ term.other_definitions }}</p>
                     </ol>
                   </div>
                 </div>
@@ -180,7 +180,7 @@
                 <div class="flag">
                   <button 
                     id="btn-flag{{ term.id }}"
-                    class="btn d-flex gap-2 btn-flag" 
+                    class="btn d-flex gap-2 btn-flag {% if user == term.author %} disabled {% else %} {% endif %}" 
                     aria-label="flag" 
                     data-termid="{{ term.id }}"
                     >

@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
@@ -46,7 +47,6 @@ class Term(models.Model):
         return reverse("term_detail", kwargs={
             "pk": self.pk
         })
-
 
 class Vote(models.Model):
     """store votes for words from different users"""

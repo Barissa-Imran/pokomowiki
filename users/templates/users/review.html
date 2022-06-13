@@ -1,1 +1,92 @@
 {% extends 'users/base.html' %}
+{% load static %}
+{% block title %}
+<title> Editor-Review | Pokomo Dictionary & Wiki</title>
+{% endblock title %}
+{% block content %}
+<section class="mt-5">
+    <div id="approveMessage" class="p-2 mb-2 d-flex gap-4 justify-content-center align-content-center d-none sticky-top rounded small"
+        style="box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25);
+                -webkit-box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25);
+                -moz-box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25); top:20px; width: fit-content;"
+    >
+        <p class=""></p>
+        <i class="close-btn bi bi-x"></i>
+    </div>
+    
+    <div class="row gap-2">
+
+    {% for term in terms %}
+    <div class="col-md-3">
+
+    <div class="accordion" id="accordion{{ term.id }}">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{term.id}}">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{term.id}}" aria-expanded="true" aria-controls="collapse{{term.id}}">
+        {{ term.word|title }}
+      </button>
+    </h2>
+    <div id="collapse{{term.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{term.id}}" data-bs-parent="#accordion{{term.id}}">
+      <div class="accordion-body">
+
+        <div class="source mb-4">
+            <p class="subTribe">
+                Sub-Tribe:
+                <a href="#subtribeWiki">{{term.language}}</a>
+            <br>
+            <span class="clan">
+                Clan:
+                <a href="#clanWiki">{{ term.clan }}</a>
+            </span></p>
+        </div>
+        <div class="meaning mb-5">
+            <p class="mean">
+                {{ term.definition }}
+            </p>
+            <p class="example fw-light">
+                <em>"{{term.example}}"</em>
+            </p>
+        </div>
+        <!-- Other definations section -->
+                 {% if term.other_definitions %}
+                <div class="other mb-5 rounded p-2 border">
+                  <div class="shape mb-2 p-">
+                    <h5 class="border-bottom">Definations of <span>{{ term.word|title }}</span></h5>
+                  </div>
+                  <!-- Other definations -->
+                  <div class="other-def">
+                    <ol>
+                      <p class="fw-light">{{ term.other_definitions }}</p>
+                    </ol>
+                  </div>
+                </div>
+
+                {% else %}
+                {% endif %}
+        <div class="contributor">
+                <p class="author">
+                  by
+                  <a href="{% url 'profile' pk=term.author.id username=term.author %}">{{ term.author }}</a>
+                  {{ term.date }}
+                </p>
+              </div>
+            {% csrf_token %}
+            <a class="btn btn-success btn-sm approve" data-termId="{{term.id}}">Approve</a>
+            <a class="btn btn-info btn-sm" href="{% url 'term_update' pk=term.id %}">Edit</a>
+            <a class="btn btn-danger btn-sm" data-termId="{{term.id}}">Reject</a>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    {% endfor %}
+</div>
+</section>
+{% endblock content %}
+{% block extraScript %}
+<script type="text/javascript" src="{% static 'js/review.js' %}"></script>
+{% endblock extraScript %}

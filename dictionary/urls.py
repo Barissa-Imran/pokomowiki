@@ -14,6 +14,7 @@ urlpatterns = [
 
     re_path('term/(?P<pk>[^/]+)\Z', views.TermDetailView.as_view(), name='term_detail'),
     path('add', views.TermCreateView.as_view(), name='add'),
+    path('submit', views.SubmitView.as_view(), name='submit'),
     re_path(r'(?P<pk>[^/]+)/update',
          views.TermUpdateView.as_view(), name='term_update'),
     re_path('term/(?P<pk>[^/]+)/delete',

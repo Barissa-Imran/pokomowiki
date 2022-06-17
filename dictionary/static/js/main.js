@@ -40,6 +40,9 @@ $(document).ready(function () {
   $().dropdown("hide");
   $(".Search").focus();
 
+  // show tooltip
+ $("[rel=tooltip]").tooltip({ placement:'bottom', html: true });
+
   // Vote functionality
   function vote() {
     var csrf = $("input[name=csrfmiddlewaretoken]").val();
@@ -189,20 +192,17 @@ $(document).ready(function () {
   });
 });
 
-// function vote() {
-//   // check to see which button is clicked
-//   $(".thumbsUp, .thumbsDown").on("click", function (e) {
-//     e.preventDefault();
-//     var button = this.getAttribute('aria-label');
 
-//     if (button === "upVote") {
-//       console.log("up");
-//       var term_id = this.getAttribute('data-termid');
-//       console.log(term_id);
-//     } else if (button === "downVote") {
-//       console.log("down");
-//     }
-//   });
-// };
-// vote()
+//close search results on click
+const popups = document.getElementById("box");
+
+window.addEventListener("click", ({ target }) => {
+  const popup = target.closest("#box");
+  console.log(popup);
+  const clickedOnClosedPopup = popup && !popup.classList.contains("d-none");
+
+  popups.classList.add("d-none");
+
+  if (clickedOnClosedPopup) popup.classList.remove("d-none");
+}); 
  

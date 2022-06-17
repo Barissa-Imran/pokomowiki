@@ -125,11 +125,11 @@
                 {% else %}
                 {% endif %}
 
-              <div class="contributor">
+              <div class="contributor small">
                 <p class="author">
                   by
-                  <a href="{% url 'profile' pk=term.author.id username=term.author %}">{{ term.author }}</a>
-                  {{ term.date }}
+                  <a href="{% url 'profile' pk=term.author.id username=term.author %}" rel="tooltip" data-html="true" title="<div class='d-flex gap-2'><p class='p-1'>{{term.author}}</p><p class='p-1 rounded bg-success'>{{term.author.profile.reputation}}</div><p class='small'>Joined: {{term.author.date_joined|date:'M d, Y'}}</p>">{{ term.author }}</a>
+                  <span class="text-muted">{{ term.date }}</span>
                 </p>
               </div>
               <div class="translation d-none">

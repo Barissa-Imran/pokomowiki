@@ -76,7 +76,7 @@
             post hate speech or people’s personal information.</strong
           >
         </p>
-        <form action="" method="post" class="d-flex flex-column gap-4 mb-4">
+        <form action="{% if user.is_authenticated %}{% else %}submit{% endif %}" method="post" class="d-flex flex-column gap-4 mb-4">
           {% csrf_token %}
           <input
             class="p-4"
@@ -93,6 +93,7 @@
             autocorrect="off"
             spellcheck="false"
             tabindex="0"
+            value="{{object.word}}"
           />
           <p>
             <strong>Write for a large audience.</strong> Lots of people will
@@ -114,9 +115,9 @@
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          ></textarea>
+          >{{object.definition|title}}</textarea>
           <textarea
-            class="p-4"
+            class="p-4 fst-italic"
             name="example"
             id="example"
             cols="50"
@@ -128,20 +129,21 @@
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          ></textarea>
+          >{{object.example|title}}</textarea>
           <textarea
             class="p-4"
             name="other_definitions"
             id="other_definitions"
             cols="50"
             rows="5"
-            placeholder="Type other definitions"
+            placeholder="Type other definitions period separated"
             autocapitalize="words"
             autocomplete="off"
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          ></textarea>
+          >{{object.other_definitions}}</textarea>
+
           <!-- <label for="language">Langauge:</label> -->
           <select class="p-1" name="language" required id="language">
             <option value="Upper Pokomo" selected>Upper Pokomo</option>

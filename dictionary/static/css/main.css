@@ -54,6 +54,21 @@ main {
   outline: none;
   border: 1px solid #7143c2;
 }
+form #box {
+  box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
+  min-height: 50%;
+}
+
+form #box a {
+  text-decoration: none;
+  color: #000;
+  width: 100% !important;
+}
+form #box a:hover {
+  background-color: #eae5ff !important;
+}
 .nav-wrapper .s-link img {
   width: 2.5pc;
   margin-left: 5px;
@@ -442,3 +457,4 @@ textarea#other_reason:focus {
 #btnReport:hover {
   color: #e4832f;
 }
+

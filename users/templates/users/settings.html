@@ -1,1 +1,49 @@
 {% extends 'users/base.html' %}
+{% load static %}
+{% block title %}
+<title>Settings | Pokomo Dictionary & Wiki</title>
+{% endblock title %}
+{% block content %}
+<section class="mt-5">
+
+       <div class="row">
+
+      <!--Grid column-->
+      <div class="col-md-3 mb-4 ">
+
+        <ul class="nav md-pills pills-secondary d-flex flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#panel11" role="tab">Link 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#panel12" role="tab">Link 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#panel13" role="tab">Link 3</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#panel14" role="tab">Link 4</a>
+          </li>
+        </ul>
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-9 mb-4">
+
+        <!-- Tab panels -->
+        <div class="tab-content pt-0">
+             <!--Panel 1-->
+          <div class="tab-pane fade in show active" id="panel11" role="tabpanel">
+            <br>
+
+          </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+{% endblock content %}

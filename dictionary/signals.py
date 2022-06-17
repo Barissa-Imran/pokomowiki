@@ -41,7 +41,30 @@ def user_logged_in(request, user, **kwargs):
                 pass
         except KeyError:
             pass
+    elif request.session.get('submit', True):
+        try:
+            # get data from session cookie
+            language = request.session['language']
+            clan = request.session['clan']
+            word = request.session['word']
+            definition = request.session['definition']
+            example = request.session['example']
+            other_definitions = request.session['other_definitions']
+
+            # create term and store
+            Term(language=language, clan=clan, word=word, definition=definition,
+                example=example, other_definitions=other_definitions)
+            try:
+                del request.session['language']
+                del request.session['clan']
+                del request.session['word']
+                del request.session['definition']
+                del request.session['example']
+                del request.session['other_definitions']
+                request.session['submit'] = False
+            except KeyError:
+                pass
+        except KeyError:
+            pass
     else:
         pass
-    
-

@@ -12,6 +12,7 @@ from allauth.account.forms import LoginForm
 import json
 from django.http import JsonResponse
 from django.db.models import Q, Count
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class IndexView(TemplateView):
@@ -28,11 +29,12 @@ class IndexView(TemplateView):
             downvotes_count=Count(
                 'downvote', distinct=True)
         ).order_by('-date')[:10]
-
+        qs_json = json.dumps(list(Term.objects.filter(approved=True).values()), indent=4, sort_keys=True, default=str)
         context.update({
             'terms': terms,
             'form': form,
-            'user': self.request.user
+            'user': self.request.user,
+            'qs_json': qs_json
         })
 
         return context
@@ -42,6 +44,7 @@ class IndexView(TemplateView):
         if request.user.is_authenticated:
             term_id = request.POST.get('term_id')
             # is_ajax() method deprecated in this version of django hence wrote my own
+
             def is_ajax(request):
                 return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
@@ -61,7 +64,6 @@ class IndexView(TemplateView):
                         id=request.user.id).count()
                     userDownVotes = term.downvote.filter(
                         id=request.user.id).count()
-
 
                     if vote_type == "upVote":
                         if userUpVotes == 0 and userDownVotes == 0:
@@ -145,8 +147,8 @@ class IndexView(TemplateView):
                     return index
                 except ValueError:
                     return 'not found'
-            
-            index= search(term_id)
+
+            index = search(term_id)
             # convert data to json to be sent to jquery(client)
             data = json.dumps({
                 'num_upvotes': num_upvotes[index['upvote']].upvotes_count,
@@ -172,6 +174,8 @@ class IndexView(TemplateView):
             request.session.delete_test_cookie()
 
             request.session['has_voted'] = False
+            # cookie for new word submission
+            request.session['submit'] = False
 
             if is_ajax(request=request):
 
@@ -198,13 +202,16 @@ class RandomView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(RandomView, self).get_context_data(**kwargs)
 
-        pks = Term.objects.values_list('pk', flat=True)
+        pks = Term.objects.filter(approved=True).values_list('pk', flat=True)
         random_pk = choice(pks)
         random_term = Term.objects.get(pk=random_pk)
         term = random_term
+        qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
+                             indent=4, sort_keys=True, default=str)
 
         context.update({
             'term': term,
+            'qs_json': qs_json
         })
 
         return context
@@ -245,14 +252,18 @@ class BrowseView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         char = self.kwargs['char']
-        terms = Term.objects.filter(word__startswith=char).annotate(
+ 
+        terms = Term.objects.filter(approved=True, word__startswith=char).annotate(
             upvotes_count=Count('upvote', distinct=True),
             downvotes_count=Count(
                 'downvote', distinct=True, filter=Q(approved=True))
         )
+        qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
+                             indent=4, sort_keys=True, default=str)
 
         context["terms"] = terms
         context['char'] = char
+        context['qs_json'] = qs_json
         return context
 
     def post(BrowseView, request, *args, **kwargs):
@@ -269,26 +280,90 @@ class TermCreateView(CreateView):
         try:
             form.instance.author = self.request.user
 
-            # profile = Profile.objects.get(user=self.request.user)
-            # profile.reputation += 15
-            # after approval
+            # submit form after login
         except:
             pass
         return super().form_valid(form)
 
+class SubmitView(TemplateView):
+    template_name = 'dictionary/submit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = LoginForm()
+              
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        url = request.META['wsgi.url_scheme']
+        host = request.get_host()
+        referer = f'{url}://{host}/add'
+        if request.META.get('HTTP_REFERER') == referer:
+            return render(request, 'dictionary/submit.html', self.get_context_data())
+        else:
+            return HttpResponse('Page Access denied')
+    def post(self, request, *args, **kwargs):
+        # check if cookies are working on browser
+        request.session.set_test_cookie()
+
+        # Check that the test cookie worked
+        if request.session.test_cookie_worked():
+            # delete the test cookie
+            request.session.delete_test_cookie()
+
+            request.session['submit'] = True
+
+            # retrieve post data
+            word = request.POST.get('word')
+            definition = request.POST.get('definition')
+            example = request.POST.get('example')
+            other_definitions = request.POST.get('other_definitions')
+            language = request.POST.get('language')
+            clan = request.POST.get('clan')
+
+            # assign data to cookie
+            request.session['word'] = word
+            request.session['definition'] = definition
+            request.session['example'] = example
+            request.session['other_definitions'] = other_definitions
+            request.session['language'] = language
+            request.session['clan'] = clan
+        else:
+            return HttpResponse("Please unblock cookies to continue")
+
+        return render(request, 'dictionary/submit.html', self.get_context_data())
 
 class TermDetailView(DetailView):
     model = Term
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
+                             indent=4, sort_keys=True, default=str)
+        
+        context['qs_json'] = qs_json
+
+        return context
 
     def post(TermDetailView, request, *args, **kwargs):
         # reference the post method from Index view
         return IndexView.post(TermDetailView, request, *args, **kwargs)
 
 
-class TermUpdateView(UpdateView):
+class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """ view to update word definitions"""
     model = Term
     form_class = TermForm
+
+    def test_func(self):
+        user = self.request.user
+        term = self.get_object
+        usergroup = None
+        usergroup = self.request.user.groups.values_list(
+            'name', flat=True).first()
+        if usergroup == 'Editor' or term.author == user:
+            return True
+        return False
 
     def form_valid(self, form):
         try:
@@ -298,6 +373,13 @@ class TermUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class TermDeleteView(DeleteView):
+class TermDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Term
     success_url = HttpResponseRedirect("dictionary/index.html")
+
+    def test_func(self):
+        user = self.request.user
+        term = self.get_object
+        if user.is_staff() or term.author == user:
+            return True
+        return False

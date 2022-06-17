@@ -66,7 +66,7 @@
     <nav id="blur2" class="nav px-2" role="navigation" style="background-color: #eae5ff">
       <div class="container mx-auto py-2 nav-wrapper">
         <div class="d-flex align-items-center">
-          <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}">
+          <a class="navbar-brand" aria-label="PokomoDictionary logo" href="{% url 'index' %}" data-toggle="tooltip" data-placement="right" title="Pokomo Dictionary Home">
             <img src="{% static 'img/Logo.png' %}" alt="logo" />
           </a>
           <!-- mini navbar -->
@@ -117,7 +117,7 @@
         </div>
         <!-- Search-bar area -->
         <div class="d-flex justify-between s-link">
-          <form action="/search.html">
+          <form action="/search.html" class="position-relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -138,13 +138,17 @@
               autocomplete="off"
               autocorrect="off"
               name="term"
-              id="term"
+              id="searchTerm"
               placeholder="Type any word here..."
               spellcheck="false"
               tabindex="0"
               type="text"
             />
+            <div id="box" class=" position-absolute rounded bg-white w-100 border d-none p-2" style="z-index: 1;">
+              
+            </div>
           </form>
+          
           <a href="{% url 'add' %}" data-toggle="tooltip" data-delay="0" data-placement="bottom" title="Add Word">
             <img src="{% static 'img/plus-circle-fill.svg' %}" alt="Add" />
           </a>
@@ -209,7 +213,7 @@
         <div class="d-flex justify-content-center my-3">
           <button id="login-btn" class="primaryAction btn btn-primary" type="submit">{% trans "Login" %}</button>
         </div>
-          <p class="text-center"><a href="{{ signup_url }}">Create Account</a></p>
+          <p class="text-center"><a href="{% url 'account_signup' %}">Create Account</a></p>
       </form>
       <div class="d-flex justify-content-between align-content-center">
         <a class="small text-muted" aria-label="PokomoDictionary logo" href="{% url 'privacy' %}">privacy</a>
@@ -267,9 +271,37 @@
       src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"
     ></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-        <!-- <script
-      src="https://kit.fontawesome.com/684f3642c3.js"
-      crossorigin="anonymous"
-    ></script> -->
+    <script>
+      {% autoescape off %}
+      const data = {{qs_json}};
+      {% endautoescape %}
+      const input = document.getElementById("searchTerm");
+
+      let filteredArr = []
+      input.addEventListener('keyup', (e)=>{
+        box.innerHTML = "";
+        box.classList.remove("d-none");
+        var fullFilteredArr = data.filter(term=> term['word'].toLowerCase().includes(e.target.value.toLowerCase()))
+        filteredArr = fullFilteredArr.slice(0, 10);
+        if (filteredArr.length > 0) {
+          filteredArr.map(term=> {
+            if (input.value) {
+              box.innerHTML += `<a class="px-2 btn d-flex gap-5 bg-light w-100" href="term/${term['id']}">
+                <p class="fw-semibold align-items-end">${term['word']}</p>
+                <p class="text-muted small">${term['language']}</p>
+                <p class="text-muted small">${term['clan']}</p>
+              </a>`
+            } else {
+              box.innerHTML = "";
+              box.classList.add("d-none");
+            };      
+          })
+        } else {
+          let word = input.value;
+          box.innerHTML = `<p class="p-2 text-center small">No results found...<br><a class="small" href="{% url 'add' %}" style="color: #7143c2;">Add "${word}" to Pokomo Dictionary</a></p>`
+        }
+      });
+
+    </script>
   </body>
 </html>

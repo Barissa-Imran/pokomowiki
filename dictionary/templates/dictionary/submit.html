@@ -1,12 +1,8 @@
-{% load static %}
-{% load crispy_forms_tags %}
-{% load i18n %}
-{% load account %}
-{% load account socialaccount %}
+{% load static %} {% load crispy_forms_tags %} {% load i18n %} {% load account %} {% load account socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
-    <!-- 
+  <!-- 
         Don't bother reading this code, you won't get anything usefull. |`_`| ---- |`_`|
         
         if you're pokomo "Odhu?"
@@ -18,25 +14,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="canonical" href="http://pokomodictionary.com> <link
-    rel="shortlink" href="http://pokomodictionary.com
+    <link rel="canonical" href="http://pokomodictionary.co.ke> <link
+    rel="shortlink" href="http://pokomodictionary.co.ke
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta property="og:url" content="http://pokomodictionary.co.ke/>
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <!-- <meta property="og:image" href="link" /> -->
+    <link href="
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="<link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
@@ -59,58 +58,80 @@
       }
     </style>
   </head>
-  <body style="background: #7143C2 !important;">
+  <body style="background: #7143c2 !important">
     <main class="">
-    <div class="d-flex justify-content-end m-sm-5 m-md-2 m-5">
+      <div class="d-flex justify-content-end m-sm-5 m-md-2 m-5">
         <a href="{% url 'add' %}" class="btn btn-close btn-light"></a>
       </div>
 
- <!-- login popup -->
+      <!-- login popup -->
 
-    <section id="popup" class="small active">
-      
-      <div class="item-container">
-        <h2 class="log-in">{% trans "Login to continue" %}</h2>
-      </div>
-      <div class="item-container">
-        {% get_providers as socialaccount_providers %}
+      <section id="popup" class="small active">
+        <div class="item-container">
+          <h2 class="log-in">{% trans "Login to continue" %}</h2>
+        </div>
+        <div class="item-container">
+          {% get_providers as socialaccount_providers %} {% if
+          socialaccount_providers %}
+          <div class="socialaccount_ballot">
+            {% comment %} <i class="fa-brands fa-google"></i> {% endcomment %}
+            <p class="socialaccount_providers">
+              {% include "socialaccount/snippets/provider_list.html" with
+              process="login" %}
+            </p>
+          </div>
 
-        {% if socialaccount_providers %}
-        <div class="socialaccount_ballot">
-          {% comment %} <i class="fa-brands fa-google"></i> {% endcomment %}
-          <p class="socialaccount_providers">
-            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+          {% include "socialaccount/snippets/login_extra.html" %} {% else %}
+          <p>
+            {% blocktrans %}If you have not created an account yet, then please
+            <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
           </p>
-
+          {% endif %}
+          <p class="login-or">{% trans 'or' %}</p>
         </div>
-
-        {% include "socialaccount/snippets/login_extra.html" %}
-
-        {% else %}
-        <p>{% blocktrans %}If you have not created an account yet, then please
-        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-        {% endif %}
-        <p class="login-or">{% trans 'or' %}</p>
-      </div>
-      <form class="login" method="POST" action="/accounts/login/?next={{request.path}}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-        <div class="d-flex justify-content-center my-3">
-          <button id="login-btn" class="primaryAction btn btn-primary" type="submit">{% trans "Login" %}</button>
+        <form
+          class="login"
+          method="POST"
+          action="/accounts/login/?next={{request.path}}"
+        >
+          {% csrf_token %} {{ form|crispy }} {% if redirect_field_value %}
+          <input
+            type="hidden"
+            name="{{ redirect_field_name }}"
+            value="{{ redirect_field_value }}"
+          />
+          {% endif %}
+          <a
+            class="button secondaryAction"
+            href="{% url 'account_reset_password' %}"
+            >{% trans "Forgot Password?" %}</a
+          >
+          <div class="d-flex justify-content-center my-3">
+            <button
+              id="login-btn"
+              class="primaryAction btn btn-primary"
+              type="submit"
+            >
+              {% trans "Login" %}
+            </button>
+          </div>
+          <p class="text-center">
+            <a href="{% url 'account_signup' %}">Create Account</a>
+          </p>
+        </form>
+        <div class="d-flex justify-content-between align-content-center">
+          <a
+            class="small text-muted"
+            aria-label="PokomoDictionary logo"
+            href="{% url 'privacy' %}"
+            >privacy</a
+          >
+          <a href="{% url 'tos' %}" class="small text-muted">
+            Terms of service</a
+          >
         </div>
-          <p class="text-center"><a href="{% url 'account_signup' %}">Create Account</a></p>
-      </form>
-      <div class="d-flex justify-content-between align-content-center">
-        <a class="small text-muted" aria-label="PokomoDictionary logo" href="{% url 'privacy' %}">privacy</a>
-        <a href="{% url 'tos' %}" class="small text-muted"> Terms of service</a>
-      </div>
-
-    </section>
-    <!-- login popup end-->
-</main>
-</body>
+      </section>
+      <!-- login popup end-->
+    </main>
+  </body>
 </html>

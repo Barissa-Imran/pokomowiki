@@ -22,19 +22,19 @@
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://pokomodictionary.com> <link
-    rel="shortlink" href="http://pokomodictionary.com
+    <link rel="canonical" href="http://pokomodictionary.co.ke> <link
+    rel="shortlink" href="http://pokomodictionary.co.ke
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta property="og:url" content="http://pokomodictionary.co.ke/>
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <!-- <meta property="og:image" href="link" /> -->
     <link
@@ -138,14 +138,16 @@
         </div>
       </div>
     </nav>
-    <!-- page content area -->
-    <main id="blur" class="content container py-4 mx-auto">
-        {% if messages %} {% for message in messages %}
-        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
+     <!-- page content area -->
+            {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} mx-auto m-2 d-flex gap-4 justify-content-center align-content-center rounded sticky-top small">
           <div class="">{{ message }}</div>
-          <button class="btn rounded" onclick="closeMessage();">x</button>
+          <i class="close-btn bi bi-x"></i>
         </div>
         {% endfor %} {% endif %}
+    <main id="blur" class="content container py-4 mx-auto">
+      {% comment %} content area {% endcomment %}
+        
 
       {% block content %}{% endblock content %}
     </main>

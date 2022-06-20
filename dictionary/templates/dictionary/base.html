@@ -7,36 +7,49 @@
 <!DOCTYPE html>
 <html lang="en">
     <!-- 
-        Don't bother reading this code, you won't get anything usefull. |`_`| ---- |`_`|
-        
-        if you're pokomo "Odhu?"
+
+        if you're pokomo 1."Odhu? kisa unitawe..."
+                         2. "Maagu? kisa unilache"
         
      -->
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    {% comment %} For Google {% endcomment %}
+    <meta name="description" content="The first Ever Pokomo dictionary. Made for the community by the community" />
+    <meta name="keywords" content="dictionary, word, pokomo, english, swahili, tanariver, tana river, malanchini, mamba, ngwena, mungatana, hola, river tana, ilwana, elwana, galole, chewani, madogo, bura, mwingi" />
+    <meta name="author" content="dvlpr69" />
+    <meta name="copyright" content="Pokomo Dictionary - 2022" />
+    <meta name="application-name" content="Pokomo Dictionary" />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://pokomodictionary.com> <link
-    rel="shortlink" href="http://pokomodictionary.com
+    <link rel="canonical" href="http://pokomodictionary.co.ke" /> 
+    <link rel="shortlink" href="http://pokomodictionary.co.ke" />
+
+    {% comment %} For Facebook {% endcomment %}
     <meta property="og:locale" content="en_GB" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="article" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | {{ object.word|default:'The first Ever Pokomo dictionary'}}"
     />
-    <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta property="og:description" content="{{ object.definition|default:'The first Ever Pokomo dictionary - Made for the community by the community' }}" />
+    <meta property="og:image" content="https://8477-196-99-112-27.in.ngrok.io/static/img/sharelogo.svg" />
+    <meta property="og:url" content="http://pokomodictionary.co.ke" />
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
-    <!-- <meta property="og:image" href="link" /> -->
+    
+    {% comment %} For Twitter {% endcomment %}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pokomo Dictionary & Wiki" />
+    <meta name="twitter:description" content="The first Ever Pokomo dictionary. Made for the community by the community" />
+    <meta name="twitter:image" content="https://a898-154-123-101-248.in.ngrok.io/static/img/Logo.png" />
+
     <link
       href="<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +57,10 @@
     <link
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"
     />
     <link rel="stylesheet" href="{% static 'vendor/fa/css/all.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
@@ -116,8 +133,8 @@
           </ul>
         </div>
         <!-- Search-bar area -->
-        <div class="d-flex justify-between s-link">
-          <form action="/search.html" class="position-relative">
+        <div class="d-flex justify-between s-link position-sm-relative">
+          <form action="/search.html" class="position-md-relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -162,13 +179,15 @@
       </div>
     </nav>
     <!-- page content area -->
-    <main id="blur" class="content container py-4 mx-auto">
-        {% if messages %} {% for message in messages %}
-        <div id="message" class="alert alert-{{message.tags}} m-2 d-flex justify-content-between">
+            {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} mx-auto m-2 d-flex gap-4 justify-content-center align-content-center rounded sticky-top small">
           <div class="">{{ message }}</div>
-          <button class="btn rounded" onclick="closeMessage();">x</button>
+          <i class="close-btn bi bi-x"></i>
         </div>
         {% endfor %} {% endif %}
+    <main id="blur" class="content container py-4 mx-auto">
+      {% comment %} content area {% endcomment %}
+
 
       {% block content %}{% endblock content %}
     </main>

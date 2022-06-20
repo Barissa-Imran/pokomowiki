@@ -40,7 +40,7 @@ $(document).ready(() => {
             });
         });
       },
-      error: function (response, status) {
+      error: function (response) {
         var data = JSON.parse(response.responseJSON["data"]);
 
         $("#approveMessage").toggleClass("d-none");

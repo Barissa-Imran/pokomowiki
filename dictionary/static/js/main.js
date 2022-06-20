@@ -38,7 +38,19 @@ $(document).ready(function () {
   // applicant dropdown button
   $(".dropdown-toggle").dropdown();
   $().dropdown("hide");
+
+  // focus search input on load
   $(".Search").focus();
+
+  // close message after delay if available
+  var $messageBox = $("#message");
+  if ($.contains(document, $messageBox[0])) {
+    $messageBox.delay(3000).slideUp('slow',()=>{
+      $messageBox.addClass("d-none")
+    });
+  } else {
+    //pass
+  };
 
   // show tooltip
  $("[rel=tooltip]").tooltip({ placement:'bottom', html: true });

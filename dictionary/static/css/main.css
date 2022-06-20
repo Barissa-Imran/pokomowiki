@@ -14,14 +14,18 @@ Orange: #E4832F
   font-family: "Poppins", sans-serif;
 }
 body {
-  overscroll-behavior-y: contain;
+  /* overscroll-behavior-y: contain; */
 }
 main {
   max-width: 970px;
   overflow-x: hidden;
 }
 #message {
-  max-width: 970px;
+  box-shadow: 11px 11px 25px -6px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 11px 11px 25px -6px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 11px 11px 25px -6px rgba(0, 0, 0, 0.25);
+    top: 20px;
+    width: fit-content;
 }
 .nav-wrapper ul li {
   color: #e4832f;
@@ -58,7 +62,7 @@ form #box {
   box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
     -webkit-box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 10px 10px 25px -8px rgba(0, 0, 0, 0.75);
-  min-height: 50%;
+  min-height: 10%;
 }
 
 form #box a {
@@ -123,11 +127,10 @@ form #box a:hover {
 }
 .facebook {
   color: #000;
-  margin-right: 4px;
+
 }
 .twitter {
   color: #000;
-  margin-right: 4px;
 }
 .whatsapp:hover {
   color: #7143c2;
@@ -458,3 +461,92 @@ textarea#other_reason:focus {
   color: #e4832f;
 }
 
+/* responsive position */
+@media (min-width: 576px) {
+  .position-sm-static {
+    position: static !important;
+  }
+
+  .position-sm-relative {
+    position: relative !important;
+  }
+
+  .position-sm-absolute {
+    position: absolute !important;
+  }
+
+  .position-sm-fixed {
+    position: fixed !important;
+  }
+
+  .position-sm-sticky {
+    position: sticky !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .position-md-static {
+    position: static !important;
+  }
+
+  .position-md-relative {
+    position: relative !important;
+  }
+
+  .position-md-absolute {
+    position: absolute !important;
+  }
+
+  .position-md-fixed {
+    position: fixed !important;
+    bottom: 0;
+  }
+
+  .position-md-sticky {
+    position: sticky !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .position-lg-static {
+    position: static !important;
+  }
+
+  .position-lg-relative {
+    position: relative !important;
+  }
+
+  .position-lg-absolute {
+    position: absolute !important;
+  }
+
+  .position-lg-fixed {
+    position: fixed !important;
+  }
+
+  .position-lg-sticky {
+    position: sticky !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .position-xl-static {
+    position: static !important;
+  }
+
+  .position-xl-relative {
+    position: relative !important;
+  }
+
+  .position-xl-absolute {
+    position: absolute !important;
+  }
+
+  .position-xl-fixed {
+    position: fixed !important;
+  }
+
+  .position-xl-sticky {
+    position: sticky !important;
+  }
+}

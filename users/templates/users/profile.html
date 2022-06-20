@@ -9,7 +9,9 @@
 <section class="mt-5">
     <div class="d-flex mb-4 gap-2">
     <h3 class="">Profile</h3>
-    {% if user.id != profile.user.id %}
+    {% if user.id == None %}
+
+    {% elif user.id != profile.user.id %}
     <a class="btn-sm btn-success btn" href="{% url 'profile' pk=user.id username=user.username  %}" role="button">Switch account</a>
     {% else %}{% endif %}
     </div>

@@ -1,7 +1,7 @@
 {% extends 'users/base.html' %}
 {% block title %} <title>Word review | Pokomo dictionary & Wiki</title> {% endblock title %}
 {% block content %}
-<section class="mt-5 mb-4">
+<section id="outline" class="mt-5 mb-4">
     <div class="row gap-2">
         <div class="col-md-4 mb-4">
                 <h5>Words</h5>
@@ -40,10 +40,10 @@
             <h5>Flags</h5>
             <ul class="nav nav-pills small" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button
+                    <a
                     class="nav-link active border"
                     id="flag-tab"
-                    data-bs-toggle="tab"
+                    data-bs-toggle="pill"
                     data-bs-target="#flag"
                     type="button"
                     role="tab"
@@ -51,13 +51,13 @@
                     aria-selected="true"
                     >
                     flag
-                    </button>
+                    </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button
+                    <a
                     class="nav-link border"
                     id="myFlags-tab"
-                    data-bs-toggle="tab"
+                    data-bs-toggle="pill"
                     data-bs-target="#myFlags"
                     type="button"
                     role="tab"
@@ -65,7 +65,7 @@
                     aria-selected="false"
                     >
                     My flags
-                    </button>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -88,7 +88,6 @@
                     {% else %}
                     
                         <p class="text-center">You have no flags yet</p>
-                        <i class="bi bi-check-circle text-success lead text-center"></i>
                         <p class="text-center">Read our <a class="" href="{% url 'content_guidelines' %}">Content guidelines</a></p>
                     
                     {% endif %}

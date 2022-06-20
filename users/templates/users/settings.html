@@ -1,46 +1,100 @@
 {% extends 'users/base.html' %}
 {% load static %}
+{% load socialaccount %}
+
 {% block title %}
 <title>Settings | Pokomo Dictionary & Wiki</title>
 {% endblock title %}
 {% block content %}
-<section class="mt-5">
+<section class="mt-5" id="settings">
+    <div id="approveMessage" class="p-2 mb-2 d-flex gap-4 justify-content-center align-content-center d-none sticky-top rounded small"
+        style="box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25);
+                -webkit-box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25);
+                -moz-box-shadow: 11px 11px 25px -6px rgba(0,0,0,0.25); top:20px; width: fit-content;"
+    >
+        <p class=""></p>
+        <i class="close-btn bi bi-x"></i>
+    </div>
+    {% get_social_accounts user as accounts %}
 
        <div class="row">
 
       <!--Grid column-->
-      <div class="col-md-3 mb-4 ">
+      <div class="col-md-2 mb-4 ">
 
-        <ul class="nav md-pills pills-secondary d-flex flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#panel11" role="tab">Link 1</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#panel12" role="tab">Link 2</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#panel13" role="tab">Link 3</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#panel14" role="tab">Link 4</a>
-          </li>
+        <ul class="nav nav-pills d-flex flex-row flex-md-column gap-2 justify-content-center small" id="pills-tab">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account" aria-selected="true">Account</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-security-tab" data-bs-toggle="pill" data-bs-target="#pills-security" type="button" role="tab" aria-controls="pills-security" aria-selected="false">Security</a>
+            </li>
         </ul>
 
       </div>
       <!--Grid column-->
 
       <!--Grid column-->
-      <div class="col-md-9 mb-4">
+        <div class="col-md-10 mb-4">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab">
+                    <div id="intro" class="mb-4">
+                        <p>Account for <code class="">{ {{user.username}} }</code> created on <span class="small text-muted">{{user.date_joined}} (EAT)</span><p>
+                        
+                        <table>
+                            <tr>
+                                <th>Username<th>
+                                <td>{{user.username}}</td>
+                                <td><a class="btn disabled" href="">change<a></td>
+                            </tr>
+                            <tr>
+                                <th>Email<th>
+                                <td>{{user.email}}</td>
+                                <td><a href="{% url 'account_email' %}">change<a></td>
+                            </tr>
+                            <tr>
+                                <th>Social Acc<th>
+                                <td>{{accounts.google.0|default:"None"}}</td>
+                                <td><a href="{% url 'socialaccount_connections' %}">change<a></td>
+                            </tr>
+                        </table>
+                        <div class="mt-2">
+                            <a class="btn btn-info btn-sm" href="{% url 'account_logout' %}">Logout</a>
+                            <a id="deleteAcc" class="btn btn-danger btn-sm">Delete Account</a>
+                        </div>
+                    </div>
+                    <form id="deletePopup" method="post" class="d-none">
+                        {% csrf_token %}
+                        <legend class="border-bottom">Confirmation</legend>
+                        <p style="background: whitesmoke;">
+                        Are you sure you want to delete your account? enter your username <code class="bg-white">{ {{user.username}} }</code> in the box below to continue.</p>                        
+                        <div class="d-flex">
+                        <a class="btn btn-outline-primary mx-2 btn-sm d-none d-lg-block" id="cancel">Cancel</a>
+                        <input class="rounded-xl" type="text" name="username" required id="confirm" placeholder="Type here">
+                        <button class="btn btn-outline-danger mx-2 btn-sm d-none d-lg-block" type="submit">Yes, Delete</button>
+                        </div>
+                        <div class="mt-2">
+                        <a class="btn btn-outline-primary btn-sm d-lg-none" id="cancel">Cancel</a>
+                        <button class="btn btn-outline-danger btn-sm d-lg-none" type="submit">Yes, Delete</button>
+                        </div>
+                        <p class="small text-muted text-center mt-5">Please note that deleting your account does not automatically delete all your contributions to Pokomo Dictionary and subsidiaries. Send a request to Admin to do that</p>
 
-        <!-- Tab panels -->
-        <div class="tab-content pt-0">
-             <!--Panel 1-->
-          <div class="tab-pane fade in show active" id="panel11" role="tabpanel">
-            <br>
-
-          </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab">
+                    <table>
+                        <tr>
+                            <th class="text-center">Password</th>
+                        </tr>
+                        <tr >
+                            <td class="text-center" title="encrypted"><code>*******</code></td>
+                            <td class="text-center"><a href="{% url 'account_change_password' %}">change</a><td>
+                        <tr>
+                    <table>
+                </div>
+            </div>
+       
         </div>
-    </div>
 </div>
 
 

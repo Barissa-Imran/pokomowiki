@@ -18,19 +18,19 @@
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://Pokomodictionary.com"> 
-    <link rel="shortlink" href="http://Pokomodictionary.com">
+    <link rel="canonical" href="http://pokomodictionary.co.ke" />
+    <link rel="shortlink" href="http://pokomodictionary.co.ke" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://Pokomodictionary.com"/>
+    <meta property="og:url" content="http://pokomodictionary.co.ke" />
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <!-- <meta property="og:image" href="link" /> -->
     <link
@@ -52,12 +52,13 @@
   <body>
     <main class="container">
       <div class="my-4">
-        <span class=" d-flex justify-content-end">
-            <a href="{% url 'index' %}">
-          <i
-            class="close fa-regular fa-circle-xmark fa-2xl justify-content-end" style="cursor:pointer;"
-          ></i>
-            </a>
+        <span class="d-flex justify-content-end">
+          <a href="{% url 'index' %}">
+            <i
+              class="close fa-regular fa-circle-xmark fa-2xl justify-content-end"
+              style="cursor: pointer"
+            ></i>
+          </a>
         </span>
 
         <h2 class="text-center mb-5 pt-3">NEW WORD</h2>
@@ -69,14 +70,18 @@
         </p>
         <p>
           Please review Pokomo dictionary's
-          <a href="{% url 'content_guidelines' %}">content guidelines</a> before writing your
-          definition. Here's the short version:
+          <a href="{% url 'content_guidelines' %}">content guidelines</a> before
+          writing your definition. Here's the short version:
           <strong
             >Share definitions that other people will find meaningful and never
             post hate speech or people’s personal information.</strong
           >
         </p>
-        <form action="{% if user.is_authenticated %}{% else %}submit{% endif %}" method="post" class="d-flex flex-column gap-4 mb-4">
+        <form
+          action="{% if user.is_authenticated %}{% else %}submit{% endif %}"
+          method="post"
+          class="d-flex flex-column gap-4 mb-4"
+        >
           {% csrf_token %}
           <input
             class="p-4"
@@ -99,8 +104,11 @@
             <strong>Write for a large audience.</strong> Lots of people will
             read this, so give some background information.<br />
             <strong>Don't name your friends.</strong> We'll
-            <a href="{% url 'editor' %}">reject</a> inside jokes and definitions naming
-            non-celebrities.<br> <span class="text-muted small">Words once approved cannot be edited.</span>
+            <a href="{% url 'editor' %}">reject</a> inside jokes and definitions
+            naming non-celebrities.<br />
+            <span class="text-muted small"
+              >Words once approved cannot be edited.</span
+            >
           </p>
           <textarea
             class="p-4"
@@ -115,7 +123,9 @@
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          >{{object.definition|title}}</textarea>
+          >
+{{object.definition|title}}</textarea
+          >
           <textarea
             class="p-4 fst-italic"
             name="example"
@@ -129,7 +139,9 @@
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          >{{object.example|title}}</textarea>
+          >
+{{object.example|title}}</textarea
+          >
           <textarea
             class="p-4"
             name="other_definitions"
@@ -142,7 +154,9 @@
             autofocus="off"
             autocorrect="off"
             spellcheck="false"
-          >{{object.other_definitions}}</textarea>
+          >
+{{object.other_definitions}}</textarea
+          >
 
           <!-- <label for="language">Langauge:</label> -->
           <select class="p-1" name="language" required id="language">

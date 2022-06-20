@@ -1,5 +1,4 @@
-{% load static %} {% load crispy_forms_tags %} {% load i18n %} 
-{% load account %} {% load account socialaccount %} {% user_display user as user_display %}
+{% load static %} {% load crispy_forms_tags %} {% load i18n %} {% load account %} {% load account socialaccount %} {% user_display user as user_display %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,27 +16,31 @@
     <meta name="keywords" content="" />
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      content="noindex, nofollow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://pokomodictionary.com> <link
-    rel="shortlink" href="http://pokomodictionary.com
+    <link rel="canonical" href="http://pokomodictionary.co.ke"> 
+    <link
+    rel="shortlink" href="http://pokomodictionary.co.ke"
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.com/>
+    <meta property="og:url" content="http://pokomodictionary.co.ke/>
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://acetheessayapp.herokuapp.com/"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
     />
     <!-- <meta property="og:image" href="link" /> -->
+    <link href="
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
@@ -75,7 +78,7 @@
           <a
             class="navbar-item btn"
             role="button"
-            href="{% url 'profile' pk=user.id username=user.username %}"
+            href="{% url 'profile' pk=profile.user.id username=profile.user.username %}"
             data-toggle="tooltip"
             data-placement="bottom"
             title="Profile Home"
@@ -101,9 +104,10 @@
           ></a>
 
           {% if usergroup == 'Editor' %}
-            <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}">Review Words</a>
+          <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}"
+            >Review Words</a
+          >
           {% endif %}
-
         </div>
       </aside>
       <section id="wrapper" class="">
@@ -131,7 +135,8 @@
                 alt="user icon"
                 style="width: 20%"
               />
-              {% user_display user %}
+              {% user_display user as user_display %}
+              {{user_display|default:"Anonymous"}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a
@@ -146,7 +151,7 @@
           <a
             class="navbar-item btn"
             role="button"
-            href="{% url 'profile' pk=user.id username=user.username %}"
+            href="{% url 'profile' pk=profile.user.id username=profile.user.username %}"
             data-toggle="tooltip"
             data-placement="bottom"
             title="Profile Home"
@@ -172,13 +177,14 @@
           ></a>
         </div>
         {% if usergroup == 'Editor' %}
-        
+
         <div class="d-flex justify-content-center d-lg-none mt-2">
-          <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}">Review Words</a>
+          <a class="btn btn-info btn-sm mb-2" href="{% url 'review' %}"
+            >Review Words</a
+          >
         </div>
 
-        {% endif %}
-        {% if messages %} {% for message in messages %}
+        {% endif %} {% if messages %} {% for message in messages %}
         <div
           id="message"
           class="alert alert-{{message.tags}} m-2 d-flex justify-content-between"
@@ -186,8 +192,7 @@
           <div class="">{{ message }}</div>
           <button id="closeMessage" class="btn rounded">x</button>
         </div>
-        {% endfor %} {% endif %}
-         {% block content %}{% endblock content %}
+        {% endfor %} {% endif %} {% block content %}{% endblock content %}
       </section>
     </main>
     <script

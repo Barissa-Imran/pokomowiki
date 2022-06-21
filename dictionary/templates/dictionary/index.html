@@ -135,7 +135,24 @@
             </div>
           </div>
           {% endfor %}
+<div class="pagination mb-4">
+    <div class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-sm" href="?page=1">&laquo; first</a>
+            <a class="btn btn-sm" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
 
+        
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-sm" href="?page={{ page_obj.next_page_number }}">next</a>
+            <a class="btn btn-sm" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
+    <div class="current p-1 rounded text-white small">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </div>
+</div>
         </section>
         <aside class="col-lg-4 rounded px-3 pt-5 pb-3">
           <div class="top d-flex justify-content-between mb-2">
@@ -234,6 +251,7 @@
           <a href="{% url 'tos' %}"> terms of service.</a>
           <a href="{% url 'privacy' %}"> privacy.</a>
           <a href="{% url 'dmca' %}"> dmca</a>
+          <a href="mailto:admin@pokomodictionary.co.ke"> contact</a>
         </p>
       </footer>
 {% endblock content %}

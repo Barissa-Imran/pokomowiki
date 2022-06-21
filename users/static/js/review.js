@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  // close approve message on x click
   $(".close-btn").on("click", function () {
     $("#approveMessage").slideUp("slow", function () {
       $("#approveMessage").toggleClass("d-none");
@@ -6,6 +7,7 @@ $(document).ready(() => {
     });
   });
 
+  // submit approval on button click
   $(".approve").on("click", function (e) {
     e.preventDefault();
 

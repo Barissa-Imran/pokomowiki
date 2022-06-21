@@ -222,6 +222,9 @@ form #box a:hover {
   color: #fff;
   /* border:solid #fff; */
 }
+.content .pagination .current{
+  background-color: #7143c2;
+}
 .content aside {
   background-color: #eae5ff;
   height: fit-content;

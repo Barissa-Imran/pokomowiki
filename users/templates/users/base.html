@@ -139,11 +139,19 @@
               {{user_display|default:"Anonymous"}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {% if user.is_authenticated %}
               <a
                 class="dropdown-item text-danger"
                 href="{% url 'account_logout' %}"
                 >Logout <i class="bi bi-box-arrow-right"></i
               ></a>
+              {% else %}
+              <a
+                class="dropdown-item text-info"
+                href="{% url 'account_login' %}"
+                >Login <i class="bi bi-box-arrow-left"></i
+              ></a>
+              {% endif %}
             </div>
           </div>
         </nav>
@@ -184,15 +192,14 @@
           >
         </div>
 
-        {% endif %} {% if messages %} {% for message in messages %}
-        <div
-          id="message"
-          class="alert alert-{{message.tags}} m-2 d-flex justify-content-between"
-        >
+        {% endif %} 
+        {% if messages %} {% for message in messages %}
+        <div id="message" class="alert alert-{{message.tags}} mx-auto m-2 d-flex gap-4 justify-content-center align-content-center rounded sticky-top small">
           <div class="">{{ message }}</div>
-          <button id="closeMessage" class="btn rounded">x</button>
+          <i class="close-btn bi bi-x"></i>
         </div>
-        {% endfor %} {% endif %} {% block content %}{% endblock content %}
+        {% endfor %} {% endif %} 
+        {% block content %}{% endblock content %}
       </section>
     </main>
     <script

@@ -1,16 +1,30 @@
 $(document).ready(() => {
+  // bs dropdown functionality
   $(".dropdown-toggle").dropdown();
 
+  // close message after delay if available
+  var $messageBox = $("#message");
+  if ($.contains(document, $messageBox[0])) {
+    $messageBox.delay(3000).slideUp("slow", () => {
+      $messageBox.addClass("d-none");
+    });
+  } else {
+    //pass
+  }
+
+  // Show confirm delete dialog
   $("#deleteAcc").on("click", function () {
     $("#deletePopup").fadeIn("slow", function () {
       $("#deletePopup").removeClass("d-none");
     });
   });
 
-  $("form #cancel").on("click", function (){
+  // hide confirm delete dialog
+  $("form #cancel").on("click", function () {
     $("#deletePopup").toggleClass("d-none");
   });
 
+  // submit username in delete user dialog
   $("#deletePopup").submit((e) => {
     e.preventDefault();
 
@@ -53,7 +67,8 @@ $(document).ready(() => {
 function complete() {
   $("#message").addClass(d - none);
 }
-// close message
+
+// close message fallback if delay fails
 $("#closeMessage").click(function () {
   $("#message").fadeOut("slow", complete);
 });

@@ -6,11 +6,11 @@
 <title> {{profile.user}} - Profile | Pokomo Dictionary & Wiki</title>
 {% endblock title %}
 {% block content %}
-<section class="mt-5">
+<section class="mt-5 profile-home">
     <div class="d-flex mb-4 gap-2">
     <h3 class="">Profile</h3>
     {% if user.id == None %}
-
+    <a class="btn-sm btn-info btn" href="{% url 'account_login'  %}" role="button">Login</a>
     {% elif user.id != profile.user.id %}
     <a class="btn-sm btn-success btn" href="{% url 'profile' pk=user.id username=user.username  %}" role="button">Switch account</a>
     {% else %}{% endif %}

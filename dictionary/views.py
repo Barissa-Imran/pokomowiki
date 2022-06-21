@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, DeleteView, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView, DetailView
 from dictionary.models import Term, Flag
 from users.models import Profile
 from dictionary.forms import TermForm
@@ -13,25 +13,32 @@ import json
 from django.http import JsonResponse
 from django.db.models import Q, Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     """Handle functionality for the homepage"""
     template_name = 'dictionary/index.html'
+    context_object_name = 'terms'
+    paginate_by = 10
+
+    def get_queryset(self):
+        # count votes and add them to terms context--
+        queryset = Term.objects.filter(approved=True).annotate(
+            upvotes_count=Count('upvote', distinct=True),
+            downvotes_count=Count(
+                'downvote', distinct=True)
+        ).order_by('-date')
+
+        return queryset
+    
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         form = LoginForm()
-
-        # count votes and add them to terms context--
-        terms = Term.objects.filter(approved=True).annotate(
-            upvotes_count=Count('upvote', distinct=True),
-            downvotes_count=Count(
-                'downvote', distinct=True)
-        ).order_by('-date')[:10]
         qs_json = json.dumps(list(Term.objects.filter(approved=True).values()), indent=4, sort_keys=True, default=str)
         context.update({
-            'terms': terms,
+            # 'terms': terms,
             'form': form,
             'user': self.request.user,
             'qs_json': qs_json
@@ -201,16 +208,21 @@ class RandomView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(RandomView, self).get_context_data(**kwargs)
-
+        form = LoginForm
         pks = Term.objects.filter(approved=True).values_list('pk', flat=True)
         random_pk = choice(pks)
-        random_term = Term.objects.get(pk=random_pk)
-        term = random_term
+        random_term = Term.objects.filter(pk=random_pk).annotate(
+            upvotes_count=Count('upvote', distinct=True),
+            downvotes_count=Count(
+                'downvote', distinct=True,)
+        )
+        term = random_term[0]
         qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
                              indent=4, sort_keys=True, default=str)
 
         context.update({
-            'term': term,
+            'object': term,
+            'form': form,
             'qs_json': qs_json
         })
 
@@ -245,23 +257,28 @@ class EditorView(TemplateView):
     template_name = 'dictionary/editor.html'
 
 
-class BrowseView(TemplateView):
+class BrowseView(ListView):
     """Show Terms starting with a particular character"""
     template_name = 'dictionary/browse.html'
+    context_object_name = 'terms'
+    paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
         char = self.kwargs['char']
- 
-        terms = Term.objects.filter(approved=True, word__startswith=char).annotate(
+        queryset = Term.objects.filter(approved=True, word__startswith=char).annotate(
             upvotes_count=Count('upvote', distinct=True),
             downvotes_count=Count(
                 'downvote', distinct=True, filter=Q(approved=True))
         )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        char = self.kwargs['char']
         qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
                              indent=4, sort_keys=True, default=str)
 
-        context["terms"] = terms
+        # context["terms"] = terms
         context['char'] = char
         context['qs_json'] = qs_json
         return context
@@ -335,6 +352,14 @@ class SubmitView(TemplateView):
 
 class TermDetailView(DetailView):
     model = Term
+
+    def get_object(self):
+        queryset = Term.objects.annotate(
+            upvotes_count=Count('upvote', distinct=True),
+            downvotes_count=Count(
+                'downvote', distinct=True,)
+        )
+        return super().get_object(queryset)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

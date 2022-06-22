@@ -97,8 +97,8 @@
           </ul>
         </div>
         <!-- Search-bar area -->
-        <div class="d-flex justify-between s-link">
-          <form action="/search.html">
+       <div class="d-flex justify-between s-link position-sm-relative">
+          <form action="{% url 'search' %}" class="position-md-relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -119,13 +119,17 @@
               autocomplete="off"
               autocorrect="off"
               name="term"
-              id="term"
+              id="searchTerm"
               placeholder="Type any word here..."
               spellcheck="false"
               tabindex="0"
               type="text"
             />
+            <div id="box" class=" position-absolute rounded bg-white w-100 border d-none p-2" style="z-index: 1;">
+              
+            </div>
           </form>
+          
           <a href="{% url 'add' %}" data-toggle="tooltip" data-delay="0" data-placement="bottom" title="Add Word">
             <img src="{% static 'img/plus-circle-fill.svg' %}" alt="Add" />
           </a>

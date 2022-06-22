@@ -160,11 +160,11 @@
 
           <!-- <label for="language">Langauge:</label> -->
           <select class="p-1" name="language" required id="language">
-            <option value="Upper Pokomo" selected>Upper Pokomo</option>
+            <option value="{{ object.language|default:'Upper Pokomo' }}" selected>{{ object.language|default:'Upper Pokomo' }}</option>
             <option value="Malanchini">Malanchini</option>
           </select>
           <select class="p-1" name="clan" required id="clan">
-            <option value="None" selected>None</option>
+            <option value="{{object.clan|default:'None'}}" selected>{{object.clan|default:'None'}}</option>
             <option value="Ndera">Ndera</option>
             <option value="Zubaki">Zubaki</option>
             <option value="Kinakomba">Kinakomba</option>

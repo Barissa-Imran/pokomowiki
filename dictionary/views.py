@@ -1,19 +1,20 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DeleteView, CreateView, UpdateView, DetailView
 from dictionary.models import Term, Flag
 from users.models import Profile
 from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
 from random import choice
 from allauth.account.forms import LoginForm
 import json
 from django.http import JsonResponse
 from django.db.models import Q, Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.paginator import Paginator
+from django.urls import reverse
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import Value
 
 
 class IndexView(ListView):
@@ -202,6 +203,20 @@ class IndexView(ListView):
 
         return super().get(request, *args, **kwargs)
 
+class SearchView(IndexView):
+    template_name = 'dictionary/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        q = self.request.GET.get('q')
+        vector = SearchVector('word', weight='A')+ SearchVector( 'definition', weight='B') + SearchVector('other_definitions', weight='C')
+        query = SearchQuery(q, search_type='plain')
+        results = Term.objects.annotate(search=vector, rank=SearchRank(
+            vector, query)).filter(search=q).order_by('-rank')
+        context.update({
+            'results': results
+        })
+        return context
 
 class RandomView(TemplateView):
     template_name = 'dictionary/random.html'
@@ -281,6 +296,7 @@ class BrowseView(ListView):
         # context["terms"] = terms
         context['char'] = char
         context['qs_json'] = qs_json
+        context['form'] = LoginForm()
         return context
 
     def post(BrowseView, request, *args, **kwargs):
@@ -296,6 +312,8 @@ class TermCreateView(CreateView):
     def form_valid(self, form):
         try:
             form.instance.author = self.request.user
+            messages.add_message(self.request, messages.SUCCESS,
+                                 'Word added successfully, await approval')
 
             # submit form after login
         except:
@@ -367,6 +385,7 @@ class TermDetailView(DetailView):
                              indent=4, sort_keys=True, default=str)
         
         context['qs_json'] = qs_json
+        context['form'] = LoginForm()
 
         return context
 
@@ -393,18 +412,26 @@ class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         try:
             form.instance.author = self.request.user
+            messages.add_message(self.request, messages.SUCCESS,
+                                 'Word updated successfully')
         except:
-            pass
+            messages.add_message(self.request, messages.ERROR,
+                                 'Word updating failed, try again later!')
+        # Add functionality to riderect to review page on referal
         return super().form_valid(form)
 
 
 class TermDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Term
-    success_url = HttpResponseRedirect("dictionary/index.html")
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO,
+                             'Word deleted successfully')
+        return reverse('index')
 
     def test_func(self):
         user = self.request.user
         term = self.get_object
-        if user.is_staff() or term.author == user:
+        if user.is_staff or term.author == user:
             return True
         return False

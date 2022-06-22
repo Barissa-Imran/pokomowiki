@@ -3,6 +3,7 @@ from dictionary import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
+    path('search', views.SearchView.as_view(), name='search'),
     path('random', views.RandomView.as_view(), name='random'),
     re_path(r'^browse/(?:(?P<char>.+))$', views.BrowseView.as_view(), name='browse'),
     path('about', views.AboutView.as_view(), name='about'),

@@ -1,0 +1,76 @@
+{% extends "dictionary/base.html" %}
+
+{% block title %}
+<title>Search | Pokomo Dictionary & Wiki</title>
+{% endblock title %}
+{% block content %}
+<section>
+    {% if results %}
+    <div class="row gap-3 mx-2">
+        {% for result in results %}
+    
+        <div class="col-md-5 border border-success rounded">
+            <h1 class="mt-2">
+      <a class="word" href="{{ result.get_absolute_url }}" title="{{ result.word|title }}">
+        {{ result.word|title }}
+      </a>
+    </h1>
+    </h2>
+
+        <div class="source mb-4">
+            <p class="subTribe">
+                Sub-Tribe:
+                <a href="#subtribeWiki">{{result.language}}</a>
+            <br>
+            <span class="clan">
+                Clan:
+                <a href="#clanWiki">{{ result.clan }}</a>
+            </span></p>
+        </div>
+        <div class="meaning mb-5">
+            <p class="mean">
+                {{ result.definition }}
+            </p>
+            <p class="example fw-light">
+                <em>"{{result.example}}"</em>
+            </p>
+        </div>
+        <!-- Other definations section -->
+                 {% if result.other_definitions %}
+                <div class="other mb-5 rounded p-2 border">
+
+                    <h5 class="border-bottom">Definations of <span>{{ result.word|title }}</span></h5>
+
+                  <!-- Other definations -->
+                  <div class="other-def">
+                      <p class="fw-light">{{ result.other_definitions }}</p>
+
+                  </div>
+                </div>
+
+                {% else %}
+                {% endif %}
+            <div class="contributor small">
+                <p class="author">
+                  by
+                  <a href="{% url 'profile' pk=result.author.id username=result.author %}" rel="tooltip" data-html="true" title="<div class='d-flex gap-2'><p class='p-1'>{{result.author}}</p><p class='p-1 rounded bg-success'>{{result.author.profile.reputation}}</div><p class='small'>Joined: {{result.author.date_joined|date:'M d, Y'}}</p>">{{ result.author }}</a>
+                  <span class="text-muted">{{ result.date }}</span>
+                </p>
+              </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <h5>No word available for your search<span></h5>
+        <p>Suggestions:</p>
+        <ol class="small">
+            <li>Try to use less keywords(prefferably one).</li>
+            <li>Click result in liveesearch if available</li>
+            <li>Reverse search for English available on full word keywords only e.g<br> instead of <q class="text-muted">young man</q> you can search for<q class="text-muted"> Young</q> or<q class="text-muted"> man</q></li>   
+        </ol>
+    <div>
+    {% endif %}
+</section>
+{% endblock content %}

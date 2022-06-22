@@ -132,6 +132,12 @@
                   </button>
                 </div>
               </div>
+              {% if user == object.author %}
+              <div class="mt-3">
+              <a class="btn btn-sm btn-outline-success" href="{% url 'term_update' pk=object.id %}">Update</a>
+              <a class="btn btn-sm btn-outline-danger" href="{% url 'term_delete' pk=object.id %}">Delete</a>
+              </div>
+              {% endif %}
             </div>
           </div>
 

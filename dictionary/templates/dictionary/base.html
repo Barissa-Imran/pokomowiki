@@ -134,7 +134,7 @@
         </div>
         <!-- Search-bar area -->
         <div class="d-flex justify-between s-link position-sm-relative">
-          <form action="/search.html" class="position-md-relative">
+          <form action="{% url 'search' %}" class="position-md-relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -154,7 +154,7 @@
               autocapitalize="off"
               autocomplete="off"
               autocorrect="off"
-              name="term"
+              name="q"
               id="searchTerm"
               placeholder="Type any word here..."
               spellcheck="false"

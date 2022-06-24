@@ -16,8 +16,8 @@
   </a> 
 </p>
 <p align="center">
-  <a href="https://pythonanywhere.com/" target="_blank">
-    <img alt="PythonAnywhere Host" src="https://img.shields.io/badge/Live-Deploy-informational">
+  <a href="https://www.pokomodictionary.com/" target="_blank">
+    <img alt="Live site" src="https://img.shields.io/badge/Live-Deploy-informational">
   </a>
 </p>
 <img src="https://user-images.githubusercontent.com/74467681/172966362-95291340-77a4-42c1-b9f7-4bb07817f086.png" />
@@ -26,10 +26,10 @@
 ## 🛠 Installation & Set Up
 If you don't have Python and Django installed follow this [tutorial](https://docs.djangoproject.com/en/4.0/intro/install/).
 
-
-1. Install depencies
+Remember to create a virtual enviroment from the tutorial above
+1. Install dependancies
 ```sh
-pipenv install
+pip install -r requirements
 ```
 2. Start the server on localhost
 ```sh

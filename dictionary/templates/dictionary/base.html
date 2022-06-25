@@ -26,8 +26,8 @@
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://pokomodictionary.co.ke" /> 
-    <link rel="shortlink" href="http://pokomodictionary.co.ke" />
+    <link rel="canonical" href="https://pokomodictionary.com" /> 
+    <link rel="shortlink" href="https://pokomodictionary.com" />
 
     {% comment %} For Facebook {% endcomment %}
     <meta property="og:locale" content="en_GB" />
@@ -37,18 +37,18 @@
       content="Pokomo Dictionary & Wiki | {{ object.word|default:'The first Ever Pokomo dictionary'}}"
     />
     <meta property="og:description" content="{{ object.definition|default:'The first Ever Pokomo dictionary - Made for the community by the community' }}" />
-    <meta property="og:image" content="https://8477-196-99-112-27.in.ngrok.io/static/img/sharelogo.svg" />
-    <meta property="og:url" content="http://pokomodictionary.co.ke" />
+    <meta property="og:image" content="https://pokomowdictionary.com/static/img/sharelogo.svg" />
+    <meta property="og:url" content="https://pokomodictionary.com" />
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
+      content="Pokomo Dictionary & Wiki | https://pokomodictionary.com"
     />
     
     {% comment %} For Twitter {% endcomment %}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Pokomo Dictionary & Wiki" />
     <meta name="twitter:description" content="The first Ever Pokomo dictionary. Made for the community by the community" />
-    <meta name="twitter:image" content="https://a898-154-123-101-248.in.ngrok.io/static/img/Logo.png" />
+    <meta name="twitter:image" content="https://pokomodictionary.com/static/img/Logo.png" />
 
     <link
       href="<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,6 +70,15 @@
       type="image/x-icon"
     />
     {% block title %}{% endblock title %}
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N0B0G5NRXY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N0B0G5NRXY');
+</script>  
     <style>
       .alert-error {
         color: #842029;

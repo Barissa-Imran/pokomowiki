@@ -210,7 +210,7 @@ const popups = document.getElementById("box");
 
 window.addEventListener("click", ({ target }) => {
   const popup = target.closest("#box");
-  console.log(popup);
+
   const clickedOnClosedPopup = popup && !popup.classList.contains("d-none");
 
   popups.classList.add("d-none");

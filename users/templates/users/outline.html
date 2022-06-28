@@ -1,5 +1,5 @@
 {% extends 'users/base.html' %}
-{% block title %} <title>Word review | Pokomo dictionary & Wiki</title> {% endblock title %}
+{% block title %} <title>Outline {{user.username}} | Pokomo dictionary & Wiki</title> {% endblock title %}
 {% block content %}
 <section id="outline" class="mt-5 mb-4">
     <div class="row gap-2">
@@ -121,8 +121,9 @@
         </div>
         <div class="col-md-3">
             <h5>Reputation</h5>
-            <div class="bg-white small p-4">
-                <p class="small text-muted"> Reputation is earned everytime you interact with the site</p>
+            <div class="bg-white small p-4 text-center">
+                <p class="small"> Reputation is how the community thanks you</p>
+                <p class="small text-muted"> When users upvote your word or add a new word you'll earn reputation and unlock new previleges</p>
                 <a class="small" href="{% url 'about' %}">Learn more</a>
 
             </div>

@@ -2,6 +2,7 @@ from allauth.account.signals import user_logged_in
 from django.dispatch import receiver
 from dictionary.models import Term
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 
 @receiver(user_logged_in, dispatch_uid="vote save")
@@ -43,28 +44,37 @@ def user_logged_in(request, user, **kwargs):
             pass
     elif request.session.get('submit', True):
         try:
-            # get data from session cookie
-            language = request.session['language']
-            clan = request.session['clan']
-            word = request.session['word']
-            definition = request.session['definition']
-            example = request.session['example']
-            other_definitions = request.session['other_definitions']
-
-            # create term and store
-            Term(language=language, clan=clan, word=word, definition=definition,
-                example=example, other_definitions=other_definitions)
+            request.session['language']
             try:
-                del request.session['language']
-                del request.session['clan']
-                del request.session['word']
-                del request.session['definition']
-                del request.session['example']
-                del request.session['other_definitions']
-                request.session['submit'] = False
+                # get data from session cookie
+                language = request.session['language']
+                clan = request.session['clan']
+                word = request.session['word']
+                definition = request.session['definition']
+                example = request.session['example']
+                other_definitions = request.session['other_definitions']
+
+                # create term and store
+                new = Term(language=language, clan=clan, word=word, definition=definition,
+                    example=example, other_definitions=other_definitions, author=request.user)
+                new.save()
+                request.session['term_url'] = new.get_absolute_url()
+                messages.add_message(request, messages.INFO,
+                                    'Word added successfully, await approval. View your word on outline tab in Profile page')
+                try:
+                    del request.session['language']
+                    del request.session['clan']
+                    del request.session['word']
+                    del request.session['definition']
+                    del request.session['example']
+                    del request.session['other_definitions']
+                    request.session['submit'] = False
+                except KeyError:
+                    pass
             except KeyError:
                 pass
         except KeyError:
-            pass
+            messages.add_message(request, messages.ERROR,
+                                 'Word data lost during login. Please try again!')
     else:
         pass

@@ -18,19 +18,19 @@
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="http://pokomodictionary.co.ke" />
-    <link rel="shortlink" href="http://pokomodictionary.co.ke" />
+    <link rel="canonical" href="http://pokomodictionary.com" />
+    <link rel="shortlink" href="http://pokomodictionary.com" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.com"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.co.ke" />
+    <meta property="og:url" content="http://pokomodictionary.com" />
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.com"
     />
     <!-- <meta property="og:image" href="link" /> -->
     <link
@@ -78,7 +78,7 @@
           >
         </p>
         <form
-          action="{% if user.is_authenticated %}{% else %}submit{% endif %}"
+          action="{% if user.is_authenticated %}{% else %}add/submit{% endif %}"
           method="post"
           class="d-flex flex-column gap-4 mb-4"
         >
@@ -148,7 +148,7 @@
             id="other_definitions"
             cols="50"
             rows="5"
-            placeholder="Type other definitions period separated"
+            placeholder="Type other definitions (numbered)"
             autocapitalize="words"
             autocomplete="off"
             autofocus="off"

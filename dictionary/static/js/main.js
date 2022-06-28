@@ -1,3 +1,9 @@
+// close approve message on x click
+$(".close-btn").on("click", function () {
+  $("#message").slideUp("slow", function () {
+    $("#message").addClass("d-none");
+  });
+});
 // close message
 function closeMessage() {
   var message = document.getElementById("message");
@@ -31,8 +37,7 @@ function flag() {
 
   var flagPopup = document.getElementById("flagPopup");
   flagPopup.classList.toggle("active");
-
-};
+}
 
 $(document).ready(function () {
   // applicant dropdown button
@@ -45,15 +50,15 @@ $(document).ready(function () {
   // close message after delay if available
   var $messageBox = $("#message");
   if ($.contains(document, $messageBox[0])) {
-    $messageBox.delay(3000).slideUp('slow',()=>{
-      $messageBox.addClass("d-none")
+    $messageBox.delay(3000).slideUp("slow", () => {
+      $messageBox.addClass("d-none");
     });
   } else {
     //pass
-  };
+  }
 
   // show tooltip
- $("[rel=tooltip]").tooltip({ placement:'bottom', html: true });
+  $("[rel=tooltip]").tooltip({ placement: "bottom", html: true });
 
   // Vote functionality
   function vote() {
@@ -79,7 +84,7 @@ $(document).ready(function () {
           $(".fa-thumbs-down." + term_id).text(" " + downvote);
         },
       });
-    };
+    }
 
     // check to see which button is clicked
     $(".thumbsUp, .thumbsDown").on("click", function (e) {
@@ -102,12 +107,10 @@ $(document).ready(function () {
           // submit form
           voteForm(csrf, term_id, button);
         }
-
       } else if (logged === "login();") {
         // send form to set session variable for clicked button to change after log in
 
         if (button === "upVote") {
-
           // submit form
           $.ajax({
             url: "",
@@ -120,7 +123,6 @@ $(document).ready(function () {
 
           // downvote functionality
         } else if (button === "downVote") {
-
           // submit form
           $.ajax({
             url: "",
@@ -142,7 +144,6 @@ $(document).ready(function () {
     let term_id = $(this).attr("data-termid");
 
     if (logged === "vote();") {
-
       var blur = document.getElementById("blur");
       var blur2 = document.getElementById("blur2");
 
@@ -196,14 +197,11 @@ $(document).ready(function () {
         });
       }
       report();
-
     } else if (logged === "login();") {
       login();
-    };
-    
+    }
   });
 });
-
 
 //close search results on click
 const popups = document.getElementById("box");
@@ -216,5 +214,4 @@ window.addEventListener("click", ({ target }) => {
   popups.classList.add("d-none");
 
   if (clickedOnClosedPopup) popup.classList.remove("d-none");
-}); 
- 
+});

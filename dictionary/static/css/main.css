@@ -13,9 +13,6 @@ Orange: #E4832F
 * {
   font-family: "Poppins", sans-serif;
 }
-body {
-  /* overscroll-behavior-y: contain; */
-}
 main {
   max-width: 970px;
   overflow-x: hidden;
@@ -320,12 +317,12 @@ footer p a:hover {
     width: 70%;
     height: fit-content;
   }
-  .socialaccount_ballot {
+  /* .socialaccount_ballot {
     width: 30%;
     height: 30% !important;
     font-size: smaller;
     /* display: none; */
-  }
+  
 }
 
 #popup.active {

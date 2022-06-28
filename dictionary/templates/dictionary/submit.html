@@ -14,19 +14,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="canonical" href="http://pokomodictionary.co.ke> <link
-    rel="shortlink" href="http://pokomodictionary.co.ke
+    <link rel="canonical" href="http://pokomodictionary.com> <link
+    rel="shortlink" href="http://pokomodictionary.com
     <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.com"
     />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="http://pokomodictionary.co.ke/>
+    <meta property="og:url" content="http://pokomodictionary.com/>
     <meta
       property="og:site_name"
-      content="Pokomo Dictionary & Wiki | http://pokomodictionary.co.ke"
+      content="Pokomo Dictionary & Wiki | http://pokomodictionary.com"
     />
     <!-- <meta property="og:image" href="link" /> -->
     <link href="
@@ -70,18 +70,18 @@
         <div class="item-container">
           <h2 class="log-in">{% trans "Login to continue" %}</h2>
         </div>
+        <p class="small text-centered text-muted">Please note that any error on this page might lead to us losing your word and accompanied data</p>
         <div class="item-container">
-          {% get_providers as socialaccount_providers %} {% if
-          socialaccount_providers %}
+          {% get_providers as socialaccount_providers %} {% if socialaccount_providers %}
           <div class="socialaccount_ballot">
             {% comment %} <i class="fa-brands fa-google"></i> {% endcomment %}
             <p class="socialaccount_providers">
-              {% include "socialaccount/snippets/provider_list.html" with
-              process="login" %}
+              {% include "socialaccount/snippets/provider_list.html" with process="login" %}
             </p>
           </div>
 
-          {% include "socialaccount/snippets/login_extra.html" %} {% else %}
+          {% include "socialaccount/snippets/login_extra.html" %}
+           {% else %}
           <p>
             {% blocktrans %}If you have not created an account yet, then please
             <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
@@ -92,7 +92,7 @@
         <form
           class="login"
           method="POST"
-          action="/accounts/login/?next={{request.path}}"
+          action="/accounts/login/?next={{request.session.term_url}}"
         >
           {% csrf_token %} {{ form|crispy }} {% if redirect_field_value %}
           <input

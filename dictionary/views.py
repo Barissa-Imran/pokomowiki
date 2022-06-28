@@ -13,7 +13,7 @@ from django.http import JsonResponse
 from django.db.models import Q, Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
 from django.db.models import Value
 
 
@@ -32,12 +32,12 @@ class IndexView(ListView):
         ).order_by('-date')
 
         return queryset
-    
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         form = LoginForm()
-        qs_json = json.dumps(list(Term.objects.filter(approved=True).values()), indent=4, sort_keys=True, default=str)
+        qs_json = json.dumps(list(Term.objects.filter(
+            approved=True).values()), indent=4, sort_keys=True, default=str)
         context.update({
             # 'terms': terms,
             'form': form,
@@ -76,12 +76,12 @@ class IndexView(ListView):
                     if vote_type == "upVote":
                         if userUpVotes == 0 and userDownVotes == 0:
                             term.upvote.add(request.user)
-                            profile.reputation += 2
+                            # profile.reputation += 2
                             auth_profile.reputation += 2
                             profile.save()
                         elif userUpVotes == 1:
                             term.upvote.remove(request.user)
-                            profile.reputation -= 2
+                            # profile.reputation -= 2
                             auth_profile.reputation -= 2
                             profile.save()
                         elif userDownVotes == 1 and userUpVotes == 0:
@@ -91,12 +91,12 @@ class IndexView(ListView):
                     elif vote_type == "downVote":
                         if userDownVotes == 0 and userUpVotes == 0:
                             term.downvote.add(request.user)
-                            profile.reputation += 2
+                            # profile.reputation += 2
                             auth_profile.reputation += 2
                             profile.save()
                         elif userDownVotes == 1:
                             term.downvote.remove(request.user)
-                            profile.reputation -= 2
+                            # profile.reputation -= 2
                             auth_profile.reputation -= 2
                             profile.save()
                         elif userUpVotes == 1 and userDownVotes == 0:
@@ -194,8 +194,6 @@ class IndexView(ListView):
                 request.session['button'] = button
                 request.session['has_voted'] = True
 
-                print(request.session['has_voted'])
-
             else:
                 pass
         else:
@@ -203,20 +201,31 @@ class IndexView(ListView):
 
         return super().get(request, *args, **kwargs)
 
+
 class SearchView(IndexView):
     template_name = 'dictionary/search.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = self.request.GET.get('q')
-        vector = SearchVector('word', weight='A')+ SearchVector( 'definition', weight='B') + SearchVector('other_definitions', weight='C')
+        vector = SearchVector('word', weight='A') + SearchVector('definition',
+                                                                 weight='B') + SearchVector('other_definitions', weight='C')
         query = SearchQuery(q, search_type='plain')
         results = Term.objects.annotate(search=vector, rank=SearchRank(
             vector, query)).filter(search=q).order_by('-rank')
+        # results = Term.objects.annotate(
+        #     headline=SearchHeadline(
+        #     vector,
+        #     query,
+        #     start_sel='<b>',
+        #     stop_sel='</b>',
+        #     ),
+        #     ).get()
         context.update({
             'results': results
         })
         return context
+
 
 class RandomView(TemplateView):
     template_name = 'dictionary/random.html'
@@ -320,15 +329,16 @@ class TermCreateView(CreateView):
             pass
         return super().form_valid(form)
 
+
 class SubmitView(TemplateView):
     template_name = 'dictionary/submit.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = LoginForm()
-              
+
         return context
-    
+
     def get(self, request, *args, **kwargs):
         url = request.META['wsgi.url_scheme']
         host = request.get_host()
@@ -337,6 +347,7 @@ class SubmitView(TemplateView):
             return render(request, 'dictionary/submit.html', self.get_context_data())
         else:
             return HttpResponse('Page Access denied')
+
     def post(self, request, *args, **kwargs):
         # check if cookies are working on browser
         request.session.set_test_cookie()
@@ -368,6 +379,7 @@ class SubmitView(TemplateView):
 
         return render(request, 'dictionary/submit.html', self.get_context_data())
 
+
 class TermDetailView(DetailView):
     model = Term
 
@@ -383,7 +395,7 @@ class TermDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         qs_json = json.dumps(list(Term.objects.filter(approved=True).values()),
                              indent=4, sort_keys=True, default=str)
-        
+
         context['qs_json'] = qs_json
         context['form'] = LoginForm()
 

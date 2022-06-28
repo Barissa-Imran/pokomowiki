@@ -60,6 +60,14 @@ $(document).ready(function () {
   // show tooltip
   $("[rel=tooltip]").tooltip({ placement: "bottom", html: true });
 
+  // split other definition
+  // var otherDefs = $(".other-def");
+  // for (var i=0; i < otherDefs.length; i++) {
+  //   console.log(i);
+  // }
+  // var otherDefArr = otherDef.split(".");
+  // console.log(otherDefArr);
+
   // Vote functionality
   function vote() {
     var csrf = $("input[name=csrfmiddlewaretoken]").val();

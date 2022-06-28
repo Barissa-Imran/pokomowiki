@@ -413,7 +413,8 @@ class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         user = self.request.user
-        term = self.get_object
+        term = self.get_object()
+        print(term)
         usergroup = None
         usergroup = self.request.user.groups.values_list(
             'name', flat=True).first()
@@ -423,7 +424,7 @@ class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         try:
-            form.instance.author = self.request.user
+            # form.instance.author = self.request.user
             messages.add_message(self.request, messages.SUCCESS,
                                  'Word updated successfully')
         except:

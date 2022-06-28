@@ -19,9 +19,11 @@ if os.name == "nt":
     path = r"C:\Users\user\programming\etc\config.json"
     with open(path) as config_file:
         config = json.load(config_file)
+    DEBUG = True
 else:
     with open('/etc/config.json') as config_file:
         config = json.load(config_file)
+    DEBUG = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG
 
 ALLOWED_HOSTS = config['ALLOWED_HOSTS']
 

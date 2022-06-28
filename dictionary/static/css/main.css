@@ -157,7 +157,7 @@ form #box a:hover {
 .content .other {
   border: 1px solid #14AFDF;
 }
-.content .other .shape {
+/* .content .other .shape {
   border-bottom: 40px solid #14AFDF;
   border-right: 25px solid transparent;
   -webkit-transform: rotateX(180deg);
@@ -173,6 +173,28 @@ form #box a:hover {
     -ms-transform: rotateX(-180deg);
     -o-transform: rotateX(-180deg);
   color: #fff;
+} */
+.shape {
+  text-align: center;
+  background-color: #14AFDF;
+  width: 200px;
+  height: 60px;
+  line-height: 60px;
+  color: white;
+  /* margin: 20px auto; */
+  position: relative;
+}
+
+.shape:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border-bottom: 60px solid #14AFDF;
+  border-right: 60px solid transparent;
+  position: absolute;
+  left: 100%;
+  -webkit-transform: rotateX(-180deg);
+  top: 0px;
 }
 .content .other .shape h5 span {
   font-weight: 600;

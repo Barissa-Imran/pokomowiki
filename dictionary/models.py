@@ -1,4 +1,5 @@
 from datetime import timezone
+from wsgiref.simple_server import demo_app
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
@@ -32,13 +33,17 @@ class Term(models.Model):
     clan = models.CharField(choices=clans, max_length=50)
     word = models.CharField(null=False, max_length=150, unique=True)
     definition = models.TextField(null=False)
-    example = models.TextField()
+    example = models.TextField(null=False)
+    example_translation = models.TextField(
+        default="Example not translated", null=False)
     other_definitions = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     date = models.DateField(auto_now=True)
     approved = models.BooleanField(default=False)
-    upvote = models.ManyToManyField(User, blank=True, related_name='termUpVotes')
-    downvote = models.ManyToManyField(User, blank=True, related_name='termDownVotes')
+    upvote = models.ManyToManyField(
+        User, blank=True, related_name='termUpVotes')
+    downvote = models.ManyToManyField(
+        User, blank=True, related_name='termDownVotes')
 
     def __str__(self):
         return self.word
@@ -48,13 +53,14 @@ class Term(models.Model):
             "pk": self.pk
         })
 
+
 class Vote(models.Model):
     """store votes for words from different users"""
     word = models.ForeignKey(Term, on_delete=models.CASCADE)
 
     voter = models.ForeignKey(
         User, related_name="voter", on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return self.voter.username
 

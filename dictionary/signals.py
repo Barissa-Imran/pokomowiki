@@ -52,11 +52,12 @@ def user_logged_in(request, user, **kwargs):
                 word = request.session['word']
                 definition = request.session['definition']
                 example = request.session['example']
+                example_translation = request.session['example_translation']
                 other_definitions = request.session['other_definitions']
 
                 # create term and store
                 new = Term(language=language, clan=clan, word=word, definition=definition,
-                    example=example, other_definitions=other_definitions, author=request.user)
+                    example=example, example_translation=example_translation, other_definitions=other_definitions, author=request.user)
                 new.save()
                 request.session['term_url'] = new.get_absolute_url()
                 messages.add_message(request, messages.INFO,
@@ -67,6 +68,7 @@ def user_logged_in(request, user, **kwargs):
                     del request.session['word']
                     del request.session['definition']
                     del request.session['example']
+                    del request.session['example_translation']
                     del request.session['other_definitions']
                     request.session['submit'] = False
                 except KeyError:

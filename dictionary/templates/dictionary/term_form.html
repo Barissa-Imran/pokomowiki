@@ -130,7 +130,7 @@
             name="example"
             id="example"
             cols="50"
-            rows="5"
+            rows="3"
             required
             placeholder="Type an example of how it's used in a sentence"
             autocapitalize="words"
@@ -139,7 +139,23 @@
             autocorrect="off"
             spellcheck="false"
           >
-{{object.example|title}}</textarea
+{{object.example|capfirst}}</textarea
+          >
+          <textarea
+            class="p-4 fst-italic"
+            name="example_translation"
+            id="example_translation"
+            cols="50"
+            rows="3"
+            required
+            placeholder="Translate your example to English here"
+            autocapitalize="words"
+            autocomplete="on"
+            autofocus="off"
+            autocorrect="on"
+            spellcheck="True"
+          >
+{{object.example_translation|capfirst}}</textarea
           >
           <textarea
             class="p-4"
@@ -147,7 +163,7 @@
             id="other_definitions"
             cols="50"
             rows="5"
-            placeholder="Type other definitions (numbered)"
+            placeholder="Type other definitions (Start on a newline for each (Enter key) and Do not number)"
             autocapitalize="words"
             autocomplete="off"
             autofocus="off"

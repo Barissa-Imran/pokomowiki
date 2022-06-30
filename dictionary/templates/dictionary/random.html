@@ -1,7 +1,7 @@
 {% extends 'dictionary/base.html' %} {% load static %}
 {% load social_share %}
 {% block title %}
-    <title>{{ term.word|title }} | Pokomo Dictionary & Wiki</title>
+    <title>{{ object.word|title }} | Pokomo Dictionary & Wiki</title>
 {% endblock title %}
 {% block content %}
       <div
@@ -47,7 +47,9 @@
                   {{ object.definition }}
                 </p>
                 <p class="example fw-light">
-                  <em>"{{object.example}}"</em>
+                 <span class="example{{object.id}} fst-italic">"{{object.example|capfirst}}"</span>
+                 <span class="exampletrans{{object.id}} fst-italic d-none">"{{object.example_translation|capfirst}}"</span>
+                  <a data-termId="{{object.id}}" class="exampletrans btn btn-sm text-decoration-underline text-muted fw-bold">Translate</a>
                 </p>
               </div>
               <!-- Other definations section -->
@@ -59,7 +61,7 @@
                   <!-- Other definations -->
                   <div class="other-def">
                     <ol>
-                      <p class="fw-light">{{ object.other_definitions }}</p>
+                      <p class="fw-light">{{ object.other_definitions|linenumbers|linebreaksbr}}</p>
                     </ol>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 {% extends "dictionary/base.html" %}
 
 {% block title %}
-<title>Search | Pokomo Dictionary & Wiki</title>
+<title>Results '{{q}}' | Pokomo Dictionary & Wiki</title>
 {% endblock title %}
 {% block content %}
 <section>
@@ -32,8 +32,10 @@
                 {{ result.definition }}
             </p>
             <p class="example fw-light">
-                <em>"{{result.example}}"</em>
-            </p>
+               <span class="example{{result.id}} fst-italic">"{{result.example|capfirst}}"</span>
+                 <span class="exampletrans{{result.id}} fst-italic d-none">"{{result.example_translation|capfirst}}"</span>
+                  <a data-termId="{{result.id}}" class="exampletrans btn btn-sm text-decoration-underline text-muted fw-bold">Translate</a>
+                </p>
         </div>
         <!-- Other definations section -->
                  {% if result.other_definitions %}
@@ -43,7 +45,9 @@
 
                   <!-- Other definations -->
                   <div class="other-def">
-                      <p class="fw-light">{{ result.other_definitions }}</p>
+                      <ol>
+                      <p class="fw-light">{{ result.other_definitions|linenumbers|linebreaksbr}}</p>
+                    </ol>
 
                   </div>
                 </div>

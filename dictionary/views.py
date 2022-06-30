@@ -222,7 +222,8 @@ class SearchView(IndexView):
         #     ),
         #     ).get()
         context.update({
-            'results': results
+            'results': results,
+            'q': q
         })
         return context
 
@@ -363,6 +364,7 @@ class SubmitView(TemplateView):
             word = request.POST.get('word')
             definition = request.POST.get('definition')
             example = request.POST.get('example')
+            example_translation = request.POST.get('example_translation')
             other_definitions = request.POST.get('other_definitions')
             language = request.POST.get('language')
             clan = request.POST.get('clan')
@@ -371,6 +373,7 @@ class SubmitView(TemplateView):
             request.session['word'] = word
             request.session['definition'] = definition
             request.session['example'] = example
+            request.session['example_translation'] = example_translation
             request.session['other_definitions'] = other_definitions
             request.session['language'] = language
             request.session['clan'] = clan

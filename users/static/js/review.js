@@ -6,6 +6,26 @@ $(document).ready(() => {
       $("#approveMessage p").empty();
     });
   });
+  
+  // example translate functionality
+  $(".exampletrans").on("click", function () {
+    var termId = $(this).attr("data-termId");
+    // show example translation
+    var element = $(".example" + termId);
+    if (element.hasClass("d-none")) {
+      $(".example" + termId).fadeIn("slow", () => {
+        $(".example" + termId).toggleClass("d-none");
+      });
+    } else {
+      $(".example" + termId).fadeOut("slow", () => {
+        $(".example" + termId).toggleClass("d-none");
+      });
+    }
+
+    $(".exampletrans" + termId).fadeIn("slow", () => {
+      $(".exampletrans" + termId).toggleClass("d-none");
+    });
+  });
 
   // submit approval on button click
   $(".approve").on("click", function (e) {

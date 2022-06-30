@@ -60,13 +60,25 @@ $(document).ready(function () {
   // show tooltip
   $("[rel=tooltip]").tooltip({ placement: "bottom", html: true });
 
-  // split other definition
-  // var otherDefs = $(".other-def");
-  // for (var i=0; i < otherDefs.length; i++) {
-  //   console.log(i);
-  // }
-  // var otherDefArr = otherDef.split(".");
-  // console.log(otherDefArr);
+  // example translate functionality
+  $(".exampletrans").on("click", function () {
+    var termId = $(this).attr("data-termId");
+    // show example translation
+    var element = $(".example" + termId);
+    if (element.hasClass("d-none")) {
+      $(".example" + termId).fadeIn("slow", () => {
+        $(".example" + termId).toggleClass("d-none");
+      });
+    } else {
+      $(".example" + termId).fadeOut("slow", () => {
+        $(".example" + termId).toggleClass("d-none");
+      });
+    }
+
+    $(".exampletrans" + termId).fadeIn("slow", () => {
+      $(".exampletrans" + termId).toggleClass("d-none");
+    });
+  });
 
   // Vote functionality
   function vote() {

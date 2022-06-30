@@ -50,7 +50,9 @@
                   {{ term.definition }}
                 </p>
                 <p class="example fw-light">
-                  <em>"{{term.example}}"</em>
+                  <span class="example{{term.id}} fst-italic">"{{term.example|capfirst}}"</span>
+                 <span class="exampletrans{{term.id}} fst-italic d-none">"{{term.example_translation|capfirst}}"</span>
+                  <a data-termId="{{term.id}}" class="exampletrans btn btn-sm text-decoration-underline text-muted fw-bold">Translate</a>
                 </p>
               </div>
               <!-- Other definations section -->
@@ -62,7 +64,7 @@
                   <!-- Other definations -->
                   <div class="other-def">
                     <ol>
-                      <p class="fw-light">{{ term.other_definitions }}</p>
+                      <p class="fw-light">{{ term.other_definitions|linenumbers|linebreaksbr}}</p>
                     </ol>
                   </div>
                 </div>

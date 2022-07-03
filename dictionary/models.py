@@ -38,7 +38,7 @@ class Term(models.Model):
         default="Example not translated", null=False)
     other_definitions = models.TextField(null=True, blank=True)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    date = models.DateField(auto_now=True)
+    date = models.DateField(auto_now_add=True)
     approved = models.BooleanField(default=False)
     upvote = models.ManyToManyField(
         User, blank=True, related_name='termUpVotes')

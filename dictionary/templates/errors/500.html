@@ -1,0 +1,19 @@
+{% extends 'errors/base.html' %} 
+{% load static %} 
+{% block title %}
+<title>Internal Server Error | Pokomo Dictionary & Wiki</title>
+{% endblock title %} 
+{% block content %}
+<section class="row">
+  <div class="col-md-6">
+    <img class="hero500" src="{% static 'img/errors/25.svg' %}">
+  </div>
+  <div class="col-md-6">
+    <h1>500</h1>
+      <h5>Looks like you have found our secret place for errors!</h5>
+      <p>Sorry, it's not you. It's us! We're experiencing an internal server problem. Please try again later </p>
+      {% comment %} <p class="small text-muted">Contact admin</p> {% endcomment %}
+      <a class="btn btn-Home mx-auto" href="{% url 'index' %}">Go to Homepage</a>
+  </div>
+</section>
+{% endblock content %}

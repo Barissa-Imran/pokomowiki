@@ -48,23 +48,46 @@ def user_logged_in(request, user, **kwargs):
             try:
                 # get data from session cookie
                 language = request.session['language']
-                clan = request.session['clan']
+                dialect = request.session['dialect']
                 word = request.session['word']
                 definition = request.session['definition']
                 example = request.session['example']
                 example_translation = request.session['example_translation']
                 other_definitions = request.session['other_definitions']
 
+                def create_meta_keywords(word, definition, other_definitions):
+                    keywords = []
+
+                    word = word.split(" ")
+                    keywords += word
+
+                    definition = definition.split(" ")
+                    keywords += definition
+
+                    if other_definitions:
+                        other_definitions = other_definitions.split(" ")
+                        keywords += other_definitions
+                    else:
+                        pass
+
+                    str_keywords = ', '.join([str(word) for word in keywords])
+
+                    meta_keywords = str_keywords
+                    return meta_keywords
+
+                meta_keywords = create_meta_keywords(
+                    word, definition, other_definitions)
+
                 # create term and store
-                new = Term(language=language, clan=clan, word=word, definition=definition,
-                    example=example, example_translation=example_translation, other_definitions=other_definitions, author=request.user)
+                new = Term(language=language, dialect=dialect, word=word, definition=definition,
+                           example=example, example_translation=example_translation, other_definitions=other_definitions, author=request.user, meta_keywords=meta_keywords, meta_description=definition)
                 new.save()
                 request.session['term_url'] = new.get_absolute_url()
                 messages.add_message(request, messages.INFO,
-                                    'Word added successfully, await approval. View your word on outline tab in Profile page')
+                                     'Word added successfully, await approval. View your word on outline tab in Profile page')
                 try:
                     del request.session['language']
-                    del request.session['clan']
+                    del request.session['dialect']
                     del request.session['word']
                     del request.session['definition']
                     del request.session['example']

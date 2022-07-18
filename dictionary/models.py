@@ -11,12 +11,13 @@ languages = [
     ("Malanchini", "Malanchini")
 ]
 
-clans = [
+dialects = [
     ("Ndera", "Ndera"),
     ("Zubaki", "Zubaki"),
     ("Kinakomba", "Kinakomba"),
     ("Gwano", "Gwano"),
     ("Malanchini", "Malanchini"),
+    ("All dialects", "All dialects"),
     ("None", "None")
 ]
 
@@ -30,7 +31,7 @@ reasons = [
 class Term(models.Model):
     """Store added words in the dictionary"""
     language = models.CharField(choices=languages, max_length=50)
-    clan = models.CharField(choices=clans, max_length=50)
+    dialect = models.CharField(choices=dialects, max_length=50)
     word = models.CharField(null=False, max_length=150, unique=True)
     definition = models.TextField(null=False)
     example = models.TextField(null=False)
@@ -44,6 +45,10 @@ class Term(models.Model):
         User, blank=True, related_name='termUpVotes')
     downvote = models.ManyToManyField(
         User, blank=True, related_name='termDownVotes')
+    meta_keywords = models.CharField("Meta Keywords", null=True, max_length=255, default="pokomo,",
+                                     help_text="Comma-delimited set of SEO keywords for meta tag")
+    meta_description = models.CharField("Meta Description", null=True, max_length=255, default="pokomo,",
+                                        help_text='Content for description meta tag')
 
     def __str__(self):
         return self.word

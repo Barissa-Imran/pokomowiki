@@ -1,0 +1,38 @@
+/* 
+
+color codes---
+Font: #707CC0
+button: #2B254E
+
+*/
+body {
+    margin: 10px 10px 0px 40px;
+    color: #707CC0;
+    /* max-width: 970px; */
+        overflow-x: hidden;
+}
+.logo {
+    width: 100px;
+    /* margin-left: 50px; */
+}
+.hero404 {
+    width: 100%;
+    /* padding: unset; */
+    /* background-color: aqua; */
+}
+.hero500 {
+    width: 80%;
+}
+h1 {
+    font-size: 90px;
+}
+.btn-Home {
+    background-color: #2B254E;
+    color: #fff;
+    font-weight: 600; 
+    border-radius: 25px;
+}
+.btn-Home:hover {
+    color: #2B254E;
+    background-color: #707CC0;
+}

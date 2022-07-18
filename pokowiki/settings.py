@@ -62,6 +62,7 @@ INSTALLED_APPS = [
 
     'dictionary',
     'users',
+    'wiki'
 ]
 
 MIDDLEWARE = [

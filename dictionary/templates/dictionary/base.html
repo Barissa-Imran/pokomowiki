@@ -17,8 +17,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% comment %} For Google {% endcomment %}
-    <meta name="description" content="The first Ever Pokomo dictionary. Made for the community by the community" />
-    <meta name="keywords" content="dictionary, word, pokomo, english, swahili, tanariver, tana river, malanchini, mamba, ngwena, mungatana, hola, river tana, ilwana, elwana, galole, chewani, madogo, bura, mwingi" />
+    <meta name="description" content="{{ object.meta_description }} | The first Ever Pokomo dictionary. Made for the community by the community" />
+    <meta name="keywords" content="{{ object.meta_keywords }} , dictionary, word, pokomo, Bantu, english, swahili, tanariver, tana river, malanchini, mamba, ngwena, mungatana, hola, river tana, ilwana, elwana, galole, chewani, madogo, bura, mwingi " />
     <meta name="author" content="dvlpr69" />
     <meta name="copyright" content="Pokomo Dictionary - 2022" />
     <meta name="application-name" content="Pokomo Dictionary" />
@@ -315,7 +315,7 @@
               box.innerHTML += `<a class="px-2 btn d-flex gap-5 bg-light w-100" href="term/${term['id']}">
                 <p class="fw-semibold align-items-end">${term['word']}</p>
                 <p class="text-muted small">${term['language']}</p>
-                <p class="text-muted small">${term['clan']}</p>
+                <p class="text-muted small">${term['dialect']}</p>
               </a>`
             } else {
               box.innerHTML = "";

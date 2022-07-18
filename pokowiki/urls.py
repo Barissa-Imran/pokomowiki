@@ -24,3 +24,6 @@ urlpatterns = [
     path('accounts/', include('users.urls')),
     path('', include('dictionary.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = "dictionary.views.error_404"
+handler500 = "dictionary.views.error_500"

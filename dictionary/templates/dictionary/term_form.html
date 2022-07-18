@@ -42,10 +42,24 @@
       href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'css/new.css' %}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png'%}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png'%}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png'%}">
-    <link rel="manifest" href="{% static 'img/favicon/site.webmanifest'%}">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'img/favicon/apple-touch-icon.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'img/favicon/favicon-32x32.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'img/favicon/favicon-16x16.png'%}"
+    />
+    <link rel="manifest" href="{% static 'img/favicon/site.webmanifest'%}" />
     <title>New Word | Pokomo Dictionary</title>
   </head>
   <body>
@@ -175,11 +189,18 @@
 
           <!-- <label for="language">Langauge:</label> -->
           <select class="p-1" name="language" required id="language">
-            <option value="{{ object.language|default:'Upper Pokomo' }}" selected>{{ object.language|default:'Upper Pokomo' }}</option>
+            <option
+              value="{{ object.language|default:'Upper Pokomo' }}"
+              selected
+            >
+              {{ object.language|default:'Upper Pokomo' }}
+            </option>
             <option value="Malanchini">Malanchini</option>
           </select>
-          <select class="p-1" name="clan" required id="clan">
-            <option value="{{object.clan|default:'None'}}" selected>{{object.clan|default:'None'}}</option>
+          <select class="p-1" name="dialect" required id="dialect">
+            <option value="{{object.dialect|default:'None'}}" selected>
+              {{object.dialect|default:'None'}}
+            </option>
             <option value="Ndera">Ndera</option>
             <option value="Zubaki">Zubaki</option>
             <option value="Kinakomba">Kinakomba</option>

@@ -5,7 +5,7 @@ from dictionary.forms import TermForm
 from random import choice
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from random import choice
 from allauth.account.forms import LoginForm
 import json
@@ -212,7 +212,7 @@ class SearchView(IndexView):
                                                                  weight='B') + SearchVector('other_definitions', weight='C')
         query = SearchQuery(q, search_type='plain')
         results = Term.objects.annotate(search=vector, rank=SearchRank(
-            vector, query)).filter(search=q).order_by('-rank')
+            vector, query)).filter(search=q, approved=True).order_by('-rank')
         # results = Term.objects.annotate(
         #     headline=SearchHeadline(
         #     vector,
@@ -322,6 +322,33 @@ class TermCreateView(CreateView):
     def form_valid(self, form):
         try:
             form.instance.author = self.request.user
+
+            def create_meta_keywords(form):
+                keywords = []
+
+                word = form.cleaned_data['word'].split(" ")
+                keywords += word
+
+                definition = form.cleaned_data['definition'].split(" ")
+                keywords += definition
+
+                if form.cleaned_data['other_definitions']:
+                    other_definitions = form.cleaned_data['other_definitions'].split(" ")
+                    keywords += other_definitions
+                else:
+                    pass
+
+                str_keywords = ', '.join([str(word) for word in keywords])
+
+                form.instance.meta_keywords = str_keywords
+
+
+            def create_meta_description(form):
+                form.instance.meta_description = form.cleaned_data['definition']
+
+            create_meta_keywords(form)
+            create_meta_description(form)
+
             messages.add_message(self.request, messages.SUCCESS,
                                  'Word added successfully, await approval')
 
@@ -367,7 +394,7 @@ class SubmitView(TemplateView):
             example_translation = request.POST.get('example_translation')
             other_definitions = request.POST.get('other_definitions')
             language = request.POST.get('language')
-            clan = request.POST.get('clan')
+            dialect = request.POST.get('dialect')
 
             # assign data to cookie
             request.session['word'] = word
@@ -376,7 +403,7 @@ class SubmitView(TemplateView):
             request.session['example_translation'] = example_translation
             request.session['other_definitions'] = other_definitions
             request.session['language'] = language
-            request.session['clan'] = clan
+            request.session['dialect'] = dialect
         else:
             return HttpResponse("Please unblock cookies to continue")
 
@@ -427,7 +454,34 @@ class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         try:
-            # form.instance.author = self.request.user
+            
+            def create_meta_keywords(form):
+                keywords = []
+
+                word = form.cleaned_data['word'].split(" ")
+                keywords += word
+
+                definition = form.cleaned_data['definition'].split(" ")
+                keywords += definition
+
+                if form.cleaned_data['other_definitions']:
+                    other_definitions = form.cleaned_data['other_definitions'].split(" ")
+                    keywords += other_definitions
+                else:
+                    pass
+
+                str_keywords = ', '.join([str(word) for word in keywords])
+
+                form.instance.meta_keywords = str_keywords
+
+
+            def create_meta_description(form):
+                form.instance.meta_description = form.cleaned_data['definition']
+
+            create_meta_keywords(form)
+            create_meta_description(form)
+
+
             messages.add_message(self.request, messages.SUCCESS,
                                  'Word updated successfully')
         except:
@@ -451,3 +505,13 @@ class TermDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if user.is_staff or term.author == user:
             return True
         return False
+
+# handle 404 error requests
+
+
+def error_404(request, exception):
+    return render(request, 'errors/404.html')
+
+
+def error_500(request, exception=None):
+    return render(request, 'errors/500.html')

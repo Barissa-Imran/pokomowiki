@@ -1,0 +1,18 @@
+{% extends 'errors/base.html' %} 
+{% load static %} 
+{% block title %}
+<title>Page Not Found | Pokomo Dictionary & Wiki</title>
+{% endblock title %} 
+{% block content %}
+<section class="row">
+  <div class="col-md-6">
+    <img class="hero404" src="{% static 'img/errors/16.svg' %}">
+  </div>
+  <div class="col-md-6">
+    <h1>Oops!</h1>
+      <h5>Looks like you have found our secret place for errors!</h5>
+      <p>The page you're trying to access does not exist or has moved permanently. Please check the link and try again.</p>
+      <a class="btn btn-Home mx-auto" href="{% url 'index' %}">Go to Homepage</a>
+  </div>
+</section>
+{% endblock content %}

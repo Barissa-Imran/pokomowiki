@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- 
+
+        if you're pokomo 1."Odhu? kisa unitawe..."
+                         2. "Maagu? kisa unilache"
+        
+     -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/errors.css' %}" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'img/favicon/apple-touch-icon.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'img/favicon/favicon-32x32.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'img/favicon/favicon-16x16.png'%}"
+    />
+    <link rel="manifest" href="{% static 'img/favicon/site.webmanifest'%}" />
+    {% block title %}{% endblock title %}
+  </head>
+  <body>
+    <div class="">
+      <a
+        class="navbar-brand"
+        aria-label="PokomoDictionary logo"
+        href="{% url 'index' %}"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="Pokomo Dictionary Home"
+      >
+        <img class="logo" src="{% static 'img/Logo.png' %}" alt="logo" />
+      </a>
+    </div>
+    {% block content %} {% endblock content %}
+  </body>
+</html>

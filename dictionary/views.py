@@ -14,7 +14,6 @@ from django.db.models import Q, Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
-from django.db.models import Value
 
 
 class IndexView(ListView):
@@ -444,7 +443,6 @@ class TermUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         term = self.get_object()
-        print(term)
         usergroup = None
         usergroup = self.request.user.groups.values_list(
             'name', flat=True).first()
@@ -501,7 +499,7 @@ class TermDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         user = self.request.user
-        term = self.get_object
+        term = self.get_object()
         if user.is_staff or term.author == user:
             return True
         return False
